@@ -1,0 +1,22 @@
+/*
+ * AutonomousMain.h
+ *
+ *  Created on: Jul 1, 2017
+ *      Author: cryog
+ */
+
+#ifndef AUTONOMOUSMAIN_H_
+#define AUTONOMOUSMAIN_H_
+
+
+namespace AutonomousPrivate{
+	frc::Timer* autoTimer = new frc::Timer();
+}
+class AutonomousMain : public Module{
+	void Autonomous(){
+		DriveTrain::drive(0.0, -1.0, 0.0);
+	}
+};
+
+
+#endif /* AUTONOMOUSMAIN_H_ */

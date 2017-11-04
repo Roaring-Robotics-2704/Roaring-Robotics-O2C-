@@ -1,0 +1,19 @@
+/*
+ * AutonomousMain.h
+ *
+ *  Created on: Jul 1, 2017
+ *      Author: cryog
+ */
+
+#ifndef AUTONOMOUSMAIN_H_
+#define AUTONOMOUSMAIN_H_
+
+
+class AutonomousMain : public Module{
+	void Autonomous(){
+
+	}
+};
+
+
+#endif /* AUTONOMOUSMAIN_H_ */

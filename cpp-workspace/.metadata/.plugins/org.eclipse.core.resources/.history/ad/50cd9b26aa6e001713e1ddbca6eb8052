@@ -1,0 +1,31 @@
+/*
+ * AutonomousMain.h
+ *
+ *  Created on: Jul 1, 2017
+ *      Author: cryog
+ */
+
+#ifndef AUTONOMOUSMAIN_H_
+#define AUTONOMOUSMAIN_H_
+
+
+namespace AutonomousPrivate{
+	frc::Timer* autoTimer = new frc::Timer();
+	bool running;
+}
+class AutonomousMain : public Module{
+	void Autonomous(){
+		if(!AutonomousPrivate::running){
+			AutonomousPrivate::autoTimer->Start();
+			AutonomousPrivate::running = true;
+		}
+		DriveTrain::drive(0.0, -1.0, 0.0);
+	}
+	void NotRunning(){
+		AutonomousPrivate::autoTimer->Stop();
+		AutonomousPrivate::running = false;
+	}
+};
+
+
+#endif /* AUTONOMOUSMAIN_H_ */

@@ -1,0 +1,19 @@
+/*
+ * Calibration.h
+ *
+ *  Created on: Jul 1, 2017
+ *      Author: cryog
+ */
+
+#ifndef CALIBRATION_H_
+#define CALIBRATION_H_
+
+
+class Calibration : public Module{
+	void OperatorControl(){
+
+	}
+};
+
+
+#endif /* CALIBRATION_H_ */

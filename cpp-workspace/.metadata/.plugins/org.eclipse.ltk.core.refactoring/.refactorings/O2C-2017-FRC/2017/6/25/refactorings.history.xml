@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;O2C-2017-FRC/src/Robot.cpp&apos; to &apos;Robot.h&apos;" description="Rename resource &apos;Robot.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/Robot.cpp" name="Robot.h" stamp="1498093944131" updateReferences="true"/>
+</session>
