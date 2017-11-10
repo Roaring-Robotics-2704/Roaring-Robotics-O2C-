@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Move &apos;htmlify.bat&apos; to &apos;O2C-2017-FRC&apos;" description="Move &apos;htmlify.bat&apos; to &apos;O2C-2017-FRC&apos;" destination="/O2C-2017-FRC" element1="src/htmlify.bat" flags="7" id="org.eclipse.ltk.core.refactoring.move.resources" resources="1" stamp="1498689353466" updateReferences="true"/>
-</session>

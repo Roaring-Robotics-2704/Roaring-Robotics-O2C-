@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Delete resource &apos;O2C-2017-FRC/src/modules/Camera.h&apos;" deleteContents="false" description="Delete resource &apos;O2C-2017-FRC/src/modules/Camera.h&apos;" element1="/O2C-2017-FRC/src/modules/Camera.h" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1500424103159"/>
-</session>
