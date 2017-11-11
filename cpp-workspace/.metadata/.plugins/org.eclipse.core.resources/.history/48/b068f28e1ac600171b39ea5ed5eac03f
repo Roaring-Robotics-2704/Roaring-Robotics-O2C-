@@ -1,0 +1,38 @@
+/*
+ * custom.h
+ *
+ *  Created on: Nov 10, 2017
+ *      Author: Alex Anderson
+ */
+
+#ifndef INC_CUSTOM_H_
+#define INC_CUSTOM_H_
+
+#include <thread>
+
+using namespace std;
+namespace mystuff{
+	namespace pri{
+	thread mythread;
+	double robotX;
+	double robotY;
+
+	}
+}
+namespace frc{
+class Victor{
+public:
+	Victor(int channel){
+
+	}
+	void set(double velocity){
+		velocity = std::max(std::min(velocity, 1.0), -1.0);
+	}
+
+private:
+	double velocity = 0.0;
+};
+}
+
+
+#endif /* INC_CUSTOM_H_ */

@@ -1,0 +1,17 @@
+/*
+ * custom.h
+ *
+ *  Created on: Nov 10, 2017
+ *      Author: Alex Anderson
+ */
+
+#ifndef INC_CUSTOM_H_
+#define INC_CUSTOM_H_
+
+
+namespace ada{
+
+}
+
+
+#endif /* INC_CUSTOM_H_ */
