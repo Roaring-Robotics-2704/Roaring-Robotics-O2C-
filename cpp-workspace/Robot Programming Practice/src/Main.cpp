@@ -9,4 +9,4 @@
 
 
 
-START_ROBOT_CLASS(Robot); // Tells WPILib where our Robot is actually located
+START_ROBOT_CLASS<Robot>(); // Tells WPILib where our Robot is actually located

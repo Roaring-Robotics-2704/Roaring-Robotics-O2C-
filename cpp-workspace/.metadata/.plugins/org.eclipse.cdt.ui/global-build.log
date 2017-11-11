@@ -1,4 +1,4 @@
-07:36:20 **** Incremental Build of configuration Debug for project Robot Programming Practice ****
+18:04:57 **** Incremental Build of configuration Debug for project Robot Programming Practice ****
 Info: Internal Builder is used for build
 g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\Main.o" "..\\src\\Main.cpp" 
 In file included from ..\src\Robot.h:18:0,
@@ -78,22 +78,82 @@ In file included from ..\src\Robot.h:18:0,
                    ^~~~~~~~~~~~
 In file included from ..\src\Main.cpp:8:0:
 ..\src\Robot.h: In member function 'virtual void Robot::Autonomous()':
-..\src\Robot.h:67:23: error: 'IsAutonomous' was not declared in this scope
+..\src\Robot.h:67:10: error: 'virtual bool frc::SampleRobot::IsAutonomous()' is private within this context
+   while (IsAutonomous() && IsEnabled()) { // Check that the robot should still run Autonomous code
+          ^~~~~~~~~~~~
+In file included from ..\src\Robot.h:16:0,
+                 from ..\src\Main.cpp:8:
+..\src\inc/custom.h:24:15: note: declared private here
+  virtual bool IsAutonomous();
+               ^~~~~~~~~~~~
+In file included from ..\src\Main.cpp:8:0:
+..\src\Robot.h:67:23: error: 'virtual bool frc::SampleRobot::IsAutonomous()' is private within this context
    while (IsAutonomous() && IsEnabled()) { // Check that the robot should still run Autonomous code
                        ^
-..\src\Robot.h:67:38: error: 'IsEnabled' was not declared in this scope
+In file included from ..\src\Robot.h:16:0,
+                 from ..\src\Main.cpp:8:
+..\src\inc/custom.h:24:15: note: declared private here
+  virtual bool IsAutonomous();
+               ^~~~~~~~~~~~
+In file included from ..\src\Main.cpp:8:0:
+..\src\Robot.h:67:28: error: 'virtual bool frc::SampleRobot::IsEnabled()' is private within this context
+   while (IsAutonomous() && IsEnabled()) { // Check that the robot should still run Autonomous code
+                            ^~~~~~~~~
+In file included from ..\src\Robot.h:16:0,
+                 from ..\src\Main.cpp:8:
+..\src\inc/custom.h:64:6: note: declared private here
+ bool frc::SampleRobot::IsEnabled(){
+      ^~~
+In file included from ..\src\Main.cpp:8:0:
+..\src\Robot.h:67:38: error: 'virtual bool frc::SampleRobot::IsEnabled()' is private within this context
    while (IsAutonomous() && IsEnabled()) { // Check that the robot should still run Autonomous code
                                       ^
+In file included from ..\src\Robot.h:16:0,
+                 from ..\src\Main.cpp:8:
+..\src\inc/custom.h:64:6: note: declared private here
+ bool frc::SampleRobot::IsEnabled(){
+      ^~~
+In file included from ..\src\Main.cpp:8:0:
 ..\src\Robot.h:73:4: error: 'Wait' is not a member of 'frc'
     frc::Wait(0.005); // Wait for the motors to update
     ^~~
 ..\src\Robot.h: In member function 'virtual void Robot::OperatorControl()':
-..\src\Robot.h:85:28: error: 'IsOperatorControl' was not declared in this scope
+..\src\Robot.h:85:10: error: 'virtual bool frc::SampleRobot::IsOperatorControl()' is private within this context
+   while (IsOperatorControl() && IsEnabled()) { // Check that the robot should still run TeleOp code
+          ^~~~~~~~~~~~~~~~~
+In file included from ..\src\Robot.h:16:0,
+                 from ..\src\Main.cpp:8:
+..\src\inc/custom.h:67:6: note: declared private here
+ bool frc::SampleRobot::IsOperatorControl(){
+      ^~~
+In file included from ..\src\Main.cpp:8:0:
+..\src\Robot.h:85:28: error: 'virtual bool frc::SampleRobot::IsOperatorControl()' is private within this context
    while (IsOperatorControl() && IsEnabled()) { // Check that the robot should still run TeleOp code
                             ^
-..\src\Robot.h:85:43: error: 'IsEnabled' was not declared in this scope
+In file included from ..\src\Robot.h:16:0,
+                 from ..\src\Main.cpp:8:
+..\src\inc/custom.h:67:6: note: declared private here
+ bool frc::SampleRobot::IsOperatorControl(){
+      ^~~
+In file included from ..\src\Main.cpp:8:0:
+..\src\Robot.h:85:33: error: 'virtual bool frc::SampleRobot::IsEnabled()' is private within this context
+   while (IsOperatorControl() && IsEnabled()) { // Check that the robot should still run TeleOp code
+                                 ^~~~~~~~~
+In file included from ..\src\Robot.h:16:0,
+                 from ..\src\Main.cpp:8:
+..\src\inc/custom.h:64:6: note: declared private here
+ bool frc::SampleRobot::IsEnabled(){
+      ^~~
+In file included from ..\src\Main.cpp:8:0:
+..\src\Robot.h:85:43: error: 'virtual bool frc::SampleRobot::IsEnabled()' is private within this context
    while (IsOperatorControl() && IsEnabled()) { // Check that the robot should still run TeleOp code
                                            ^
+In file included from ..\src\Robot.h:16:0,
+                 from ..\src\Main.cpp:8:
+..\src\inc/custom.h:64:6: note: declared private here
+ bool frc::SampleRobot::IsEnabled(){
+      ^~~
+In file included from ..\src\Main.cpp:8:0:
 ..\src\Robot.h:91:4: error: 'Wait' is not a member of 'frc'
     frc::Wait(0.005); // Wait for the motors to update
     ^~~
@@ -276,18 +336,54 @@ In file included from ..\src\ModuleLoader.h:13:0,
 ..\src\modules/DriveTrain.h:149:3: error: 'SmartDashboard' has not been declared
    SmartDashboard::PutNumber("DriveTrain speed", speedFactor);
    ^~~~~~~~~~~~~~
-..\src\modules/DriveTrain.h:191:9: error: 'frc::SmartDashboard' has not been declared
+..\src\modules/DriveTrain.h:191:87: error: no matching function for call to 'frc::SmartDashboard::PutNumber(const char [25], double&)'
     frc::SmartDashboard::PutNumber("DriveTrainPrivate::flDev", DriveTrainPrivate::flDev);
-         ^~~~~~~~~~~~~~
-..\src\modules/DriveTrain.h:192:9: error: 'frc::SmartDashboard' has not been declared
+                                                                                       ^
+In file included from ..\src\Robot.h:16:0,
+                 from ..\src\Main.cpp:8:
+..\src\inc/custom.h:30:14: note: candidate: static void frc::SmartDashboard::PutNumber(double)
+  static void PutNumber(double number){
+              ^~~~~~~~~
+..\src\inc/custom.h:30:14: note:   candidate expects 1 argument, 2 provided
+In file included from ..\src\ModuleLoader.h:13:0,
+                 from ..\src\Robot.h:115,
+                 from ..\src\Main.cpp:8:
+..\src\modules/DriveTrain.h:192:87: error: no matching function for call to 'frc::SmartDashboard::PutNumber(const char [25], double&)'
     frc::SmartDashboard::PutNumber("DriveTrainPrivate::frDev", DriveTrainPrivate::frDev);
-         ^~~~~~~~~~~~~~
-..\src\modules/DriveTrain.h:193:9: error: 'frc::SmartDashboard' has not been declared
+                                                                                       ^
+In file included from ..\src\Robot.h:16:0,
+                 from ..\src\Main.cpp:8:
+..\src\inc/custom.h:30:14: note: candidate: static void frc::SmartDashboard::PutNumber(double)
+  static void PutNumber(double number){
+              ^~~~~~~~~
+..\src\inc/custom.h:30:14: note:   candidate expects 1 argument, 2 provided
+In file included from ..\src\ModuleLoader.h:13:0,
+                 from ..\src\Robot.h:115,
+                 from ..\src\Main.cpp:8:
+..\src\modules/DriveTrain.h:193:87: error: no matching function for call to 'frc::SmartDashboard::PutNumber(const char [25], double&)'
     frc::SmartDashboard::PutNumber("DriveTrainPrivate::rlDev", DriveTrainPrivate::rlDev);
-         ^~~~~~~~~~~~~~
-..\src\modules/DriveTrain.h:194:9: error: 'frc::SmartDashboard' has not been declared
+                                                                                       ^
+In file included from ..\src\Robot.h:16:0,
+                 from ..\src\Main.cpp:8:
+..\src\inc/custom.h:30:14: note: candidate: static void frc::SmartDashboard::PutNumber(double)
+  static void PutNumber(double number){
+              ^~~~~~~~~
+..\src\inc/custom.h:30:14: note:   candidate expects 1 argument, 2 provided
+In file included from ..\src\ModuleLoader.h:13:0,
+                 from ..\src\Robot.h:115,
+                 from ..\src\Main.cpp:8:
+..\src\modules/DriveTrain.h:194:87: error: no matching function for call to 'frc::SmartDashboard::PutNumber(const char [25], double&)'
     frc::SmartDashboard::PutNumber("DriveTrainPrivate::rrDev", DriveTrainPrivate::rrDev);
-         ^~~~~~~~~~~~~~
+                                                                                       ^
+In file included from ..\src\Robot.h:16:0,
+                 from ..\src\Main.cpp:8:
+..\src\inc/custom.h:30:14: note: candidate: static void frc::SmartDashboard::PutNumber(double)
+  static void PutNumber(double number){
+              ^~~~~~~~~
+..\src\inc/custom.h:30:14: note:   candidate expects 1 argument, 2 provided
+In file included from ..\src\ModuleLoader.h:13:0,
+                 from ..\src\Robot.h:115,
+                 from ..\src\Main.cpp:8:
 ..\src\modules/DriveTrain.h:198:4: error: 'SmartDashboard' has not been declared
     SmartDashboard::PutNumber("Correction factor fl", DriveTrainPrivate::flTi);
     ^~~~~~~~~~~~~~
@@ -300,18 +396,6 @@ In file included from ..\src\ModuleLoader.h:13:0,
 ..\src\modules/DriveTrain.h:201:4: error: 'SmartDashboard' has not been declared
     SmartDashboard::PutNumber("Correction factor rr", DriveTrainPrivate::rrTi);
     ^~~~~~~~~~~~~~
-..\src\modules/DriveTrain.h:204:17: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-   hw::flVictor->Set(std::max(std::min(flVel * DriveTrainPrivate::flTi, 1.0), -1.0) * speedFactor); // Actually set the motor speeds to what we calculated
-                 ^~~
-..\src\modules/DriveTrain.h:205:17: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-   hw::frVictor->Set(-std::max(std::min(frVel * DriveTrainPrivate::frTi, 1.0), -1.0) * speedFactor); // ^^^ Look here ^^^
-                 ^~~
-..\src\modules/DriveTrain.h:207:17: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-   hw::rlVictor->Set(std::max(std::min(rlVel * DriveTrainPrivate::rlTi, 1.0), -1.0) * speedFactor); // ^^^^^^^^^^^^^^^^^
-                 ^~~
-..\src\modules/DriveTrain.h:208:17: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-   hw::rrVictor->Set(-std::max(std::min(rrVel * DriveTrainPrivate::rrTi, 1.0), -1.0) * speedFactor); // ^^^^^^^^^^^^^^^^^
-                 ^~~
 In file included from ..\src\ModuleLoader.h:14:0,
                  from ..\src\Robot.h:115,
                  from ..\src\Main.cpp:8:
@@ -320,9 +404,9 @@ In file included from ..\src\ModuleLoader.h:14:0,
   frc::Timer* autoTimer = new frc::Timer();
        ^~~~~
 ..\src\modules/AutonomousMain.h: In member function 'virtual void AutonomousMain::ModuleInit()':
-..\src\modules/AutonomousMain.h:18:8: error: 'frc::SmartDashboard' has not been declared
+..\src\modules/AutonomousMain.h:18:3: error: 'SetDefaultNumber' is not a member of 'frc::SmartDashboard'
    frc::SmartDashboard::SetDefaultNumber("Starting position (1, 2 or 3)", 0);
-        ^~~~~~~~~~~~~~
+   ^~~
 ..\src\modules/AutonomousMain.h:19:3: error: 'autoTimer' is not a member of 'AutonomousPrivate'
    AutonomousPrivate::autoTimer->Reset();
    ^~~~~~~~~~~~~~~~~
@@ -333,9 +417,9 @@ In file included from ..\src\ModuleLoader.h:14:0,
 ..\src\modules/AutonomousMain.h:23:6: error: 'autoTimer' is not a member of 'AutonomousPrivate'
    if(AutonomousPrivate::autoTimer->Get() < 4.0){
       ^~~~~~~~~~~~~~~~~
-..\src\modules/AutonomousMain.h:24:24: error: 'frc::SmartDashboard' has not been declared
+..\src\modules/AutonomousMain.h:24:19: error: 'GetNumber' is not a member of 'frc::SmartDashboard'
     int autoMode = frc::SmartDashboard::GetNumber("Starting position (1, 2 or 3)", 0);
-                        ^~~~~~~~~~~~~~
+                   ^~~
 ..\src\modules/AutonomousMain.h:46:5: error: 'autoTimer' is not a member of 'AutonomousPrivate'
      AutonomousPrivate::autoTimer->Reset();
      ^~~~~~~~~~~~~~~~~
@@ -359,116 +443,7 @@ In file included from ..\src\ModuleLoader.h:15:0,
 ..\src\modules/Bucket.h:12:24: error: 'stick' is not a member of 'hw'
     bool rightBumper  = hw::stick->GetRawButton(6);
                         ^~
-..\src\modules/Bucket.h:15:19: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-     hw::bkVictor->Set(-1);
-                   ^~~
-..\src\modules/Bucket.h:17:20: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-      hw::bkVictor->Set(1);
-                    ^~~
-..\src\modules/Bucket.h:19:19: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-     hw::bkVictor->Set(0);
-                   ^~~
 In file included from ..\src\ModuleLoader.h:16:0,
-                 from ..\src\Robot.h:115,
-                 from ..\src\Main.cpp:8:
-..\src\modules/Calibration.h: At global scope:
-..\src\modules/Calibration.h:35:7: error: 'Timer' in namespace 'frc' does not name a type
-  frc::Timer flT;
-       ^~~~~
-..\src\modules/Calibration.h:36:7: error: 'Timer' in namespace 'frc' does not name a type
-  frc::Timer frT;
-       ^~~~~
-..\src\modules/Calibration.h:37:7: error: 'Timer' in namespace 'frc' does not name a type
-  frc::Timer rlT;
-       ^~~~~
-..\src\modules/Calibration.h:38:7: error: 'Timer' in namespace 'frc' does not name a type
-  frc::Timer rrT;
-       ^~~~~
-..\src\modules/Calibration.h: In member function 'void Calibration::resetCalibration()':
-..\src\modules/Calibration.h:41:3: error: 'gyro' is not a member of 'hw'
-   hw::gyro->Reset();
-   ^~
-..\src\modules/Calibration.h:48:3: error: 'flT' was not declared in this scope
-   flT.Reset();
-   ^~~
-..\src\modules/Calibration.h:49:3: error: 'frT' was not declared in this scope
-   frT.Reset();
-   ^~~
-..\src\modules/Calibration.h:50:3: error: 'rlT' was not declared in this scope
-   rlT.Reset();
-   ^~~
-..\src\modules/Calibration.h:51:3: error: 'rrT' was not declared in this scope
-   rrT.Reset();
-   ^~~
-..\src\modules/Calibration.h: In member function 'virtual void Calibration::ModuleInit()':
-..\src\modules/Calibration.h:64:8: error: 'frc::SmartDashboard' has not been declared
-   frc::SmartDashboard::PutBoolean("Calibration enabled", false);
-        ^~~~~~~~~~~~~~
-..\src\modules/Calibration.h:65:8: error: 'frc::SmartDashboard' has not been declared
-   frc::SmartDashboard::SetPersistent("Calibration");
-        ^~~~~~~~~~~~~~
-..\src\modules/Calibration.h:66:48: error: 'frc::SmartDashboard' has not been declared
-   CalibrationPrivate::calibrationFactor = frc::SmartDashboard::GetNumber("Calibration", 0.0);
-                                                ^~~~~~~~~~~~~~
-..\src\modules/Calibration.h:67:8: error: 'frc::SmartDashboard' has not been declared
-   frc::SmartDashboard::PutNumber("Heading", 0.0);
-        ^~~~~~~~~~~~~~
-..\src\modules/Calibration.h:68:8: error: 'frc::SmartDashboard' has not been declared
-   frc::SmartDashboard::PutNumber("Heading_raw", 0.0);
-        ^~~~~~~~~~~~~~
-..\src\modules/Calibration.h:69:8: error: 'frc::SmartDashboard' has not been declared
-   frc::SmartDashboard::PutNumber("Gyro calibration", CalibrationPrivate::calibrationFactor);
-        ^~~~~~~~~~~~~~
-..\src\modules/Calibration.h: In member function 'virtual void Calibration::OperatorControl()':
-..\src\modules/Calibration.h:73:28: error: 'frc::SmartDashboard' has not been declared
-   calibrationStatus = frc::SmartDashboard::GetBoolean("Calibration enabled", false);
-                            ^~~~~~~~~~~~~~
-..\src\modules/Calibration.h:77:8: error: 'frc::SmartDashboard' has not been declared
-   frc::SmartDashboard::PutNumber("Heading", hw::gyro->GetAngle() * CalibrationPrivate::calibrationFactor);
-        ^~~~~~~~~~~~~~
-..\src\modules/Calibration.h:77:45: error: 'gyro' is not a member of 'hw'
-   frc::SmartDashboard::PutNumber("Heading", hw::gyro->GetAngle() * CalibrationPrivate::calibrationFactor);
-                                             ^~
-..\src\modules/Calibration.h:78:8: error: 'frc::SmartDashboard' has not been declared
-   frc::SmartDashboard::PutNumber("Heading_raw", hw::gyro->GetAngle());
-        ^~~~~~~~~~~~~~
-..\src\modules/Calibration.h:78:49: error: 'gyro' is not a member of 'hw'
-   frc::SmartDashboard::PutNumber("Heading_raw", hw::gyro->GetAngle());
-                                                 ^~
-..\src\modules/Calibration.h:79:8: error: 'frc::SmartDashboard' has not been declared
-   frc::SmartDashboard::PutNumber("Gyro calibration", CalibrationPrivate::calibrationFactor);
-        ^~~~~~~~~~~~~~
-..\src\modules/Calibration.h:82:12: error: 'flT' was not declared in this scope
-    flSpd = flT.Get();
-            ^~~
-..\src\modules/Calibration.h:86:12: error: 'frT' was not declared in this scope
-    frSpd = frT.Get();
-            ^~~
-..\src\modules/Calibration.h:90:12: error: 'rlT' was not declared in this scope
-    rlSpd = rlT.Get();
-            ^~~
-..\src\modules/Calibration.h:94:12: error: 'rrT' was not declared in this scope
-    rrSpd = rrT.Get();
-            ^~~
-..\src\modules/Calibration.h:98:34: error: 'flT' was not declared in this scope
-   double rotFl = flRot + flSpd * flT.Get();
-                                  ^~~
-..\src\modules/Calibration.h:99:34: error: 'frT' was not declared in this scope
-   double rotFr = frRot + frSpd * frT.Get();
-                                  ^~~
-..\src\modules/Calibration.h:100:34: error: 'rlT' was not declared in this scope
-   double rotRl = rlRot + rlSpd * rlT.Get();
-                                  ^~~
-..\src\modules/Calibration.h:101:34: error: 'rrT' was not declared in this scope
-   double rotRr = rlRot + rrSpd * rrT.Get();
-                                  ^~~
-..\src\modules/Calibration.h:103:8: error: 'frc::SmartDashboard' has not been declared
-   frc::SmartDashboard::PutNumber("Encoder rotation", avgRot);
-        ^~~~~~~~~~~~~~
-..\src\modules/Calibration.h:104:52: error: 'gyro' is not a member of 'hw'
-   double sensitivity = wheelRotToDegrees(avgRot) / hw::gyro->GetAngle();
-                                                    ^~
-In file included from ..\src\ModuleLoader.h:17:0,
                  from ..\src\Robot.h:115,
                  from ..\src\Main.cpp:8:
 ..\src\modules/Uber.h: In member function 'virtual void Uber::OperatorControl()':
@@ -478,63 +453,24 @@ In file included from ..\src\ModuleLoader.h:17:0,
 ..\src\modules/Uber.h:23:22: error: 'stick' is not a member of 'hw'
    bool leftBumper  = hw::stick->GetRawButton(5);
                       ^~
-..\src\modules/Uber.h:25:17: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-   hw::earpiece->Set(0);
-                 ^~~
-..\src\modules/Uber.h:26:19: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-   hw::uberDriver->Set(0);
-                   ^~~
-..\src\modules/Uber.h:33:21: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-     hw::uberDriver->Set(-.5);
-                     ^~~
-..\src\modules/Uber.h:34:19: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-     hw::earpiece->Set(-.3);
-                   ^~~
-..\src\modules/Uber.h:36:19: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-     hw::earpiece->Set(0);
-                   ^~~
-..\src\modules/Uber.h:46:21: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-     hw::uberDriver->Set(std::min(volume, 1.0 * ropeSpeed));
-                     ^~~
-..\src\modules/Uber.h:52:20: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-      hw::earpiece->Set(-.3);
-                    ^~~
-..\src\modules/Uber.h:53:22: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-      hw::uberDriver->Set(1.0 * ropeSpeed);
-                      ^~~
-..\src\modules/Uber.h:62:18: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-    hw::earpiece->Set(.3);
-                  ^~~
-In file included from ..\src\ModuleLoader.h:18:0,
+In file included from ..\src\ModuleLoader.h:17:0,
                  from ..\src\Robot.h:115,
                  from ..\src\Main.cpp:8:
 ..\src\modules/Balls.h: In member function 'virtual void Balls::OperatorControl()':
 ..\src\modules/Balls.h:16:19: error: 'stick' is not a member of 'hw'
    bool shootBtn = hw::stick->GetRawButton(3);
                    ^~
-..\src\modules/Balls.h:18:18: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-    hw::ballVic0->Set(-1.0);
-                  ^~~
-..\src\modules/Balls.h:20:18: error: 'class frc::Victor' has no member named 'Set'; did you mean 'set'?
-    hw::ballVic0->Set(0.0);
-                  ^~~
-In file included from ..\src\ModuleLoader.h:19:0,
+In file included from ..\src\ModuleLoader.h:18:0,
                  from ..\src\Robot.h:115,
                  from ..\src\Main.cpp:8:
 ..\src\modules/ReflectorSensors.h: In member function 'virtual void ReflectorSensors::OperatorControl()':
-..\src\modules/ReflectorSensors.h:14:8: error: 'frc::SmartDashboard' has not been declared
-   frc::SmartDashboard::PutNumber("Left sensor", hw::lPhoto->Get() ? 1.0 : 0.0);
-        ^~~~~~~~~~~~~~
 ..\src\modules/ReflectorSensors.h:14:49: error: 'lPhoto' is not a member of 'hw'
    frc::SmartDashboard::PutNumber("Left sensor", hw::lPhoto->Get() ? 1.0 : 0.0);
                                                  ^~
-..\src\modules/ReflectorSensors.h:15:8: error: 'frc::SmartDashboard' has not been declared
-   frc::SmartDashboard::PutNumber("Right sensor", hw::rPhoto->Get() ? 1.0 : 0.0);
-        ^~~~~~~~~~~~~~
 ..\src\modules/ReflectorSensors.h:15:50: error: 'rPhoto' is not a member of 'hw'
    frc::SmartDashboard::PutNumber("Right sensor", hw::rPhoto->Get() ? 1.0 : 0.0);
                                                   ^~
 ..\src\Main.cpp: At global scope:
-..\src\Main.cpp:12:25: error: expected constructor, destructor, or type conversion before ';' token
- START_ROBOT_CLASS(Robot); // Tells WPILib where our Robot is actually located
-                         ^
+..\src\Main.cpp:12:1: error: specializing member '::START_ROBOT_CLASS<Robot>' requires 'template<>' syntax
+ START_ROBOT_CLASS<Robot>(); // Tells WPILib where our Robot is actually located
+ ^~~~~~~~~~~~~~~~~~~~~~~~
