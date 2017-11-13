@@ -11,7 +11,6 @@
 // Load module headers
 
 #include "modules/DriveTrain.h" // Load the DriveTrain module
-#include "modules/AutonomousMain.h"
 #include "modules/Bucket.h"
 #include "modules/Calibration.h"
 #include "modules/Uber.h"
@@ -28,7 +27,6 @@ void loadModules(){
 	robot->registerModule(new Uber());
 	robot->registerModule(new Balls());
 	robot->registerModule(new ReflectorSensors());
-	robot->registerModule(new AutonomousMain());
 
 }
 

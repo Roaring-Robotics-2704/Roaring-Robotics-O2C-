@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;O2C-2017-Winno/Debug/src/main.o&apos; to &apos;Main.o&apos;" description="Rename resource &apos;main.o&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Debug/src/main.o" name="Main.o" stamp="1510521912200" updateReferences="true"/>
+</session>

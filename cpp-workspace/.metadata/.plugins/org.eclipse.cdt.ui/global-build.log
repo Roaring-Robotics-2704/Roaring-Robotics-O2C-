@@ -1,16 +1,4 @@
-15:23:44 **** Incremental Build of configuration Debug for project O2C-2017-Winno ****
+11:51:37 **** Incremental Build of configuration Debug for project O2C-2017-Winno ****
 Info: Internal Builder is used for build
-arm-frc-linux-gnueabi-g++ -std=c++1y "-IC:\\Users\\Alex Anderson/wpilib/cpp/current/include" "-IC:\\Users\\inang\\OneDrive\\Documents\\GitHub\\Roaring-Robotics-O2C-\\cpp-workspace\\O2C-2017-Winno\\src" "-IC:\\Users\\Alex Anderson/wpilib/user/cpp/include" -O0 -Og -g3 -Wall -c -fmessage-length=0 -o "src\\Main.o" "..\\src\\Main.cpp" 
-Cannot run program "arm-frc-linux-gnueabi-g++": Launching failed
-
-Error: Program "arm-frc-linux-gnueabi-g++" not found in PATH
-PATH=[\usr\local\bin;C:/Program Files/Java/jre1.8.0_151/bin/server;C:/Program Files/Java/jre1.8.0_151/bin;C:/Program Files/Java/jre1.8.0_151/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Users\inang\AppData\Local\Microsoft\WindowsApps;;C:\Users\inang\Desktop]
-
-15:23:57 **** Incremental Build of configuration Debug for project O2C-2017-Winno ****
-Info: Internal Builder is used for build
-arm-frc-linux-gnueabi-g++ -std=c++1y "-IC:\\Users\\Alex Anderson/wpilib/cpp/current/include" "-IC:\\Users\\inang\\OneDrive\\Documents\\GitHub\\Roaring-Robotics-O2C-\\cpp-workspace\\O2C-2017-Winno\\src" "-IC:\\Users\\Alex Anderson/wpilib/user/cpp/include" -O0 -Og -g3 -Wall -c -fmessage-length=0 -o "src\\Main.o" "..\\src\\Main.cpp" 
-Cannot run program "arm-frc-linux-gnueabi-g++": Launching failed
-
-Error: Program "arm-frc-linux-gnueabi-g++" not found in PATH
-PATH=[\usr\local\bin;C:/Program Files/Java/jre1.8.0_151/bin/server;C:/Program Files/Java/jre1.8.0_151/bin;C:/Program Files/Java/jre1.8.0_151/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Users\inang\AppData\Local\Microsoft\WindowsApps;;C:\Users\inang\Desktop]
-
+arm-frc-linux-gnueabi-g++ -std=c++1y "-IC:\\Users\\Alex Anderson/wpilib/cpp/current/include" "-ID:\\GitHub\\Roaring-Robotics-O2C-\\cpp-workspace\\O2C-2017-Winno\\src" "-IC:\\Users\\Alex Anderson/wpilib/user/cpp/include" -O0 -Og -g3 -Wall -c -fmessage-length=0 -o "src\\Main.o" "..\\src\\Main.cpp" 
+arm-frc-linux-gnueabi-g++ "-LC:\\Users\\Alex Anderson/wpilib/cpp/current/lib" "-LC:\\Users\\Alex Anderson/wpilib/user/cpp/lib" -Wl,-rpath,/opt/GenICam_v3_0_NI/bin/Linux32_ARM -o FRCUserProgram "src\\Main.o" -lwpi 
