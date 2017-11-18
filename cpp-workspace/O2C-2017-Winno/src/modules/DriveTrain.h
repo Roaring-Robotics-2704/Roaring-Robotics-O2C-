@@ -38,14 +38,14 @@ namespace DriveTrainPrivate{
 class DriveTrain : public Module { // The code that drives the robot
 public:
 	void OperatorControl(){
-		double leftAxisY = hw::stick->GetY(hw::stick->kLeftHand);
-		double rightAxisY = hw::stick->GetY(hw::stick->kRightHand);
+		double leftAxisY = -hw::stick->GetY(hw::stick->kLeftHand);
+		double rightAxisZ = hw::stick->GetThrottle();
 
 		hw::flVictor->Set(leftAxisY);
-		hw::rlVictor->Set(-leftAxisY);
+		hw::rlVictor->Set(leftAxisY);
 
-		hw::frVictor->Set(rightAxisY);
-		hw::rrVictor->Set(-rightAxisY);
+		hw::frVictor->Set(rightAxisZ);
+		hw::rrVictor->Set(rightAxisZ);
 
 	}
 };
