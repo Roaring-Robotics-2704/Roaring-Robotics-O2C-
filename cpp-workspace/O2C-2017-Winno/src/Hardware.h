@@ -33,6 +33,10 @@ namespace hw {
 
 	frc::DigitalInput* lPhoto;
 	frc::DigitalInput* rPhoto;
+
+	frc::Relay* pneurelay;
+
+	frc::Servo* grabServ;
 }
 
 
@@ -40,17 +44,17 @@ void registerComponents(){ // Oh, here we actually define the hardware
 
 	hw::stick = new frc::Joystick(0); // Initialize the joystick (see "Hardware.h")
 
-	hw::flVictor = new frc::Victor(0); // Initializes the Victor at port 0 to be the Front Left
-	hw::frVictor = new frc::Victor(1); // Initializes the Victor at port 1 to be the Front Right
-	hw::rlVictor = new frc::Victor(2); // Initializes the Victor at port 2 to be the Rear Left
+	hw::flVictor = new frc::Victor(1); // Initializes the Victor at port 0 to be the Front Left
+	hw::frVictor = new frc::Victor(2); // Initializes the Victor at port 1 to be the Front Right
+	hw::rlVictor = new frc::Victor(4); // Initializes the Victor at port 2 to be the Rear Left
 	hw::rrVictor = new frc::Victor(3); // Initializes the Victor at port 3 to be the Rear Right
 
-	hw::bkVictor = new frc::Victor(6);
+	hw::bkVictor = new frc::Victor(9);
 
-	hw::flE = new frc::Encoder(1, 0, false, Encoder::EncodingType::k2X);
-	hw::frE = new frc::Encoder(2, 3, false, Encoder::EncodingType::k2X);
+	hw::flE = new frc::Encoder(6, 7, false, Encoder::EncodingType::k2X);
+	hw::frE = new frc::Encoder(3, 2, false, Encoder::EncodingType::k2X);
 	hw::rlE = new frc::Encoder(4, 5, false, Encoder::EncodingType::k2X);
-	hw::rrE = new frc::Encoder(6, 7, false, Encoder::EncodingType::k2X);
+	hw::rrE = new frc::Encoder(1, 0, false, Encoder::EncodingType::k2X);
 
 	hw::gyro = new frc::AnalogGyro(1);
 
@@ -61,6 +65,10 @@ void registerComponents(){ // Oh, here we actually define the hardware
 
 	hw::lPhoto = new DigitalInput(8);
 	hw::rPhoto = new DigitalInput(9);
+
+	hw::pneurelay = new frc::Relay(0);
+
+	hw::grabServ = new frc::Servo(8);
 }
 
 #endif /* SRC_HARDWARE_H_ */

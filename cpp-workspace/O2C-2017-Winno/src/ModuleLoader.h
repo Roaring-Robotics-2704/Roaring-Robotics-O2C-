@@ -17,6 +17,7 @@
 #include "modules/Uber.h"
 #include "modules/Balls.h"
 #include "modules/ReflectorSensors.h"
+#include "modules/Grabber.h"
 
 /*
  * Put the module-loading code here.
@@ -24,11 +25,12 @@
 void loadModules(){
 	robot->registerModule(new DriveTrain()); // Registers a new DriveTrain module with the Robot
 	robot->registerModule(new Bucket());
-	robot->registerModule(new Calibration());
-	robot->registerModule(new Uber());
+	//robot->registerModule(new Calibration());
+	//robot->registerModule(new Uber());
 	robot->registerModule(new Balls());
-	robot->registerModule(new ReflectorSensors());
-	robot->registerModule(new AutonomousMain());
+	//robot->registerModule(new ReflectorSensors());
+	//robot->registerModule(new AutonomousMain());
+	robot->registerModule(new Grabber());
 
 }
 

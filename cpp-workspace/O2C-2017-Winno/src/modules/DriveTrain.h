@@ -143,7 +143,7 @@ public:
 			speedFactor = .75;
 			break;
 		case 2:
-			speedFactor = .9;
+			speedFactor = .95;
 			break;
 		}
 		SmartDashboard::PutNumber("DriveTrain speed", speedFactor);
@@ -202,10 +202,10 @@ public:
 
 
 		hw::flVictor->Set(std::max(std::min(flVel * DriveTrainPrivate::flTi, 1.0), -1.0) * speedFactor); // Actually set the motor speeds to what we calculated
-		hw::frVictor->Set(-std::max(std::min(frVel * DriveTrainPrivate::frTi, 1.0), -1.0) * speedFactor); // ^^^ Look here ^^^
+		hw::frVictor->Set(std::max(std::min(frVel * DriveTrainPrivate::frTi, 1.0), -1.0) * speedFactor); // ^^^ Look here ^^^
 
 		hw::rlVictor->Set(std::max(std::min(rlVel * DriveTrainPrivate::rlTi, 1.0), -1.0) * speedFactor); // ^^^^^^^^^^^^^^^^^
-		hw::rrVictor->Set(-std::max(std::min(rrVel * DriveTrainPrivate::rrTi, 1.0), -1.0) * speedFactor); // ^^^^^^^^^^^^^^^^^
+		hw::rrVictor->Set(std::max(std::min(rrVel * DriveTrainPrivate::rrTi, 1.0), -1.0) * speedFactor); // ^^^^^^^^^^^^^^^^^
 
 		DriveTrainPrivate::ticksModTicksSpeed = (DriveTrainPrivate::ticksModTicksSpeed + 1) % DriveTrainPrivate::ticksSpeed;
 	}

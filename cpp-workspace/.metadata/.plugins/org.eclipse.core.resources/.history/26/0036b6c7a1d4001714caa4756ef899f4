@@ -1,0 +1,36 @@
+/*
+ * Balls.h
+ *
+ *  Created on: Jul 15, 2017
+ *      Author: cryog
+ */
+
+#ifndef BALLS_H_
+#define BALLS_H_
+
+
+class Balls : public Module {
+private:
+	bool activationState = false;
+	bool activationTicks = 0;
+public:
+	void OperatorControl(){
+		bool shootBtn = hw::stick->GetRawButton(3);
+		if(shootBtn && !activationState){
+			activationState = true;
+			activationTicks = 0;
+		}
+		if(activationState){
+			activationTicks ++;
+			if(activationState <= 50){
+				hw::pneurelay->set(hw::pneurelay->Value.kForward);
+			} else if(activationTicks <= 100){
+				hw::pneurelay->set(hw::pneurelay->Value.kReverse);
+			} else{
+				hw::pneurelay->set(hw::pneurelay->Value.kOff);
+				activationState = false;
+			}
+		}
+	}
+};
+#endif /* BALLS_H_ */

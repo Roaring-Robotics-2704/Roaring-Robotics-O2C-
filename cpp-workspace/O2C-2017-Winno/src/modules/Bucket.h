@@ -12,9 +12,9 @@ class Bucket : public Module {
 			bool rightBumper  = hw::stick->GetRawButton(6);
 
 			if(rightBumper){
-				hw::bkVictor->Set(-1);
+				hw::bkVictor->Set(.7);
 			} else if(rightTrigger){
-					hw::bkVictor->Set(1);
+					hw::bkVictor->Set(-.7);
 			} else{
 				hw::bkVictor->Set(0);
 			}

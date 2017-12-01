@@ -11,13 +11,18 @@
 
 class Balls : public Module {
 private:
+	bool activationState = false;
+	bool activationTicks = 0;
 public:
 	void OperatorControl(){
 		bool shootBtn = hw::stick->GetRawButton(3);
+		bool shootBtn2 = hw::stick->GetRawButton(1);
 		if(shootBtn){
-			hw::ballVic0->Set(-1.0);
+			hw::pneurelay->Set(hw::pneurelay->Value::kReverse);
+		} else if(shootBtn2){
+			hw::pneurelay->Set(hw::pneurelay->Value::kForward);
 		} else{
-			hw::ballVic0->Set(0.0);
+			hw::pneurelay->Set(hw::pneurelay->Value::kOff);
 		}
 	}
 };
