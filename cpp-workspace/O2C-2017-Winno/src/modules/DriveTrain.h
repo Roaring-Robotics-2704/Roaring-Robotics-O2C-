@@ -48,7 +48,7 @@ public:
 		drive(leftAxisX, leftAxisY, rightAxisZ, false);
 	}
 	static void drive(double leftAxisX, double leftAxisY, double rightAxisZ, bool correctOverride){
-		if(DriveTrainPrivate::ticksModTicksSpeed == 0){
+		if(DriveTrainPrivate::ticksModTicksSpeed == -1){
 			int iflTi = hw::flE->Get();
 			int ifrTi = hw::frE->Get();
 			int irlTi = hw::rlE->Get();

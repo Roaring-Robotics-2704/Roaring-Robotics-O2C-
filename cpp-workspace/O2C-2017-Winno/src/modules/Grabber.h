@@ -12,9 +12,9 @@ class Grabber : public Module {
 			bool leftBumper  = hw::stick->GetRawButton(5);
 
 			if(leftBumper){
-				hw::grabServ->SetAngle(90);
+				hw::grabServ->SetAngle(120);
 			} else if(leftTrigger){
-					hw::grabServ->SetAngle(-90);
+					hw::grabServ->SetAngle(-120);
 			} else{
 				hw::grabServ->SetAngle(0);
 			}
