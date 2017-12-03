@@ -144,20 +144,20 @@ public:
 		leftAxisY = cos(angle) * magn;
 
 #endif
-
 		double speedFactor = 0.0;
+#ifdef CONTROLLER_ALT_1
+		speedFactor = MAX_SPEED_FACTOR * (hw::stick->GetThrottle() / 2.0 + 0.5);
+#else
 		bool speedBtn = hw::stick->GetRawButton(12);
 		if(speedBtn){
 			if(!DriveTrainPrivate::lSpeedBtn){
-				DriveTrainPrivate::speedControl = (DriveTrainPrivate::speedControl + 1) % 3;
+				DriveTrainPrivate::speedControl = (DriveTrainPrivate::speedControl + 1) % 4;
 			}
 			DriveTrainPrivate::lSpeedBtn = true;
 		} else{
 			DriveTrainPrivate::lSpeedBtn = false;
 		}
-#ifdef CONTROLLER_ALT_1
-		speedFactor = MAX_SPEED_FACTOR * (hw::stick->GetThrottle() / 2.0 + 0.5);
-#else
+
 		switch(DriveTrainPrivate::speedControl){
 		case 0:
 			speedFactor = .5 * MAX_SPEED_FACTOR;
@@ -168,6 +168,8 @@ public:
 		case 2:
 			speedFactor = MAX_SPEED_FACTOR;
 			break;
+		case 3:
+			speedFactor = 0.0;
 		}
 #endif
 		SmartDashboard::PutNumber("DriveTrain speed", speedFactor);
@@ -223,6 +225,31 @@ public:
 		 SmartDashboard::PutNumber("Correction factor fr", DriveTrainPrivate::frTi);
 		 SmartDashboard::PutNumber("Correction factor rl", DriveTrainPrivate::rlTi);
 		 SmartDashboard::PutNumber("Correction factor rr", DriveTrainPrivate::rrTi);
+
+		 if(speedFactor < 1e-3){
+			if(hw::stick->GetRawButton(8)){
+				flVel = 1.0;
+				frVel = 1.0;
+				rlVel = 1.0;
+				rrVel = 1.0;
+			} else if(hw::stick->GetRawButton(7)){
+				flVel = -1.0;
+				frVel = -1.0;
+				rlVel = -1.0;
+				rrVel = -1.0;
+			} else{
+				flVel = 0.0;
+				frVel = 0.0;
+				rlVel = 0.0;
+				rrVel = 0.0;
+			}
+			DriveTrainPrivate::flTi = 1.0;
+			DriveTrainPrivate::frTi = 1.0;
+			DriveTrainPrivate::rlTi = 1.0;
+			DriveTrainPrivate::rrTi = 1.0;
+
+			speedFactor = 1.0;
+		 }
 
 
 		hw::flVictor->Set(std::max(std::min(flVel * DriveTrainPrivate::flTi, 1.0), -1.0) * speedFactor); // Actually set the motor speeds to what we calculated
