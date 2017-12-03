@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;O2C-2017-Winno/src/modules/Grabber&apos; to &apos;Grabber.h&apos;" description="Rename resource &apos;Grabber&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/modules/Grabber" name="Grabber.h" stamp="1511919959305" updateReferences="true"/>
+</session>

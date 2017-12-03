@@ -8,6 +8,9 @@
 #ifndef DRIVETRAIN_H_
 #define DRIVETRAIN_H_
 
+
+#define MAX_SPEED_FACTOR .95
+
 namespace DriveTrainPrivate{
 	double maxCorrectPerTick = 50.0;
 	double speedFactor = 0.01;
@@ -38,13 +41,10 @@ namespace DriveTrainPrivate{
 class DriveTrain : public Module { // The code that drives the robot
 public:
 	void OperatorControl(){
-		double leftAxisX = hw::stick->GetX(frc::Joystick::kLeftHand); // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
-		double leftAxisY = hw::stick->GetY(frc::Joystick::kLeftHand); // Same thing, with its up<->down movement
-		double rightAxisZ = hw::stick->GetZ(frc::Joystick::kRightHand); // Now get the right Joystick's left<->right movement
-		bool goStraight = hw::stick->GetRawButton(4);
-		if(goStraight){
-			leftAxisY = -1.0;
-		}
+		double leftAxisX = hw::stick->GetX(); // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
+		double leftAxisY = hw::stick->GetY(); // Same thing, with its up<->down movement
+		double rightAxisZ = hw::stick->GetZ(); // Now get the right Joystick's left<->right movement
+
 		drive(leftAxisX, leftAxisY, rightAxisZ, false);
 	}
 	static void drive(double leftAxisX, double leftAxisY, double rightAxisZ, bool correctOverride){
@@ -135,17 +135,21 @@ public:
 		} else{
 			DriveTrainPrivate::lSpeedBtn = false;
 		}
+#ifdef CONTROLLER_ALT_1
+		speedFactor = MAX_SPEED_FACTOR * (hw::stick->GetThrottle() / 2.0 + 0.5);
+#else
 		switch(DriveTrainPrivate::speedControl){
 		case 0:
-			speedFactor = .5;
+			speedFactor = .5 * MAX_SPEED_FACTOR;
 			break;
 		case 1:
-			speedFactor = .75;
+			speedFactor = .75 * MAX_SPEED_FACTOR;
 			break;
 		case 2:
-			speedFactor = .9;
+			speedFactor = MAX_SPEED_FACTOR;
 			break;
 		}
+#endif
 		SmartDashboard::PutNumber("DriveTrain speed", speedFactor);
 
 		double ly2 = -leftAxisY; // Extra code that I didn't *really* need
@@ -202,10 +206,10 @@ public:
 
 
 		hw::flVictor->Set(std::max(std::min(flVel * DriveTrainPrivate::flTi, 1.0), -1.0) * speedFactor); // Actually set the motor speeds to what we calculated
-		hw::frVictor->Set(-std::max(std::min(frVel * DriveTrainPrivate::frTi, 1.0), -1.0) * speedFactor); // ^^^ Look here ^^^
+		hw::frVictor->Set(std::max(std::min(frVel * DriveTrainPrivate::frTi, 1.0), -1.0) * speedFactor); // ^^^ Look here ^^^
 
 		hw::rlVictor->Set(std::max(std::min(rlVel * DriveTrainPrivate::rlTi, 1.0), -1.0) * speedFactor); // ^^^^^^^^^^^^^^^^^
-		hw::rrVictor->Set(-std::max(std::min(rrVel * DriveTrainPrivate::rrTi, 1.0), -1.0) * speedFactor); // ^^^^^^^^^^^^^^^^^
+		hw::rrVictor->Set(std::max(std::min(rrVel * DriveTrainPrivate::rrTi, 1.0), -1.0) * speedFactor); // ^^^^^^^^^^^^^^^^^
 
 		DriveTrainPrivate::ticksModTicksSpeed = (DriveTrainPrivate::ticksModTicksSpeed + 1) % DriveTrainPrivate::ticksSpeed;
 	}

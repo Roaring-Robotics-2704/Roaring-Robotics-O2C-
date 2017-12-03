@@ -1,0 +1,35 @@
+/*
+ * Grabber.h
+ */
+
+
+#ifndef GRABBER_H_
+#define GRABBER_H_
+/*
+class Grabber : public Module {
+	 void OperatorControl(){
+			bool rightTrigger = hw::stick->GetRawButton(5);
+			bool rightBumper  = hw::stick->GetRawButton(7);
+
+			if(rightBumper){
+				hw::grabServ->SetAngle(90);
+			} else if(rightTrigger){
+					hw::grabServ->SetAngle(90);
+			} else{
+				hw::grabServ->SetAngle(0);
+			}
+
+	}
+
+	void Autonomous(){
+
+
+
+	}
+*/
+};
+
+#endif /* GRABBER_H_ */
+
+
+
