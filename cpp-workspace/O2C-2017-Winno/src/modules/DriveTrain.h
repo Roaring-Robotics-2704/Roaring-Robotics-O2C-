@@ -11,6 +11,16 @@
 
 #define MAX_SPEED_FACTOR .95
 
+// Per-controller defines
+
+// Standard (Logitech Dual Action) Controllers
+	/* Nothing here yet */
+// Type 1 controllers (Logitech Extreme 3D Pro)
+#define TYPE_1_CONTROLLER_ROT_DEGREES 25
+
+
+//
+
 namespace DriveTrainPrivate{
 	double maxCorrectPerTick = 50.0;
 	double speedFactor = 0.01;
@@ -124,6 +134,16 @@ public:
 			 //std::cout << " <\n";
 			 //std::cout << "-\n";
 		}
+
+#ifdef CONTROLLER_ALT_1
+		double rotDeg = TYPE_1_CONTROLLER_ROT_DEGREES * rightAxisZ;
+		double magn = sqrt(leftAxisX * leftAxisX + leftAxisY * leftAxisY);
+		double angle = atan2(leftAxisX, leftAxisY);
+		angle += rotDeg * (PI / 180.8);
+		leftAxisX = sin(angle) * magn;
+		leftAxisY = cos(angle) * magn;
+
+#endif
 
 		double speedFactor = 0.0;
 		bool speedBtn = hw::stick->GetRawButton(12);

@@ -5,6 +5,8 @@
 #ifndef SRC_ROBOT_H // Test if Robot.h has been loaded yet (this is the "include guard" - I have one in every file except Main.cpp)
 #define SRC_ROBOT_H // It has now!
 
+#define PI 3.14159265359
+
 // Load necessary files
 
 #include <WPILib.h>
