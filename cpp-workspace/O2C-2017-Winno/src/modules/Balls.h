@@ -15,8 +15,13 @@ private:
 	bool activationTicks = 0;
 public:
 	void OperatorControl(){
+#ifdef CONTROLLER_ALT_1
+		bool shootBtn = hw::stick->GetRawButton(12);
+		bool shootBtn2 = hw::stick->GetRawButton(11);
+#else
 		bool shootBtn = hw::stick->GetRawButton(3);
 		bool shootBtn2 = hw::stick->GetRawButton(1);
+#endif
 		if(shootBtn){
 			hw::pneurelay->Set(hw::pneurelay->Value::kReverse);
 		} else if(shootBtn2){

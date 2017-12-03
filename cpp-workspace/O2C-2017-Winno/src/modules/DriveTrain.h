@@ -8,6 +8,9 @@
 #ifndef DRIVETRAIN_H_
 #define DRIVETRAIN_H_
 
+
+#define MAX_SPEED_FACTOR .95
+
 namespace DriveTrainPrivate{
 	double maxCorrectPerTick = 50.0;
 	double speedFactor = 0.01;
@@ -38,17 +41,14 @@ namespace DriveTrainPrivate{
 class DriveTrain : public Module { // The code that drives the robot
 public:
 	void OperatorControl(){
-		double leftAxisX = hw::stick->GetX(frc::Joystick::kLeftHand); // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
-		double leftAxisY = hw::stick->GetY(frc::Joystick::kLeftHand); // Same thing, with its up<->down movement
-		double rightAxisZ = hw::stick->GetZ(frc::Joystick::kRightHand); // Now get the right Joystick's left<->right movement
-		bool goStraight = hw::stick->GetRawButton(4);
-		if(goStraight){
-			leftAxisY = -1.0;
-		}
+		double leftAxisX = hw::stick->GetX(); // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
+		double leftAxisY = hw::stick->GetY(); // Same thing, with its up<->down movement
+		double rightAxisZ = hw::stick->GetZ(); // Now get the right Joystick's left<->right movement
+
 		drive(leftAxisX, leftAxisY, rightAxisZ, false);
 	}
 	static void drive(double leftAxisX, double leftAxisY, double rightAxisZ, bool correctOverride){
-		if(DriveTrainPrivate::ticksModTicksSpeed == -1){
+		if(DriveTrainPrivate::ticksModTicksSpeed == 0){
 			int iflTi = hw::flE->Get();
 			int ifrTi = hw::frE->Get();
 			int irlTi = hw::rlE->Get();
@@ -135,17 +135,21 @@ public:
 		} else{
 			DriveTrainPrivate::lSpeedBtn = false;
 		}
+#ifdef CONTROLLER_ALT_1
+		speedFactor = MAX_SPEED_FACTOR * (hw::stick->GetThrottle() / 2.0 + 0.5);
+#else
 		switch(DriveTrainPrivate::speedControl){
 		case 0:
-			speedFactor = .5;
+			speedFactor = .5 * MAX_SPEED_FACTOR;
 			break;
 		case 1:
-			speedFactor = .75;
+			speedFactor = .75 * MAX_SPEED_FACTOR;
 			break;
 		case 2:
-			speedFactor = .95;
+			speedFactor = MAX_SPEED_FACTOR;
 			break;
 		}
+#endif
 		SmartDashboard::PutNumber("DriveTrain speed", speedFactor);
 
 		double ly2 = -leftAxisY; // Extra code that I didn't *really* need

@@ -8,13 +8,14 @@
 
 class Grabber : public Module {
 	 void OperatorControl(){
-			bool leftTrigger = hw::stick->GetRawButton(7);
+#ifdef CONTROLLER_ALT_1
 			bool leftBumper  = hw::stick->GetRawButton(5);
+#else
+			bool leftBumper  = hw::stick->GetRawButton(5);
+#endif
 
 			if(leftBumper){
 				hw::grabServ->SetAngle(120);
-			} else if(leftTrigger){
-					hw::grabServ->SetAngle(-120);
 			} else{
 				hw::grabServ->SetAngle(0);
 			}
