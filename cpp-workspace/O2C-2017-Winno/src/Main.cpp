@@ -5,13 +5,11 @@
  *      Author: cryog
  */
 
-// Define global constants here
+#define ORIENT_ROBOT 0
+#define ORIENT_FIELD 1
 
-#define CONTROLLER_ALT_1 // Using type 1 controllers (Logitech Extreme 3D Pro)
-
-//
-
-#include <Robot.h> // Load the rest of the code
+#include "CodeParameters.h"
+#include "Robot.h" // Load the rest of the code
 
 
 START_ROBOT_CLASS(Robot) // Tells WPILib where our Robot is actually located

@@ -8,6 +8,10 @@
 
 class Bucket : public Module {
 	 void OperatorControl(){
+		 if(isDebugMode()){
+
+			 return;
+		 }
 #ifdef CONTROLLER_ALT_1
 			bool rightTrigger = hw::stick->GetRawButton(6);
 			bool rightBumper  = hw::stick->GetRawButton(4);

@@ -47,6 +47,7 @@ namespace DriveTrainPrivate{
 	double gfrTi;
 	double grlTi;
 	double grrTi;
+	double orientation = 0.0;
 }
 class DriveTrain : public Module { // The code that drives the robot
 public:
@@ -54,8 +55,10 @@ public:
 		double leftAxisX = hw::stick->GetX(); // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
 		double leftAxisY = hw::stick->GetY(); // Same thing, with its up<->down movement
 		double rightAxisZ = hw::stick->GetZ(); // Now get the right Joystick's left<->right movement
-
-		drive(leftAxisX, leftAxisY, rightAxisZ, false);
+		if(!isDebugMode())
+			drive(leftAxisX, leftAxisY, rightAxisZ, false);
+		else
+			drive(0.0, 0.0, 0.0, false);
 	}
 	static void drive(double leftAxisX, double leftAxisY, double rightAxisZ, bool correctOverride){
 		if(DriveTrainPrivate::ticksModTicksSpeed == 0){
@@ -73,7 +76,7 @@ public:
 			DriveTrainPrivate::lRl = irlTi;
 			DriveTrainPrivate::lRr = irrTi;
 			*/
-			double flTi = -iflTi;
+			double flTi = iflTi;
 			double frTi = ifrTi;
 			double rlTi = irlTi;
 			double rrTi = irrTi;
@@ -142,7 +145,6 @@ public:
 		angle += rotDeg * (PI / 180.8);
 		leftAxisX = sin(angle) * magn;
 		leftAxisY = cos(angle) * magn;
-
 #endif
 		double speedFactor = 0.0;
 #ifdef CONTROLLER_ALT_1
@@ -225,8 +227,8 @@ public:
 		 SmartDashboard::PutNumber("Correction factor fr", DriveTrainPrivate::frTi);
 		 SmartDashboard::PutNumber("Correction factor rl", DriveTrainPrivate::rlTi);
 		 SmartDashboard::PutNumber("Correction factor rr", DriveTrainPrivate::rrTi);
-
-		 if(speedFactor < 1e-3){
+#ifdef CONTROLLER_ALT_1
+		 if(isDebugMode()){
 			if(hw::stick->GetRawButton(8)){
 				flVel = 1.0;
 				frVel = 1.0;
@@ -250,7 +252,7 @@ public:
 
 			speedFactor = 1.0;
 		 }
-
+#endif
 
 		hw::flVictor->Set(std::max(std::min(flVel * DriveTrainPrivate::flTi, 1.0), -1.0) * speedFactor); // Actually set the motor speeds to what we calculated
 		hw::frVictor->Set(std::max(std::min(frVel * DriveTrainPrivate::frTi, 1.0), -1.0) * speedFactor); // ^^^ Look here ^^^

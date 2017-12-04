@@ -8,6 +8,10 @@
 
 class Grabber : public Module {
 	 void OperatorControl(){
+		 if(isDebugMode()){
+
+			 return;
+		 }
 #ifdef CONTROLLER_ALT_1
 			bool leftBumper  = hw::stick->GetRawButton(5);
 #else

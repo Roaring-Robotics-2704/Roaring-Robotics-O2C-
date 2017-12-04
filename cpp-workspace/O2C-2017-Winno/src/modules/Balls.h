@@ -15,6 +15,10 @@ private:
 	bool activationTicks = 0;
 public:
 	void OperatorControl(){
+		 if(isDebugMode()){
+
+			 return;
+		 }
 #ifdef CONTROLLER_ALT_1
 		bool shootBtn = hw::stick->GetRawButton(12);
 		bool shootBtn2 = hw::stick->GetRawButton(11);
