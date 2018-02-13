@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;O2C-2017-Winno/src/modules/climber.h&apos;" deleteContents="false" description="Delete resource &apos;O2C-2017-Winno/src/modules/climber.h&apos;" element1="/O2C-2017-Winno/src/modules/climber.h" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1518291947523"/>&#x0A;<refactoring comment="Delete resource &apos;O2C-2017-Winno/Climber.h&apos;" deleteContents="false" description="Delete resource &apos;O2C-2017-Winno/Climber.h&apos;" element1="/O2C-2017-Winno/Climber.h" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1518291974392"/>
+</session>

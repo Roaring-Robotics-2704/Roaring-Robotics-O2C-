@@ -18,6 +18,7 @@
 #include "modules/Balls.h"
 #include "modules/ReflectorSensors.h"
 #include "modules/Grabber.h"
+#include "modules/Climber.h"
 
 /*
  * Put the module-loading code here.
