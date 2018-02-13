@@ -103,29 +103,16 @@ public:
 
 
 #ifdef CONTROLLER_ALT_1
-		 if(isDebugMode()){
-			if(hw::stick->GetRawButton(8)){
-				leftAxisX = 1.0;
-				leftAxisY = 0.0;
-				rightAxisZ = 0.0;
-			} else if(hw::stick->GetRawButton(7)){
-				leftAxisX = -1.0;
-				leftAxisY = 0.0;
-				rightAxisZ = 0.0;
-			} else{
-				leftAxisX = 0.0;
-				leftAxisY = 0.0;
-				rightAxisZ = 0.0;
-			}
-			DriveTrainPrivate::flTi = 1.0;
-			DriveTrainPrivate::frTi = 1.0;
-			DriveTrainPrivate::rlTi = 1.0;
-			DriveTrainPrivate::rrTi = 1.0;
-
-			speedFactor = 1.0;
-		 }
 #endif
-		 hw::rd->DriveCartesian(-leftAxisX, -leftAxisY, -rightAxisZ);
+		rightAxisZ *= 0.35;
+
+		 if(isDebugMode()){
+			 autoStates.push_back(leftAxisX);
+			 autoStates.push_back(leftAxisY);
+			 autoStates.push_back(rightAxisZ);
+			 autoStates.push_back(AutonomousPrivate::autoTimer);
+		 }
+		 hw::rd->DriveCartesian(leftAxisX, leftAxisY, rightAxisZ);
 	}
 };
 

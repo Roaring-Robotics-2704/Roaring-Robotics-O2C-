@@ -1,0 +1,8 @@
+#
+#Mon Feb 12 20:33:26 CST 2018
+Debug/FRCUserProgram=1
+src/modules/DriveTrain.h=1
+src/ModuleLoader.h=1
+src/Robot.h=1
+Debug/src/Main.o=1
+src/modules/AutonomousMain.h=1
