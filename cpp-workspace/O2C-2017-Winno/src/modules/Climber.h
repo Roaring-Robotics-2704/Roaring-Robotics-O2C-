@@ -11,19 +11,10 @@
 class Climber : public Module {
 public:
 	void OperatorControl(){
-		bool padButton1 = hw::stick->GetRawButton(11);	//Change these buttons!!
-		bool padButton2 = hw::stick->GetRawButton(12);
-		bool padButton3 = hw::stick->GetRawButton(10);
+		bool winch = hw::stick->GetRawButton(8);
 
-		if(padButton2){
-			hw::liftTalon->Set(.7);		//upwards motion of lift
-		} else if(padButton1){
-			hw::liftTalon->Set(-.7); //downwards motion of lift
-		} else{
-			hw::bkTalon->Set(0);		//No motion
-		}
 
-		if(padButton3){
+		if(winch){
 			hw::winchVictor1->Set(.7);		//Activate winch
 			hw::winchVictor2->Set(.7);
 		} else{

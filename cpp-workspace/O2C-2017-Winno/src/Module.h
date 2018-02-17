@@ -21,6 +21,7 @@ public:
 	virtual void Autonomous(){} // For Autonomous modules, define this
 		// Or for modules that do both, define BOTH!
 	virtual void ModeChange(){};
+	virtual void ClearAuto(){};
 };
 
 

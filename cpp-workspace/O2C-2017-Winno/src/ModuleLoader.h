@@ -10,9 +10,9 @@
 
 // Load module headers
 
-#include "modules/DriveTrain.h" // Load the DriveTrain module
 #include "modules/AutonomousMain.h"
-#include "modules/Bucket.h"
+#include <modules/Cubelift.h>
+#include "modules/DriveTrain.h" // Load the DriveTrain module
 #include "modules/Calibration.h"
 #include "modules/Uber.h"
 #include "modules/Balls.h"
@@ -24,14 +24,15 @@
  * Put the module-loading code here.
  */
 void loadModules(){
+	robot->registerModule(new AutonomousMain());
 	robot->registerModule(new DriveTrain()); // Registers a new DriveTrain module with the Robot
-	robot->registerModule(new Bucket());
+	robot->registerModule(new Cubelift());
 	//robot->registerModule(new Calibration());
 	//robot->registerModule(new Uber());
 	robot->registerModule(new Balls());
 	//robot->registerModule(new ReflectorSensors());
-	robot->registerModule(new AutonomousMain());
 	robot->registerModule(new Grabber());
+	robot->registerModule(new Climber());
 
 }
 

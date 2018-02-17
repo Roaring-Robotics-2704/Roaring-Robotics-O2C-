@@ -48,19 +48,20 @@ namespace DriveTrainPrivate{
 	double grlTi;
 	double grrTi;
 	double orientation = 0.0;
+
+	size_t autoIx;
 }
 class DriveTrain : public Module { // The code that drives the robot
+private:
+	vector<double> autoStates = vector<double>();
 public:
 	void OperatorControl(){
 		double leftAxisX = hw::stick->GetX(); // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
 		double leftAxisY = hw::stick->GetY(); // Same thing, with its up<->down movement
 		double rightAxisZ = hw::stick->GetZ(); // Now get the right Joystick's left<->right movement
-		if(!isDebugMode())
-			drive(leftAxisX, leftAxisY, rightAxisZ, false);
-		else
-			drive(0.0, 0.0, 0.0, false);
+		drive(leftAxisX, leftAxisY, rightAxisZ, false);
 	}
-	static void drive(double leftAxisX, double leftAxisY, double rightAxisZ, bool correctOverride){
+	void drive(double leftAxisX, double leftAxisY, double rightAxisZ, bool correctOverride){
 
 
 #ifdef CONTROLLER_ALT_1
@@ -100,6 +101,10 @@ public:
 		}
 #endif
 		SmartDashboard::PutNumber("DriveTrain speed", speedFactor);
+		SmartDashboard::PutNumber("Talon Encoder (Port 1)", hw::actualTalon->GetSensorCollection().GetQuadraturePosition());
+
+		SmartDashboard::PutBoolean("Talon Limit (Top)", hw::actualTalon->GetSensorCollection().GetPinStateQuadA());
+		SmartDashboard::PutBoolean("Talon Limit (Bottom)", hw::actualTalon->GetSensorCollection().GetPinStateQuadB());
 
 
 #ifdef CONTROLLER_ALT_1
@@ -110,9 +115,21 @@ public:
 			 autoStates.push_back(leftAxisX);
 			 autoStates.push_back(leftAxisY);
 			 autoStates.push_back(rightAxisZ);
-			 autoStates.push_back(AutonomousPrivate::autoTimer);
+			 autoStates.push_back(AutonomousPrivate::autoTimer->Get());
 		 }
 		 hw::rd->DriveCartesian(leftAxisX, leftAxisY, rightAxisZ);
+	}
+	void ModeChange(){
+		DriveTrainPrivate::autoIx = 0;
+	}
+	void Autonomous(){
+		if(DriveTrainPrivate::autoIx < autoStates.size() && AutonomousPrivate::autoTimer->Get() >= autoStates[DriveTrainPrivate::autoIx + 3]){
+			hw::rd->DriveCartesian(autoStates[DriveTrainPrivate::autoIx], autoStates[DriveTrainPrivate::autoIx + 1], autoStates[DriveTrainPrivate::autoIx + 2]);
+			DriveTrainPrivate::autoIx += 4;
+		}
+	}
+	void ModuleInit(){
+		//
 	}
 };
 

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;O2C-2017-Winno/src/modules/Bucket.h&apos; to &apos;Cubelift.h&apos;" description="Rename resource &apos;Bucket.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/modules/Bucket.h" name="Cubelift.h" stamp="1518571484157" updateReferences="true"/>
+</session>

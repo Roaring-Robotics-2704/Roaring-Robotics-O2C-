@@ -55,7 +55,6 @@ namespace RobotPrivate{
 	Module** modules = NULL; // A pointer to a module pointer (this can get a bit confusing) being used as an array of modules
 }
 
-vector<double> autoStates = vector<double>();
 /*
  * The robot's main class. This needs to extend one of SampleRobot, IterativeRobot, or CommandRobot. I chose to extend SampleRobot
  */
@@ -141,6 +140,10 @@ public:
 					if(RobotPrivate::debugKey == 0b1001){
 						std::cout << "Debug mode activated.\n";
 						RobotPrivate::debugMode = true;
+						for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)
+									Module* module = RobotPrivate::modules[a]; // Creates temporary variable `module` and sets it to the current module
+									module->ClearAuto(); // Runs the module's Autonomous code
+								}
 					} else{
 						std::cout << "Debug mode is now disabled: " << RobotPrivate::debugKey << "\n";
 						RobotPrivate::debugMode = false;

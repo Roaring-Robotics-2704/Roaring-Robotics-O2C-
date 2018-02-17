@@ -16,15 +16,17 @@ namespace hw {
 	WPI_VictorSPX* rlVictor; // This is getting boring...
 	WPI_VictorSPX* rrVictor; // You don't actually have to read this (or the 2 above it, for that matter)
 
-	frc::Talon* bkTalon;
+	TalonSRX* actualTalon;
 
-	frc::Talon* lgrTalon;
-	frc::Talon* rgrTalon;
+//	frc::Talon* bkTalon;
+
+	frc::VictorSP* lgrVic;
+	frc::VictorSP* rgrVic;
 
 	frc::Talon* liftTalon;
 
-	frc::Victor* winchVictor1;
-	frc::Victor* winchVictor2;
+	WPI_VictorSPX* winchVictor1;
+	WPI_VictorSPX* winchVictor2;
 
 	frc::DigitalInput* topBkInput;
 	frc::DigitalInput* botBkInput;
@@ -56,23 +58,25 @@ void registerComponents(){ // Oh, here we actually define the hardware
 
 	hw::stick = new frc::Joystick(0); // Initialize the joystick (see "Hardware.h")
 
+	hw::actualTalon = new TalonSRX(1);
+
 	hw::flVictor = new WPI_VictorSPX(3); // Initializes the Victor at port 0 to be the Front Left
 	hw::frVictor = new WPI_VictorSPX(4); // Initializes the Victor at port 1 to be the Front Right
 	hw::rlVictor = new WPI_VictorSPX(5); // Initializes the Victor at port 2 to be the Rear Left
 	hw::rrVictor = new WPI_VictorSPX(6); // Initializes the Victor at port 3 to be the Rear Right
 
-	hw::bkTalon = new frc::Talon(9);		//Change these ports later!!
+//	hw::bkTalon = new frc::Talon(9);		//Change these ports later!!
 
-	hw::lgrTalon = new frc::Talon(4);
-	hw::rgrTalon = new frc::Talon(5);
+	hw::lgrVic = new frc::VictorSP(2);
+	hw::rgrVic = new frc::VictorSP(1);
 
 	hw::topBkInput = new frc::DigitalInput(7);	//Change ports later!!
 	hw::botBkInput = new frc::DigitalInput(8);
 
 	hw::liftTalon = new frc::Talon(6);			//Change ports later!!
 
-	hw::winchVictor1 = new frc::Victor(9);		//Change ports later!!
-	hw::winchVictor2 = new frc::Victor(10);
+	hw::winchVictor1 = new WPI_VictorSPX(1);		//Change ports later!!
+	hw::winchVictor2 = new WPI_VictorSPX(2);
 
 	hw::flE = new frc::Encoder(6, 7, false, Encoder::EncodingType::k2X);
 	hw::frE = new frc::Encoder(3, 2, false, Encoder::EncodingType::k2X);
