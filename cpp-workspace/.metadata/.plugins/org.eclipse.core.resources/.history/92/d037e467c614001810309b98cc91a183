@@ -33,12 +33,6 @@ class Cubelift : public Module {
 			} else{
 				hw::actualTalon->Set(ControlMode::PercentOutput, 0);		//No motion
 			}
-
-			SmartDashboard::PutNumber("Talon Encoder (Port 1)", hw::actualTalon->GetSensorCollection().GetQuadraturePosition());
-
-			SmartDashboard::PutBoolean("Talon Limit (Top / Fwd)", hw::actualTalon->GetSensorCollection().GetPinStateQuadA());
-			SmartDashboard::PutBoolean("Talon Limit (Bottom / Rev)", hw::actualTalon->GetSensorCollection().GetPinStateQuadB());
-
 	}
 
 	void Autonomous(){
@@ -47,10 +41,6 @@ class Cubelift : public Module {
 
 	}
 
-	void ModuleInit(){
-		hw::actualTalon->ConfigLimitMode(CANSpeedController::kLimitMode_SwitchInputsOnly);
-		hw::actualTalon->ConfigNeutralMode(CANSpeedController::NeutralMode::kNeutralMode_Brake);
-	}
 };
 
 #endif /* BUCKET_H_ */

@@ -20,9 +20,6 @@ namespace RobotPrivate {
 bool isDebugMode(){
 	return RobotPrivate::debugMode;
 }
-bool isTrainingMode(){
-	return RobotPrivate::trainingMode;
-}
 
 // Load necessary files
 
@@ -143,27 +140,20 @@ public:
 				if(!RobotPrivate::lOver3){
 					switch(RobotPrivate::debugKey){
 					case 0b1001:
-						if(!RobotPrivate::debugMode){
-							RobotPrivate::debugMode = true;
+						RobotPrivate::debugMode = !RobotPrivate::debugMode;
 
-							std::cout << "Debug mode activated.\n";
-						} else{
-							RobotPrivate::debugMode = false;
-							std::cout << "Debug mode is now disabled.\n";
-						}
+						std::cout << ("Debug mode activated.\n" : "Debug mode is now disabled: " ? RobotPrivate::DebugMode) << "\n";
+						RobotPrivate::debugMode = false;
 						break;
 					case 0b101:
 						std::cout << "Autonomous training mode activated.\n";
-						if(!RobotPrivate::trainingMode){
-							RobotPrivate::trainingMode = true;
-							for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)
-								Module* module = RobotPrivate::modules[a]; // Creates temporary variable `module` and sets it to the current module
-								module->ClearAuto(); // Runs the module's Autonomous code
-							}
-						} else{
-							std::cout << "Autonomous training mode is now disabled: " << RobotPrivate::debugKey << "\n";
-							RobotPrivate::trainingMode = false;
-						}
+						RobotPrivate::debugMode = true;
+						for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)
+									Module* module = RobotPrivate::modules[a]; // Creates temporary variable `module` and sets it to the current module
+									module->ClearAuto(); // Runs the module's Autonomous code
+								}
+						std::cout << "Autonomous training mode is now disabled: " << RobotPrivate::debugKey << "\n";
+						RobotPrivate::trainingMode = false;
 						break;
 					}
 					RobotPrivate::debugKey = 0;

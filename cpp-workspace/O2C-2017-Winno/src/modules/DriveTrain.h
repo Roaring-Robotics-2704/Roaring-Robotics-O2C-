@@ -101,17 +101,12 @@ public:
 		}
 #endif
 		SmartDashboard::PutNumber("DriveTrain speed", speedFactor);
-		SmartDashboard::PutNumber("Talon Encoder (Port 1)", hw::actualTalon->GetSensorCollection().GetQuadraturePosition());
-
-		SmartDashboard::PutBoolean("Talon Limit (Top)", hw::actualTalon->GetSensorCollection().GetPinStateQuadA());
-		SmartDashboard::PutBoolean("Talon Limit (Bottom)", hw::actualTalon->GetSensorCollection().GetPinStateQuadB());
-
 
 #ifdef CONTROLLER_ALT_1
 #endif
 		rightAxisZ *= 0.35;
 
-		 if(isDebugMode()){
+		 if(isTrainingMode()){
 			 autoStates.push_back(leftAxisX);
 			 autoStates.push_back(leftAxisY);
 			 autoStates.push_back(rightAxisZ);
