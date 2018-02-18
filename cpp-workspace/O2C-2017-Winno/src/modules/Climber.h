@@ -16,7 +16,7 @@ public:
 
 		if(winch){
 			hw::winchVictor1->Set(.7);		//Activate winch
-			hw::winchVictor2->Set(.7);
+			hw::winchVictor2->Set(-.7);
 		} else{
 			hw::winchVictor1->Set(0);		//Turn off winch
 			hw::winchVictor2->Set(0);

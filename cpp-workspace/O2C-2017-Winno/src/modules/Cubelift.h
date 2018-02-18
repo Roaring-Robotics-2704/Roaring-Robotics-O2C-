@@ -48,8 +48,7 @@ class Cubelift : public Module {
 	}
 
 	void ModuleInit(){
-		hw::actualTalon->ConfigLimitMode(CANSpeedController::kLimitMode_SwitchInputsOnly);
-		hw::actualTalon->ConfigNeutralMode(CANSpeedController::NeutralMode::kNeutralMode_Brake);
+
 	}
 };
 
