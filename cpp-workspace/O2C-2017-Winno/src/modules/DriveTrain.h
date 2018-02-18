@@ -112,15 +112,19 @@ public:
 			 autoStates.push_back(rightAxisZ);
 			 autoStates.push_back(AutonomousPrivate::autoTimer->Get());
 		 }
-		 hw::rd->DriveCartesian(leftAxisX, leftAxisY, rightAxisZ);
+		 if(!isLifting){
+			 hw::rd->DriveCartesian(leftAxisX, leftAxisY, rightAxisZ);
+		 }
 	}
 	void ModeChange(){
 		DriveTrainPrivate::autoIx = 0;
 	}
 	void Autonomous(){
 		if(DriveTrainPrivate::autoIx < autoStates.size() && AutonomousPrivate::autoTimer->Get() >= autoStates[DriveTrainPrivate::autoIx + 3]){
-			hw::rd->DriveCartesian(autoStates[DriveTrainPrivate::autoIx], autoStates[DriveTrainPrivate::autoIx + 1], autoStates[DriveTrainPrivate::autoIx + 2]);
-			DriveTrainPrivate::autoIx += 4;
+			if(!isLifting){
+				hw::rd->DriveCartesian(autoStates[DriveTrainPrivate::autoIx], autoStates[DriveTrainPrivate::autoIx + 1], autoStates[DriveTrainPrivate::autoIx + 2]);
+				DriveTrainPrivate::autoIx += 4;
+			}
 		}
 	}
 	void ModuleInit(){

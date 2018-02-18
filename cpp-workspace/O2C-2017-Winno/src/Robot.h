@@ -7,6 +7,8 @@
 
 #define PI 3.14159265359
 
+bool isLifting = false;
+
 namespace RobotPrivate {
 	bool lOver1 = false;
 	bool lOver2 = false;

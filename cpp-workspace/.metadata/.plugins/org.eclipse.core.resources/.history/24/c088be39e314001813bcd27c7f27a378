@@ -1,0 +1,30 @@
+/*
+ * Climber.h
+ *
+ *  Created on: Feb 10, 2018
+ *      Author: epeterson
+ */
+
+#ifndef SRC_MODULES_CLIMBER_H_
+#define SRC_MODULES_CLIMBER_H_
+
+class Climber : public Module {
+public:
+	void OperatorControl(){
+		bool winch = hw::stick->GetRawButton(8);
+		isLifting = winch;
+
+		if(winch){
+			hw::winchVictor1->Set(max(0, hw::stick->GetX()));		//Activate winch
+			hw::winchVictor2->Set(min(0, hw::stick->GetX()));
+		} else{
+			hw::winchVictor1->Set(0);		//Turn off winch
+			hw::winchVictor2->Set(0);
+		}
+	}
+};
+
+
+
+
+#endif /* SRC_MODULES_CLIMBER_H_ */
