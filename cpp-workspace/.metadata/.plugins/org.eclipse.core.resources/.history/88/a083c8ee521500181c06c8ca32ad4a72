@@ -1,0 +1,14 @@
+#ifndef AUTONOMOUS_ENTRY_H
+#define AUTONOMOUS_ENTRY_H
+
+class AutonomousEntry{
+private:
+	vector<unsigned int> sizes;
+	vector<double> values;
+public:
+	vector<double> getNextValues(){
+
+	}
+};
+
+#endif

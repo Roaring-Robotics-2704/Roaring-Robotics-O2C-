@@ -1,0 +1,35 @@
+#ifndef AUTONOMOUS_ENTRY_H
+#define AUTONOMOUS_ENTRY_H
+
+class AutonomousEntry{
+private:
+	vector<unsigned long> sizes;
+	vector<double> values;
+	size_t ixS = 0;
+	size_t ixV = 0;
+public:
+	pair<vector<double>, double> getNextValues(){
+		if(ixS >= sizes.size()){
+			return NULL;
+		}
+		vector<double> data;
+		double t;
+		size_t a=0;
+		for(; a<sizes[ixS]; a++){
+			data.push_back(values[ixV ++]);
+		}
+		data.push_back(values[ixV ++]);
+
+		ixS ++;
+	}
+	void putLastValues(vector<double> data, double t){
+		size_t six = sizes.size();
+		sizes.push_back(0);
+		for(double d : data){
+			values.push_back(d);
+		}
+		sizes[six] = data.size();
+	}
+};
+
+#endif

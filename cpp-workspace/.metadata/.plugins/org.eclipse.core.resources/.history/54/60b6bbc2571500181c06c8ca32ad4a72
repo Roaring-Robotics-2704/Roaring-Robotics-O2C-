@@ -1,0 +1,58 @@
+/*
+ * AutonomousMain.h
+ *
+ *  Created on: Jul 1, 2017
+ *      Author: cryog
+ */
+
+#ifndef AUTONOMOUSMAIN_H_
+#define AUTONOMOUSMAIN_H_
+
+#include "unregisteredModules/AutonomousEntry.h"
+
+
+namespace AutonomousPrivate{
+	bool running;
+	static frc::Timer* autoTimer = new frc::Timer();
+	static vector<Module*> autoModules;
+	static vector<unsigned long> autoModuleIds;
+	map<unsigned long, map<unsigned long, AutonomousEntry*>> autoData;
+}
+class Autonomous : public Module{
+public:
+	void ModuleInit(){
+		frc::SmartDashboard::SetDefaultNumber("Starting position (1, 2 or 3)", 0);
+		AutonomousPrivate::autoTimer->Reset();
+		AutonomousPrivate::autoTimer->Stop();
+	}
+	Autonomous(){
+	}
+	void ModeChange(){
+		AutonomousPrivate::autoTimer->Reset();
+		AutonomousPrivate::autoTimer->Stop();
+	}
+	static void registerAutoModule(Module* m){
+		unsigned long tmid = m->ModuleId();
+		AutonomousPrivate::autoModules.push_back(m);
+		AutonomousPrivate::autoModuleIds.push_back(tmid);
+		AutonomousPrivate::autoData.emplace(tmid, new AutonomousEntry());
+	}
+	void ClearAuto(){
+		for(unsigned long id : AutonomousPrivate::autoModuleIds){
+			AutonomousPrivate::autoData[id][0]->ixS = 0;
+			AutonomousPrivate::autoData[id][0]->ixV = 0;
+			AutonomousPrivate::autoData[id][0]->clear();
+
+		}
+	}
+	vector<double> getAutonomousData(Module* m){ // Returns empty vector if there's no data to return or it's too early to retrurn data
+		unsigned long id = m->ModuleId();
+		double d = AutonomousPrivate::autoData[id][hw::ds->GetLocation()]->peekAtNextValues()->second;
+		if(d > AutonomousPrivate::autoTimer->Get()){
+			return AutonomousPrivate::autoData[id][hw::ds->GetLocation()]->getNextValues()->first;
+		}
+		return vector<double>();
+	}
+};
+
+#endif /* AUTONOMOUSMAIN_H_ */

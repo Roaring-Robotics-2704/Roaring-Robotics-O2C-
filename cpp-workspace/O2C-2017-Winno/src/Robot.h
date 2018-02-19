@@ -49,9 +49,12 @@ bool isTrainingMode(){
 #include <Encoder.h>
 #include <AnalogGyro.h>
 #include <math.h>
+#include <map>
 
 #include "Hardware.h" // Load the robot's hardware from Hardware.h
 #include "Module.h" // Load the robot module template. See the module code in other files
+
+#include "modules/Autonomous.h"
 
 // Done loading necessary files
 
@@ -205,6 +208,7 @@ public:
 		RobotPrivate::modules = (Module**) realloc(RobotPrivate::modules, ++RobotPrivate::registeredModules * sizeof(Module*));
 			// ^^^ Increases the module list's size to allow for the storing of the new module, keeping the existing contents
 		RobotPrivate::modules[RobotPrivate::registeredModules-1] = module; // Sets the module list's last element to the new module
+		AutonomousMain::registerAutoModule(module);
 	}
 };
 
