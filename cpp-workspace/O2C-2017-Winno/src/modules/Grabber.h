@@ -12,11 +12,11 @@ class Grabber : public Module {
 			bool eject  = hw::stick->GetRawButton(2);
 
 			if(grab){
-				hw::lgrVic->Set(.7);		//rotate motors to grab cube (left)
-				hw::rgrVic->Set(.7);		//rotate motors to grab cube (right)
+				hw::lgrVic->Set(-.7);		//rotate motors to grab cube (left)
+				hw::rgrVic->Set(-.7);		//rotate motors to grab cube (right)
 			} else if(eject){
-					hw::lgrVic->Set(-.7); //rotate motors opposite direction to eject cube (left)
-					hw::rgrVic->Set(-.7); //rotate motors opposite direction to eject cube (right)
+					hw::lgrVic->Set(.7); //rotate motors opposite direction to eject cube (left)
+					hw::rgrVic->Set(.7); //rotate motors opposite direction to eject cube (right)
 			} else{
 				hw::lgrVic->Set(0);		//No motion (left)
 				hw::rgrVic->Set(0);		//No motion (right)

@@ -26,7 +26,7 @@ class Cubelift : public Module {
 			// Buttons to control the upwards and downwards motion of the cube lift
 			if(up){
 				if (!top)
-					hw::actualTalon->Set(ControlMode::PercentOutput, .5);		//upwards motion of cube lift
+					hw::actualTalon->Set(ControlMode::PercentOutput, .7);		//upwards motion of cube lift
 			} else if(down){
 				if (!bot)
 					hw::actualTalon->Set(ControlMode::PercentOutput, -.5); //downwards motion of cube lift
