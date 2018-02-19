@@ -38,13 +38,8 @@ public:
 				if (!bot)
 					hw::actualTalon->Set(ControlMode::PercentOutput, -.5); //downwards motion of cube lift
 			} else{
-				if(fabs(quadPos - encoderHeight) < correct_accept_range){
-					hw::actualTalon->Set(ControlMode::PercentOutput, 0);		//No motion
-				} else if(quadPos > encoderHeight){
-					hw::actualTalon->Set(ControlMode::PercentOutput, correct_up_power);
-				} else if(quadPos < encoderHeight){
-					hw::actualTalon->Set(ControlMode::PercentOutput, correct_down_power);
-				}
+				if(quadPos)
+				hw::actualTalon->Set(ControlMode::PercentOutput, 0);		//No motion
 			}
 
 			SmartDashboard::PutNumber("Talon Encoder (Port 1)", quadPos);

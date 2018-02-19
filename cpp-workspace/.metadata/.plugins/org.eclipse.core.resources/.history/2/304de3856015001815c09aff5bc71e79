@@ -7,13 +7,6 @@
 #define CUBELIFT_H_
 
 class Cubelift : public Module {
-private:
-	double encoderHeight;
-	bool hasBeenMoved = false;
-	double correct_up_power = .5;
-	double correct_down_power = .3;
-	double correct_accept_range = 0;
-public:
 	 void OperatorControl(){
 		 if(isDebugMode()){
 
@@ -29,7 +22,7 @@ public:
 			bool up = hw::stick->GetRawButton(8);
 			bool down  = hw::stick->GetRawButton(6);
 #endif
-			double quadPos = hw::actualTalon->GetSensorCollection().GetQuadraturePosition();
+
 			// Buttons to control the upwards and downwards motion of the cube lift
 			if(up){
 				if (!top)
@@ -38,16 +31,13 @@ public:
 				if (!bot)
 					hw::actualTalon->Set(ControlMode::PercentOutput, -.5); //downwards motion of cube lift
 			} else{
-				if(fabs(quadPos - encoderHeight) < correct_accept_range){
-					hw::actualTalon->Set(ControlMode::PercentOutput, 0);		//No motion
-				} else if(quadPos > encoderHeight){
-					hw::actualTalon->Set(ControlMode::PercentOutput, correct_up_power);
-				} else if(quadPos < encoderHeight){
-					hw::actualTalon->Set(ControlMode::PercentOutput, correct_down_power);
-				}
+				hw::actualTalon->Set(ControlMode::PercentOutput, 0);		//No motion
 			}
 
-			SmartDashboard::PutNumber("Talon Encoder (Port 1)", quadPos);
+			SmartDashboard::PutNumber("Talon Encoder (Port 1)", hw::actualTalon->GetSensorCollection().GetQuadraturePosition());
+
+			SmartDashboard::PutBoolean("Talon Limit (Top / Fwd)", hw::actualTalon->GetSensorCollection().GetPinStateQuadA());
+			SmartDashboard::PutBoolean("Talon Limit (Bottom / Rev)", hw::actualTalon->GetSensorCollection().GetPinStateQuadB());
 
 	}
 
