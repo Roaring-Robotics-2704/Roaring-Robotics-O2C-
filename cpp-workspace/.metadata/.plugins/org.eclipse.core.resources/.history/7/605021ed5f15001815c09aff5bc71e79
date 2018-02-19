@@ -15,7 +15,7 @@ public:
 		s << a;
 		s << "_";
 		s << b;
-		s << "-frc-2704-robot-autonomous-save.txt";
+		s << "-frc-2704-robot-autonomous.txt"
 	}
 
 	pair<vector<double>, double>* peekAtNextValues(){
