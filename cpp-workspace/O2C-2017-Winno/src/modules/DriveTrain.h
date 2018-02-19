@@ -52,8 +52,6 @@ namespace DriveTrainPrivate{
 	size_t autoIx;
 }
 class DriveTrain : public Module { // The code that drives the robot
-private:
-	vector<double> autoStates = vector<double>();
 public:
 	void OperatorControl(){
 		double leftAxisX = hw::stick->GetX(); // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
@@ -108,9 +106,12 @@ public:
 
 		 if(!isLifting){
 			 if(isTrainingMode()){
+				 vector<double> autoStates;
 				 autoStates.push_back(leftAxisX);
 				 autoStates.push_back(leftAxisY);
 				 autoStates.push_back(rightAxisZ);
+
+				 AutonomousMain::putAutonomousData(this, autoStates);
 			 }
 			 hw::rd->DriveCartesian(leftAxisX, leftAxisY, rightAxisZ);
 		 }
@@ -119,9 +120,11 @@ public:
 		DriveTrainPrivate::autoIx = 0;
 	}
 	void Autonomous(){
+		vector<double> autoData = AutonomousMain::getAutonomousData(this);
+		hw::rd->DriveCartesian(autoData[0], autoData[1], autoData[2]);
 	}
 	void ModuleInit(){
-		//
+		AutonomousMain::registerAutoModule(this);
 	}
 };
 

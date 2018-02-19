@@ -50,7 +50,7 @@ public:
 
 		}
 	}
-	vector<double> getAutonomousData(Module* m){ // Returns empty vector if there's no data to return or it's too early to retrurn data
+	static vector<double> getAutonomousData(Module* m){ // Returns empty vector if there's no data to return or it's too early to retrurn data
 		unsigned long id = m->ModuleId();
 		double d = AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->peekAtNextValues()->second;
 		if(d > AutonomousPrivate::autoTimer->Get()){
@@ -58,7 +58,7 @@ public:
 		}
 		return vector<double>();
 	}
-	void putAutonomousData(Module* m, vector<double> d){
+	static void putAutonomousData(Module* m, vector<double> d){
 		AutonomousPrivate::autoData[m->ModuleId()][DriverStation::GetInstance().GetLocation()]->putLastValues(d, AutonomousPrivate::autoTimer->Get());
 	}
 	void Autonomous(){
