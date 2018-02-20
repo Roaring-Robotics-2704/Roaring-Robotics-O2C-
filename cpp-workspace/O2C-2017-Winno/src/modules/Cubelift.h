@@ -10,9 +10,10 @@ class Cubelift : public Module {
 private:
 	double encoderHeight;
 	bool hasBeenMoved = false;
-	double correct_up_power = .5;
-	double correct_down_power = .3;
+	double correct_up_power = .35;
+	double correct_down_power = 0.0;
 	double correct_accept_range = 0;
+	bool a = false;
 public:
 	 void OperatorControl(){
 		 if(isDebugMode()){
@@ -32,18 +33,32 @@ public:
 			double quadPos = hw::actualTalon->GetSensorCollection().GetQuadraturePosition();
 			// Buttons to control the upwards and downwards motion of the cube lift
 			if(up){
-				if (!top)
+				if (!top){
 					hw::actualTalon->Set(ControlMode::PercentOutput, .7);		//upwards motion of cube lift
+					hasBeenMoved = true;
+					a = false;
+				}
 			} else if(down){
-				if (!bot)
+				if (!bot){
 					hw::actualTalon->Set(ControlMode::PercentOutput, -.5); //downwards motion of cube lift
+					hasBeenMoved = true;
+					a = false;
+				}
 			} else{
+				hw::actualTalon->Set(ControlMode::PercentOutput, 0);		//No motion
+			}
+			if(hasBeenMoved && !(top || bot)){
+				if(!a){
+					encoderHeight = quadPos;
+					a = true;
+				}
 				if(fabs(quadPos - encoderHeight) < correct_accept_range){
 					hw::actualTalon->Set(ControlMode::PercentOutput, 0);		//No motion
 				} else if(quadPos > encoderHeight){
 					hw::actualTalon->Set(ControlMode::PercentOutput, correct_up_power);
 				} else if(quadPos < encoderHeight){
 					hw::actualTalon->Set(ControlMode::PercentOutput, correct_down_power);
+				} else{
 				}
 			}
 
@@ -53,12 +68,10 @@ public:
 
 	void Autonomous(){
 
-
-
 	}
 
 	void ModuleInit(){
-
+		AutonomousMain::registerAutoModule(this);
 	}
 };
 

@@ -3,12 +3,11 @@
 
 class AutonomousEntry{
 private:
-	vector<unsigned long> sizes;
-	vector<double> values;
+	vector<unsigned long> times;
+	vector<vector<double> > values;
 	string name = "";
 public:
-	size_t ixS = 0;
-	size_t ixV = 0;
+	size_t ix = 0;
 
 	AutonomousEntry(unsigned long a, unsigned long b){
 		stringstream s;
@@ -18,48 +17,25 @@ public:
 		s << "-frc-2704-robot-autonomous-save.txt";
 	}
 
-	pair<vector<double>, double>* peekAtNextValues(){
-		size_t ixS2 = ixS;
-		size_t ixV2 = ixV;
-			if(ixS2 >= sizes.size()){
-				return NULL;
-			}
-			vector<double> data;
-			double t;
-			size_t a=0;
-			for(; a<sizes[ixS2]; a++){
-				data.push_back(values[ixV2 ++]);
-			}
-			t = values[ixV2 ++];
-
-			return new pair<vector<double>, double>(data, t);
+	double peekAtNextValues(){
+		if(ix < times.size())
+			return times[ix];
+		return -1.0;
 	}
 	pair<vector<double>, double>* getNextValues(){
-		if(ixS >= sizes.size()){
-			return NULL;
+		if(ix < times.size()){
+			pair<vector<double>, double>* ret = new pair<vector<double>, double>(values[ix], times[ix]);
+			ix ++;
+			return ret;
 		}
-		vector<double> data;
-		double t;
-		size_t a=0;
-		for(; a<sizes[ixS]; a++){
-			data.push_back(values[ixV ++]);
-		}
-		t = values[ixV ++];
-
-		ixS ++;
-		return new pair<vector<double>, double>(data, t);
+		return NULL;
 	}
 	void putLastValues(vector<double> data, double t){
-		size_t six = sizes.size();
-		sizes.push_back(0);
-		for(double d : data){
-			values.push_back(d);
-		}
-		values.push_back(t);
-		sizes[six] = data.size();
+		values.push_back(data);
+		times.push_back(t);
 	}
 	void clear(){
-		sizes.clear();
+		times.clear();
 		values.clear();
 	}
 	void save(string filename){
@@ -67,12 +43,15 @@ public:
 			return;
 		}
 		ofstream ofs(filename);
-		for(unsigned long a : sizes){
+		for(unsigned long a : times){
 			ofs << a << " ";
 		}
 		ofs << "/ ";
-		for(double v : values){
-			ofs << v << " ";
+		for(vector<double> d2 : values){
+			for(double d : d2){
+				ofs << d << " ";
+			}
+			ofs << "; ";
 		}
 		ofs << "/ ";
 	}
@@ -91,16 +70,23 @@ public:
 			}
 			unsigned long b;
 			stringstream(a) >> b;
-			sizes.push_back(b);
+			times.push_back(b);
 		}
 		for(;;){
 			ifs >> a;
 			if(a == "/"){
 				break;
 			}
-			double b;
-			stringstream(a) >> b;
-			values.push_back(b);
+			for(;;){
+				string c;
+				ifs >> c;
+				if(c == ";"){
+					break;
+				}
+				double b;
+				stringstream(c) >> b;
+				values[values.size() - 1].push_back(b);
+			}
 		}
 	}
 };

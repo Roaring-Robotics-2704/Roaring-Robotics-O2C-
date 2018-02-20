@@ -121,7 +121,11 @@ public:
 	}
 	void Autonomous(){
 		vector<double> autoData = AutonomousMain::getAutonomousData(this);
-		hw::rd->DriveCartesian(autoData[0], autoData[1], autoData[2]);
+		SmartDashboard::PutNumber("Autonomous Buffer Length", autoData.size());
+		if(autoData.size() == 3)
+			hw::rd->DriveCartesian(autoData[0], autoData[1], autoData[2]);
+		else
+			hw::rd->DriveCartesian(0.0, 0.0, 0.0);
 	}
 	void ModuleInit(){
 		AutonomousMain::registerAutoModule(this);

@@ -27,8 +27,8 @@ public:
 		AutonomousPrivate::autoTimer->Stop();
 	}
 	void ModeChange(){
-		AutonomousPrivate::autoTimer->Reset();
 		AutonomousPrivate::autoTimer->Stop();
+		AutonomousPrivate::autoTimer->Reset();
 		AutonomousPrivate::hasRunOnce = false;
 	}
 	void Disabled(){
@@ -44,24 +44,44 @@ public:
 	}
 	void ClearAuto(){
 		for(unsigned long id : AutonomousPrivate::autoModuleIds){
-			AutonomousPrivate::autoData[id][0]->ixS = 0;
-			AutonomousPrivate::autoData[id][0]->ixV = 0;
+			AutonomousPrivate::autoData[id][0]->ix = 0;
 			AutonomousPrivate::autoData[id][0]->clear();
 
 		}
 	}
 	static vector<double> getAutonomousData(Module* m){ // Returns empty vector if there's no data to return or it's too early to retrurn data
 		unsigned long id = m->ModuleId();
-		double d = AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->peekAtNextValues()->second;
-		if(d > AutonomousPrivate::autoTimer->Get()){
-			return AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->getNextValues()->first;
+		double d = AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->peekAtNextValues();
+		SmartDashboard::PutNumber("Next AutoInstruction Time", d);
+		if(d < AutonomousPrivate::autoTimer->Get() && d >= 0.0){
+			pair<vector<double>, double>* pr = AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->getNextValues();
+			if(pr != NULL)
+				return pr->first;
 		}
-		return vector<double>();
+		vector<double> ret;
+		return ret;
 	}
 	static void putAutonomousData(Module* m, vector<double> d){
 		AutonomousPrivate::autoData[m->ModuleId()][DriverStation::GetInstance().GetLocation()]->putLastValues(d, AutonomousPrivate::autoTimer->Get());
 	}
 	void Autonomous(){
+		if(!AutonomousPrivate::hasRunOnce){
+			AutonomousPrivate::hasRunOnce = true;
+			AutonomousPrivate::autoTimer->Start();
+		}
+	}
+	void OperatorControl(){
+		if(isTrainingMode()){
+			if(!AutonomousPrivate::hasRunOnce){
+				AutonomousPrivate::hasRunOnce = true;
+				AutonomousPrivate::autoTimer->Start();
+			}
+		} else{
+			AutonomousPrivate::hasRunOnce = false;
+			AutonomousPrivate::autoTimer->Stop();
+			AutonomousPrivate::autoTimer->Reset();
+
+		}
 	}
 };
 

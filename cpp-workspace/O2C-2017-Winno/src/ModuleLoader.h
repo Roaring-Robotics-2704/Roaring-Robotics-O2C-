@@ -19,6 +19,7 @@
 #include "modules/ReflectorSensors.h"
 #include "modules/Grabber.h"
 #include "modules/Climber.h"
+#include "modules/StatusReportModule.h"
 
 /*
  * Put the module-loading code here.
@@ -33,6 +34,7 @@ void loadModules(){
 	//robot->registerModule(new ReflectorSensors());
 	robot->registerModule(new Grabber());
 	robot->registerModule(new Climber());
+	robot->registerModule(new StatusReportModule());
 
 }
 
