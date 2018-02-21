@@ -16,12 +16,14 @@ public:
 		SmartDashboard::PutNumber("Autonomous Training", isTrainingMode());
 		SmartDashboard::PutNumber("Current Debug Key", RobotPrivate::debugKey);
 		SmartDashboard::PutNumber("Current Auto Time", AutonomousPrivate::autoTimer->Get());
+		SmartDashboard::PutNumber("Field Position", DriverStation::GetInstance().GetLocation());
 	}
 	void Disabled(){
 		SmartDashboard::PutNumber("Debug Mode", isDebugMode());
 		SmartDashboard::PutNumber("Autonomous Training", isTrainingMode());
 		SmartDashboard::PutNumber("Current Debug Key", RobotPrivate::debugKey);
 		SmartDashboard::PutNumber("Current Auto Time", AutonomousPrivate::autoTimer->Get());
+		SmartDashboard::PutNumber("Field Position", DriverStation::GetInstance().GetLocation());
 	}
 	void Autonomous(){
 
@@ -29,6 +31,7 @@ public:
 		SmartDashboard::PutNumber("Autonomous Training", isTrainingMode());
 		SmartDashboard::PutNumber("Current Debug Key", RobotPrivate::debugKey);
 		SmartDashboard::PutNumber("Current Auto Time", AutonomousPrivate::autoTimer->Get());
+		SmartDashboard::PutNumber("Field Position", DriverStation::GetInstance().GetLocation());
 	}
 };
 

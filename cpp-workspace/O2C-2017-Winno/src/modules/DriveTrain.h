@@ -114,6 +114,8 @@ public:
 				 AutonomousMain::putAutonomousData(this, autoStates);
 			 }
 			 hw::rd->DriveCartesian(leftAxisX, leftAxisY, rightAxisZ);
+		 } else{
+			 AutonomousMain::putAutonomousData(this, vector<double>{0.0, 0.0, 0.0});
 		 }
 	}
 	void ModeChange(){

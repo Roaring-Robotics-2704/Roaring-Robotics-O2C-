@@ -3,20 +3,26 @@
 
 class AutonomousEntry{
 private:
-	vector<unsigned long> times;
-	vector<vector<double> > values;
+	vector<double> times;
+	vector<vector<double>> values;
+	vector<double> tmpVal;
 	string name = "";
 public:
 	size_t ix = 0;
 
 	AutonomousEntry(unsigned long a, unsigned long b){
 		stringstream s;
+		s << "/home/lvuser/";
 		s << a;
 		s << "_";
 		s << b;
 		s << "-frc-2704-robot-autonomous-save.txt";
+		name = s.str();
 	}
 
+	string getFileName(){
+		return name;
+	}
 	double peekAtNextValues(){
 		if(ix < times.size())
 			return times[ix];
@@ -29,6 +35,12 @@ public:
 			return ret;
 		}
 		return NULL;
+	}
+	void putTmpVal(vector<double> data){
+		tmpVal = data;
+	}
+	vector<double> getTmpVal(){
+		return tmpVal;
 	}
 	void putLastValues(vector<double> data, double t){
 		values.push_back(data);
@@ -43,51 +55,50 @@ public:
 			return;
 		}
 		ofstream ofs(filename);
-		for(unsigned long a : times){
+		if(!ofs.is_open()){
+			return;
+		}
+		ofs << times.size() << " ";
+		for(double a : times){
 			ofs << a << " ";
 		}
-		ofs << "/ ";
+		ofs << values.size() << " ";
 		for(vector<double> d2 : values){
+			ofs << d2.size() << " ";
 			for(double d : d2){
 				ofs << d << " ";
 			}
-			ofs << "; ";
 		}
-		ofs << "/ ";
+		ofs.close();
 	}
 	void load(string filename){
 		ifstream ifs(filename);
-		if(!ifs.is_open()){
-			return;
-		}
 		clear();
-
-		string a;
-		for(;;){
-			ifs >> a;
-			if(a == "/"){
-				break;
-			}
-			unsigned long b;
-			stringstream(a) >> b;
-			times.push_back(b);
+		size_t ts;
+		ifs >> ts;
+		for(size_t a=0; a<ts; a++){
+			string s;
+			ifs >> s;
+			double d;
+			stringstream(s) >> d;
+			times.push_back(d);
 		}
-		for(;;){
-			ifs >> a;
-			if(a == "/"){
-				break;
+		size_t vs;
+		ifs >> vs;
+		for(size_t a=0; a<vs; a++){
+			size_t vcs;
+			ifs >> vcs;
+			vector<double> v;
+			for(size_t b=0; b<vcs; b++){
+				string s;
+				ifs >> s;
+				double d;
+				stringstream(s) >> d;
+				v.push_back(d);
 			}
-			for(;;){
-				string c;
-				ifs >> c;
-				if(c == ";"){
-					break;
-				}
-				double b;
-				stringstream(c) >> b;
-				values[values.size() - 1].push_back(b);
-			}
+			values.push_back(v);
 		}
+		ifs.close();
 	}
 };
 

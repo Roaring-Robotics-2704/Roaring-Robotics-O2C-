@@ -54,6 +54,8 @@ bool isTrainingMode(){
 #include "Hardware.h" // Load the robot's hardware from Hardware.h
 #include "Module.h" // Load the robot module template. See the module code in other files
 
+#include "unregisteredModules/libc.h"
+
 #include "modules/Autonomous.h"
 
 // Done loading necessary files
@@ -124,8 +126,8 @@ public:
 				module->OperatorControl(); // Runs the module's TeleOp code
 			}
 #ifdef CONTROLLER_ALT_1
-			bool overBtn1 = hw::stick->GetRawButton(10);
-			bool overBtn2 = hw::stick->GetRawButton(9);
+			bool overBtn1 = hw::stick->GetRawButton(12);
+			bool overBtn2 = hw::stick->GetRawButton(11);
 			bool b1 = false;
 			bool b2 = false;
 			if(overBtn1){
@@ -168,13 +170,18 @@ public:
 						} else{
 							std::cout << "Autonomous training mode is now disabled: " << RobotPrivate::debugKey << "\n";
 							RobotPrivate::trainingMode = false;
+							AutonomousMain::save();
 						}
 						break;
+					default:
+						RobotPrivate::debugMode = false;
+						RobotPrivate::trainingMode = false;
+						AutonomousMain::save();
 					}
 					RobotPrivate::debugKey = 0;
 					RobotPrivate::debugIx = 0;
+					RobotPrivate::lOver3 = true;
 				}
-				RobotPrivate::lOver3 = true;
 			} else if(b1){
 				long long a = 1 << (RobotPrivate::debugIx ++);
 				RobotPrivate::debugKey ^= a;

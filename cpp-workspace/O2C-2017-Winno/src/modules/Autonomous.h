@@ -18,6 +18,7 @@ namespace AutonomousPrivate{
 	static vector<unsigned long> autoModuleIds;
 	map<unsigned long, map<int, AutonomousEntry*>> autoData;
 	bool hasRunOnce = false;
+	bool loaded = false;
 }
 class AutonomousMain : public Module{
 public:
@@ -30,22 +31,34 @@ public:
 		AutonomousPrivate::autoTimer->Stop();
 		AutonomousPrivate::autoTimer->Reset();
 		AutonomousPrivate::hasRunOnce = false;
+		save();
 	}
 	void Disabled(){
 		AutonomousPrivate::hasRunOnce = false;
+	}
+	static void save(){
+		for(unsigned long l : AutonomousPrivate::autoModuleIds){
+					for(int x=0; x<=3; x++){
+						AutonomousEntry* e = AutonomousPrivate::autoData[l][x];
+						e->save(e->getFileName());
+					}
+				}
 	}
 	static void registerAutoModule(Module* m){
 		unsigned long tmid = m->ModuleId();
 		AutonomousPrivate::autoModules.push_back(m);
 		AutonomousPrivate::autoModuleIds.push_back(tmid);
 		map<int, AutonomousEntry*> mo;
-		mo.emplace(DriverStation::GetInstance().GetLocation(), new AutonomousEntry(tmid, DriverStation::GetInstance().GetLocation()));
+		for(int x=0; x<=3; x++){
+			AutonomousEntry* e = new AutonomousEntry(tmid, x);
+			mo.emplace(x, e);
+		}
 		AutonomousPrivate::autoData.emplace(tmid, mo);
 	}
 	void ClearAuto(){
 		for(unsigned long id : AutonomousPrivate::autoModuleIds){
-			AutonomousPrivate::autoData[id][0]->ix = 0;
-			AutonomousPrivate::autoData[id][0]->clear();
+			AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->ix = 0;
+			AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->clear();
 
 		}
 	}
@@ -56,15 +69,23 @@ public:
 		if(d < AutonomousPrivate::autoTimer->Get() && d >= 0.0){
 			pair<vector<double>, double>* pr = AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->getNextValues();
 			if(pr != NULL)
+				AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->putTmpVal(pr->first);
 				return pr->first;
 		}
-		vector<double> ret;
-		return ret;
+		if(d >= 0.0)
+			return AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->getTmpVal();
+		return vector<double>();
 	}
 	static void putAutonomousData(Module* m, vector<double> d){
 		AutonomousPrivate::autoData[m->ModuleId()][DriverStation::GetInstance().GetLocation()]->putLastValues(d, AutonomousPrivate::autoTimer->Get());
 	}
 	void Autonomous(){
+		if(!AutonomousPrivate::loaded){
+			for(unsigned long id : AutonomousPrivate::autoModuleIds){
+				AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->load(AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->getFileName());
+			}
+			AutonomousPrivate::loaded = true;
+		}
 		if(!AutonomousPrivate::hasRunOnce){
 			AutonomousPrivate::hasRunOnce = true;
 			AutonomousPrivate::autoTimer->Start();

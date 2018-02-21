@@ -30,7 +30,7 @@ void loadModules(){
 	robot->registerModule(new Cubelift());
 	//robot->registerModule(new Calibration());
 	//robot->registerModule(new Uber());
-	robot->registerModule(new Balls());
+	//robot->registerModule(new Balls());
 	//robot->registerModule(new ReflectorSensors());
 	robot->registerModule(new Grabber());
 	robot->registerModule(new Climber());
