@@ -8,30 +8,23 @@
 
 class Grabber : public Module {
 	 void OperatorControl(){
-		 if(isDebugMode()){
+			bool grab = hw::stick->GetRawButton(1);			//Change these buttons later!!
+			bool eject  = hw::stick->GetRawButton(2);
 
-			 return;
-		 }
-#ifdef CONTROLLER_ALT_1
-			bool leftBumper  = hw::stick->GetRawButton(5);
-#else
-			bool leftBumper  = hw::stick->GetRawButton(5);
-#endif
-
-			if(leftBumper){
-				hw::grabServ->SetAngle(120);
+			if(grab){
+				hw::lgrVic->Set(-.7);		//rotate motors to grab cube (left)
+				hw::rgrVic->Set(-.7);		//rotate motors to grab cube (right)
+			} else if(eject){
+					hw::lgrVic->Set(.7); //rotate motors opposite direction to eject cube (left)
+					hw::rgrVic->Set(.7); //rotate motors opposite direction to eject cube (right)
 			} else{
-				hw::grabServ->SetAngle(0);
+				hw::lgrVic->Set(0);		//No motion (left)
+				hw::rgrVic->Set(0);		//No motion (right)
 			}
-
 	}
 
 	void Autonomous(){
-
-
-
 	}
-
 };
 
 #endif /* GRABBER_H_ */

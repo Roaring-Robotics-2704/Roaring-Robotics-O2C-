@@ -7,6 +7,8 @@
 
 #define PI 3.14159265359
 
+bool isLifting = false;
+
 namespace RobotPrivate {
 	bool lOver1 = false;
 	bool lOver2 = false;
@@ -14,10 +16,14 @@ namespace RobotPrivate {
 	bool debugMode = false;
 	long long debugKey = 0;
 	int debugIx = 0;
+	bool trainingMode = false;
 }
 
 bool isDebugMode(){
 	return RobotPrivate::debugMode;
+}
+bool isTrainingMode(){
+	return RobotPrivate::trainingMode;
 }
 
 // Load necessary files
@@ -26,8 +32,13 @@ bool isDebugMode(){
 #include <iostream> // Allows us to output debugging information to the DriverStation
 #include <memory> // Allows for dynamic memory allocation. This is used for maintaining a list of robot modules
 #include <string> // "Hello, world" or something like that
+#include <vector>
 
-#include <Joystick.h> // The
+#include <fstream>
+
+#include <ctre/Phoenix.h>
+
+#include <Joystick.h> // he
 #include <SampleRobot.h> // The base of the robot code (as far as defined by WPILib)
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
@@ -38,9 +49,14 @@ bool isDebugMode(){
 #include <Encoder.h>
 #include <AnalogGyro.h>
 #include <math.h>
+#include <map>
 
 #include "Hardware.h" // Load the robot's hardware from Hardware.h
 #include "Module.h" // Load the robot module template. See the module code in other files
+
+#include "unregisteredModules/libc.h"
+
+#include "modules/Autonomous.h"
 
 // Done loading necessary files
 
@@ -110,8 +126,8 @@ public:
 				module->OperatorControl(); // Runs the module's TeleOp code
 			}
 #ifdef CONTROLLER_ALT_1
-			bool overBtn1 = hw::stick->GetRawButton(10);
-			bool overBtn2 = hw::stick->GetRawButton(9);
+			bool overBtn1 = hw::stick->GetRawButton(12);
+			bool overBtn2 = hw::stick->GetRawButton(11);
 			bool b1 = false;
 			bool b2 = false;
 			if(overBtn1){
@@ -132,17 +148,40 @@ public:
 			}
 			if(overBtn1 && overBtn2){
 				if(!RobotPrivate::lOver3){
-					if(RobotPrivate::debugKey == 0b1001){
-						std::cout << "Debug mode activated.\n";
-						RobotPrivate::debugMode = true;
-					} else{
-						std::cout << "Debug mode is now disabled: " << RobotPrivate::debugKey << "\n";
+					switch(RobotPrivate::debugKey){
+					case 0b1001:
+						if(!RobotPrivate::debugMode){
+							RobotPrivate::debugMode = true;
+
+							std::cout << "Debug mode activated.\n";
+						} else{
+							RobotPrivate::debugMode = false;
+							std::cout << "Debug mode is now disabled.\n";
+						}
+						break;
+					case 0b101:
+						std::cout << "Autonomous training mode activated.\n";
+						if(!RobotPrivate::trainingMode){
+							RobotPrivate::trainingMode = true;
+							for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)
+								Module* module = RobotPrivate::modules[a]; // Creates temporary variable `module` and sets it to the current module
+								module->ClearAuto(); // Runs the module's Autonomous code
+							}
+						} else{
+							std::cout << "Autonomous training mode is now disabled: " << RobotPrivate::debugKey << "\n";
+							RobotPrivate::trainingMode = false;
+							AutonomousMain::save();
+						}
+						break;
+					default:
 						RobotPrivate::debugMode = false;
-						RobotPrivate::debugIx = 0;
+						RobotPrivate::trainingMode = false;
+						AutonomousMain::save();
 					}
 					RobotPrivate::debugKey = 0;
+					RobotPrivate::debugIx = 0;
+					RobotPrivate::lOver3 = true;
 				}
-				RobotPrivate::lOver3 = true;
 			} else if(b1){
 				long long a = 1 << (RobotPrivate::debugIx ++);
 				RobotPrivate::debugKey ^= a;
@@ -176,6 +215,7 @@ public:
 		RobotPrivate::modules = (Module**) realloc(RobotPrivate::modules, ++RobotPrivate::registeredModules * sizeof(Module*));
 			// ^^^ Increases the module list's size to allow for the storing of the new module, keeping the existing contents
 		RobotPrivate::modules[RobotPrivate::registeredModules-1] = module; // Sets the module list's last element to the new module
+		AutonomousMain::registerAutoModule(module);
 	}
 };
 
@@ -188,6 +228,7 @@ void Robot::RobotInit(){
 	std::cout << "Initializing robot modules...\n";
 	loadModules(); // Loads all the modules from "ModuleLoader.h"
 	RobotInit_(); // Finishes the robot init process (look toward the top  of this file)
+	CameraServer::GetInstance()->StartAutomaticCapture();
 
 }
 

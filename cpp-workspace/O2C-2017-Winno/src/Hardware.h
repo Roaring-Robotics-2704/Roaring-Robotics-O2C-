@@ -11,12 +11,33 @@
 namespace hw {
 
 	frc::Joystick* stick; // Declare that the robot has a Joystick. Don't actually bother defining it
-	frc::Victor* flVictor; // Same thing, just with a Victor
-	frc::Victor* frVictor; // etc.
-	frc::Victor* rlVictor; // This is getting boring...
-	frc::Victor* rrVictor; // You don't actually have to read this (or the 2 above it, for that matter)
 
-	frc::Victor* bkVictor;
+#ifndef OLD_BOT
+	WPI_VictorSPX* flVictor; // Same thing, just with a Victor
+	WPI_VictorSPX* frVictor; // etc.
+	WPI_VictorSPX* rlVictor; // This is getting boring...
+	WPI_VictorSPX* rrVictor; // You don't actually have to read this (or the 2 above it, for that matter)
+#else
+	Victor* flVictor;
+	Victor* frVictor;
+	Victor* rlVictor;
+	Victor* rrVictor;
+#endif
+
+	TalonSRX* actualTalon;
+
+//	frc::Talon* bkTalon;
+
+	frc::VictorSP* lgrVic;
+	frc::VictorSP* rgrVic;
+
+	frc::Talon* liftTalon;
+
+	WPI_VictorSPX* winchVictor1;
+	WPI_VictorSPX* winchVictor2;
+
+	frc::DigitalInput* topBkInput;
+	frc::DigitalInput* botBkInput;
 
 	frc::Victor* ballVic0;
 	frc::Victor* ballVic1;
@@ -37,6 +58,7 @@ namespace hw {
 	frc::Relay* pneurelay;
 
 	frc::Servo* grabServ;
+	frc::MecanumDrive* rd;
 }
 
 
@@ -44,12 +66,34 @@ void registerComponents(){ // Oh, here we actually define the hardware
 
 	hw::stick = new frc::Joystick(0); // Initialize the joystick (see "Hardware.h")
 
-	hw::flVictor = new frc::Victor(1); // Initializes the Victor at port 0 to be the Front Left
-	hw::frVictor = new frc::Victor(2); // Initializes the Victor at port 1 to be the Front Right
-	hw::rlVictor = new frc::Victor(4); // Initializes the Victor at port 2 to be the Rear Left
-	hw::rrVictor = new frc::Victor(3); // Initializes the Victor at port 3 to be the Rear Right
+	hw::actualTalon = new TalonSRX(1);
 
-	hw::bkVictor = new frc::Victor(9);
+#ifndef OLD_BOT
+	hw::flVictor = new WPI_VictorSPX(3); // Initializes the Victor at port 0 to be the Front Left
+	hw::frVictor = new WPI_VictorSPX(4); // Initializes the Victor at port 1 to be the Front Right
+	hw::rlVictor = new WPI_VictorSPX(5); // Initializes the Victor at port 2 to be the Rear Left
+	hw::rrVictor = new WPI_VictorSPX(6); // Initializes the Victor at port 3 to be the Rear Right
+#else
+	hw::flVictor = new Victor(0);
+	hw::frVictor = new Victor(1);
+	hw::rlVictor = new Victor(3);
+	hw::rrVictor = new Victor(2);
+	hw::flVictor->SetInverted(true);
+	hw::frVictor->SetInverted(true);
+#endif
+
+//	hw::bkTalon = new frc::Talon(9);		//Change these ports later!!
+
+	hw::lgrVic = new frc::VictorSP(2);
+	hw::rgrVic = new frc::VictorSP(1);
+
+	hw::topBkInput = new frc::DigitalInput(7);	//Change ports later!!
+	hw::botBkInput = new frc::DigitalInput(8);
+
+	hw::liftTalon = new frc::Talon(6);			//Change ports later!!
+
+	hw::winchVictor1 = new WPI_VictorSPX(1);		//Change ports later!!
+	hw::winchVictor2 = new WPI_VictorSPX(2);
 
 	hw::flE = new frc::Encoder(6, 7, false, Encoder::EncodingType::k2X);
 	hw::frE = new frc::Encoder(3, 2, false, Encoder::EncodingType::k2X);
@@ -69,6 +113,7 @@ void registerComponents(){ // Oh, here we actually define the hardware
 	hw::pneurelay = new frc::Relay(0);
 
 	hw::grabServ = new frc::Servo(8);
+	hw::rd = new MecanumDrive(*hw::flVictor, *hw::rlVictor, *hw::frVictor, *hw::rrVictor);
 }
 
 #endif /* SRC_HARDWARE_H_ */
