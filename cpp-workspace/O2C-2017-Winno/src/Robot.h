@@ -228,6 +228,7 @@ void Robot::RobotInit(){
 	std::cout << "Initializing robot modules...\n";
 	loadModules(); // Loads all the modules from "ModuleLoader.h"
 	RobotInit_(); // Finishes the robot init process (look toward the top  of this file)
+	CameraServer::GetInstance()->StartAutomaticCapture();
 
 }
 
