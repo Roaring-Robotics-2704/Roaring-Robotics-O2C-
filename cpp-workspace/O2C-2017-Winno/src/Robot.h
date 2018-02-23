@@ -2,7 +2,7 @@
  * Don't actually edit this file unless you know what you're doing. It's tested and works just fine!
  * If this appears to be broken, it's probably your own code or something...
  */
-#ifndef SRC_ROBOT_H // Test if Robot.h has been loaded yet (this is the "include guard" - I have one in every file except Main.cpp)
+#ifndef SRC_ROBOT_H // Make sure Robot.h has not been loaded yet (this is the "include guard" - I have one in every file except Main.cpp)
 #define SRC_ROBOT_H // It has now!
 
 #define PI 3.14159265359
@@ -29,7 +29,7 @@ bool isTrainingMode(){
 // Load necessary files
 
 #include <WPILib.h>
-#include <iostream> // Allows us to output debugging information to the DriverStation
+#include <iostream> // Allows us to output debugging information to the DriverStation console
 #include <memory> // Allows for dynamic memory allocation. This is used for maintaining a list of robot modules
 #include <string> // "Hello, world" or something like that
 #include <vector>
@@ -45,7 +45,7 @@ bool isTrainingMode(){
 #include <DriverStation.h>
 //#include <RobotDrive.h> // We don't actually use this, I don't know why it's still here
 #include <Timer.h> // Allows for creating waits in the code
-#include <Victor.h> // You should know what this is for...
+#include <Victor.h> // Controls Victor motor controllers
 #include <Encoder.h>
 #include <AnalogGyro.h>
 #include <math.h>
@@ -54,14 +54,15 @@ bool isTrainingMode(){
 #include "Hardware.h" // Load the robot's hardware from Hardware.h
 #include "Module.h" // Load the robot module template. See the module code in other files
 
-#include "unregisteredModules/libc.h"
-#include "unregisteredModules/RobotStatus.h"
+// Code modules not loaded in ModuleLoader.h go here:
+#include "unregisteredModules/libc.h" // Some library functions to use in the code if needed
+#include "unregisteredModules/RobotStatus.h" // The robot is a state machine, why not give it a global state
 
-#include "modules/Autonomous.h"
+#include "modules/Autonomous.h" // Some modules need to be loaded before the rest of the modules; this file references Autonomous.h code, so we need to include it before the first reference
 
 // Done loading necessary files
 
-void* voidpRobotInstance; // This will later point to the Robot's instance so that other things can call to the Robot class
+void* voidpRobotInstance; // This will later point to the Robot's instance so that other things can call to the Robot class. We can't actually declare it as a Robot, since there is no such thing until you look farther down in the file
 namespace RobotPrivate{
 	int registeredModules = 0; // We don't have any modules loaded yet
 	Module** modules = NULL; // A pointer to a module pointer (this can get a bit confusing) being used as an array of modules
@@ -72,6 +73,7 @@ namespace RobotPrivate{
  */
 class Robot: public frc::SampleRobot { // Creates a robot that extends the WPILib SampleRobot (SampleRobot gives more control over
 										// what the robot actually does, despite the fact that we don't use that extra control)
+										// Now we're starting to declare what a Robot is
 private:
 	// Nothing was needed here. Oh, well...
 public:
@@ -84,7 +86,7 @@ public:
 	void RobotInit_() { // Read to the bottom before looking at this
 		std::cout << "Initializing robot hardware...";
 		registerComponents();
-		CameraServer::GetInstance()->StartAutomaticCapture();
+		CameraServer::GetInstance()->StartAutomaticCapture(); // Starts recording camera input and sending it to the DriverStation
 		std::cout << "Initialized robot hardware.";
 		std::cout << "Initializing modules...";
 		for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)
@@ -100,12 +102,12 @@ public:
 	 * This is called once when the robot switches to Autonomous mode.
 	 */
 	void Autonomous() {
+		RobotStatus::gameSpecificMessage = DriverStation::GetInstance().GetGameSpecificMessage(); // The switches are randomized, so this will determine whether the right or left is ours
 		for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)
 			Module* module = RobotPrivate::modules[a]; // Creates temporary variable `module` and sets it to the current module
-			module->ModeChange(); // Runs the module's Autonomous code
+			module->ModeChange(); // Runs the module's ModeChange code. This notifies the module that the robot has switched modes (ex. Autonomous to TeleOp or vice versa)
 		}
 		while (IsAutonomous() && IsEnabled()) { // Check that the robot should still run Autonomous code
-			RobotStatus::gameSpecificMessage = DriverStation::GetInstance().GetGameSpecificMessage();
 			for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)
 				Module* module = RobotPrivate::modules[a]; // Creates temporary variable `module` and sets it to the current module
 				module->Autonomous(); // Runs the module's Autonomous code
@@ -127,9 +129,11 @@ public:
 				Module* module = RobotPrivate::modules[a]; // Creates temporary variable `module` and sets it to the current module
 				module->OperatorControl(); // Runs the module's TeleOp code
 			}
-#ifdef CONTROLLER_ALT_1
-			bool overBtn1 = hw::stick->GetRawButton(12);
-			bool overBtn2 = hw::stick->GetRawButton(11);
+#ifdef CONTROLLER_ALT_1 // This tests whether the robot should use this type of controller. This is used for quick and painless switching between controller types
+			// Following is the robot override code. It should not be messed with unless you have a good reason to mess with it.
+			bool overBtn1 = hw::stick->GetRawButton(12); // Don't use this button for other things if you can help it. If you do, map this button to something relatively trivial
+			bool overBtn2 = hw::stick->GetRawButton(11); // Same with this button
+
 			bool b1 = false;
 			bool b2 = false;
 			if(overBtn1){
@@ -151,7 +155,7 @@ public:
 			if(overBtn1 && overBtn2){
 				if(!RobotPrivate::lOver3){
 					switch(RobotPrivate::debugKey){
-					case 0b1001:
+					case 0b1001: // I test what mode to enable using a bitmask. This allows me to have multiple modes with the same 2 buttons and hide the mode from the drivers when they don't need to use it.
 						if(!RobotPrivate::debugMode){
 							RobotPrivate::debugMode = true;
 
@@ -161,26 +165,26 @@ public:
 							std::cout << "Debug mode is now disabled.\n";
 						}
 						break;
-					case 0b101:
+					case 0b101: // This is for autonomous training mode. Also, if you know what you're doing these bitmasks are in human-readable form (read right to left)
 						if(!RobotPrivate::trainingMode){
 							std::cout << "Autonomous training mode activated.\n";
 							RobotPrivate::trainingMode = true;
 							for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)
 								Module* module = RobotPrivate::modules[a]; // Creates temporary variable `module` and sets it to the current module
-								module->ClearAuto(); // Runs the module's Autonomous code
+								module->ClearAuto(); // Clears the module's Autonomous program to allow a new program to be trained
 							}
-							AutonomousMain::save();
+							AutonomousMain::save(); // Saves all autonomous programs to a file. This saves the empty autonomous code
 							RobotStatus::autonomousSaveStatus = false;
 						} else{
 							std::cout << "Autonomous training mode is now disabled: " << RobotPrivate::debugKey << "\n";
 							RobotPrivate::trainingMode = false;
-							AutonomousMain::save();
+							AutonomousMain::save(); // Autonomous training has been finished. Save the new programs.
 						}
 						break;
 					default:
 						RobotPrivate::debugMode = false;
 						RobotPrivate::trainingMode = false;
-						AutonomousMain::save();
+						AutonomousMain::save(); // Autonomous training has been finished. Save the new programs.
 					}
 					RobotPrivate::debugKey = 0;
 					RobotPrivate::debugIx = 0;
@@ -221,11 +225,11 @@ public:
 		RobotPrivate::modules[RobotPrivate::registeredModules-1] = module; // Sets the module list's last element to the new module
 		AutonomousMain::registerAutoModule(module);
 	}
-};
+}; // Now we actually defined a Robot
 
-Robot* robot = (Robot*) voidpRobotInstance; // Finally, declare the robot reference to actually be a Robot
+Robot* robot = (Robot*) voidpRobotInstance; // Finally, declare the robot reference to actually be a Robot. We can do this now, since we told it what a robot is *before* defining a reference to it
 
-#include "ModuleLoader.h" // Waiting to include Robot-dependent code until we actually have a Robot
+#include "ModuleLoader.h" // Now that we have a Robot, we can declare Robot-dependent code as modules
 
 void Robot::RobotInit(){
 

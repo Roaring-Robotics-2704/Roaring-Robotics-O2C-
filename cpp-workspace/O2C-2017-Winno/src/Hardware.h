@@ -68,18 +68,18 @@ void registerComponents(){ // Oh, here we actually define the hardware
 
 	hw::actualTalon = new TalonSRX(1);
 
-#ifndef OLD_BOT
-	hw::flVictor = new WPI_VictorSPX(3); // Initializes the Victor at port 0 to be the Front Left
-	hw::frVictor = new WPI_VictorSPX(4); // Initializes the Victor at port 1 to be the Front Right
-	hw::rlVictor = new WPI_VictorSPX(5); // Initializes the Victor at port 2 to be the Rear Left
-	hw::rrVictor = new WPI_VictorSPX(6); // Initializes the Victor at port 3 to be the Rear Right
-#else
+#ifdef OLD_BOT
 	hw::flVictor = new Victor(0);
 	hw::frVictor = new Victor(1);
 	hw::rlVictor = new Victor(3);
 	hw::rrVictor = new Victor(2);
 	hw::flVictor->SetInverted(true);
 	hw::frVictor->SetInverted(true);
+#else
+	hw::flVictor = new WPI_VictorSPX(3); // Initializes the Victor at port 3 to be the Front Left
+	hw::frVictor = new WPI_VictorSPX(4); // Initializes the Victor at port 4 to be the Front Right
+	hw::rlVictor = new WPI_VictorSPX(5); // Initializes the Victor at port 5 to be the Rear Left
+	hw::rrVictor = new WPI_VictorSPX(6); // Initializes the Victor at port 6 to be the Rear Right
 #endif
 
 //	hw::bkTalon = new frc::Talon(9);		//Change these ports later!!
