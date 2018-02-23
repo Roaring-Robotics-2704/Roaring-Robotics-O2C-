@@ -105,6 +105,7 @@ public:
 			module->ModeChange(); // Runs the module's Autonomous code
 		}
 		while (IsAutonomous() && IsEnabled()) { // Check that the robot should still run Autonomous code
+			RobotStatus::gameSpecificMessage = DriverStation::GetInstance().GetGameSpecificMessage();
 			for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)
 				Module* module = RobotPrivate::modules[a]; // Creates temporary variable `module` and sets it to the current module
 				module->Autonomous(); // Runs the module's Autonomous code

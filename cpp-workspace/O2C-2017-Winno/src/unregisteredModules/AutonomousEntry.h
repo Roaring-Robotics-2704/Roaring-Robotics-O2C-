@@ -10,12 +10,14 @@ private:
 public:
 	size_t ix = 0;
 
-	AutonomousEntry(unsigned long a, unsigned long b){
+	AutonomousEntry(unsigned long a, unsigned long b, unsigned long c){
 		stringstream s;
 		s << "/U/";
 		s << a;
 		s << "_";
 		s << b;
+		s << "_";
+		s << c;
 		s << "aut.txt";
 		name = s.str();
 	}

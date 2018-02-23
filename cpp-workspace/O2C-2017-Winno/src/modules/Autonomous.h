@@ -16,7 +16,7 @@ namespace AutonomousPrivate{
 	static frc::Timer* autoTimer = new frc::Timer();
 	static vector<Module*> autoModules;
 	static vector<unsigned long> autoModuleIds;
-	map<unsigned long, map<int, AutonomousEntry*>> autoData;
+	map<unsigned long, map<int, map<int, AutonomousEntry*>>> autoData;
 	bool hasRunOnce = false;
 	bool loaded = false;
 }
@@ -39,8 +39,10 @@ public:
 		RobotStatus::autonomousSaveStatus = false;
 		for(unsigned long l : AutonomousPrivate::autoModuleIds){
 					for(int x=0; x<=3; x++){
-						AutonomousEntry* e = AutonomousPrivate::autoData[l][x];
-						e->save(e->getFileName());
+						for(char c : "LR"){
+							AutonomousEntry* e = AutonomousPrivate::autoData[l][x][c];
+							e->save(e->getFileName());
+						}
 					}
 				}
 		RobotStatus::autonomousSaveStatus = true;
@@ -50,37 +52,41 @@ public:
 		unsigned long tmid = m->ModuleId();
 		AutonomousPrivate::autoModules.push_back(m);
 		AutonomousPrivate::autoModuleIds.push_back(tmid);
-		map<int, AutonomousEntry*> mo;
+		map<int, map<int, AutonomousEntry*>> mo;
 		for(int x=0; x<=3; x++){
-			AutonomousEntry* e = new AutonomousEntry(tmid, x);
-			e->load(e->getFileName());
-			mo.emplace(x, e);
+			map<int, AutonomousEntry*> e2;
+			for(char c : "LR"){
+				AutonomousEntry* e = new AutonomousEntry(tmid, x, c);
+				e->load(e->getFileName());
+				e2.emplace(c, e);
+			}
+			mo.emplace(x, e2);
 		}
 		AutonomousPrivate::autoData.emplace(tmid, mo);
 	}
 	void ClearAuto(){
 		for(unsigned long id : AutonomousPrivate::autoModuleIds){
-			AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->ix = 0;
-			AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->clear();
+			AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->ix = 0;
+			AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->clear();
 
 		}
 	}
 	static vector<double> getAutonomousData(Module* m){ // Returns empty vector if there's no data to return or it's too early to retrurn data
 		unsigned long id = m->ModuleId();
-		double d = AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->peekAtNextValues();
+		double d = AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->peekAtNextValues();
 		SmartDashboard::PutNumber("Next AutoInstruction Time", d);
 		if(d < AutonomousPrivate::autoTimer->Get() && d >= 0.0){
-			pair<vector<double>, double>* pr = AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->getNextValues();
+			pair<vector<double>, double>* pr = AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->getNextValues();
 			if(pr != NULL)
-				AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->putTmpVal(pr->first);
+				AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->putTmpVal(pr->first);
 				return pr->first;
 		}
 		if(d >= 0.0)
-			return AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->getTmpVal();
+			return AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->getTmpVal();
 		return vector<double>();
 	}
 	static void putAutonomousData(Module* m, vector<double> d){
-		AutonomousPrivate::autoData[m->ModuleId()][DriverStation::GetInstance().GetLocation()]->putLastValues(d, AutonomousPrivate::autoTimer->Get());
+		AutonomousPrivate::autoData[m->ModuleId()][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->putLastValues(d, AutonomousPrivate::autoTimer->Get());
 	}
 	void Autonomous(){
 		if(!AutonomousPrivate::hasRunOnce){
