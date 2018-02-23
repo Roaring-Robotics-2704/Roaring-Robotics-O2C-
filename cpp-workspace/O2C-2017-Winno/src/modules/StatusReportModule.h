@@ -21,6 +21,7 @@ public:
 		SmartDashboard::PutNumber("Current Auto Time", AutonomousPrivate::autoTimer->Get());
 		SmartDashboard::PutNumber("Field Position", DriverStation::GetInstance().GetLocation());
 		SmartDashboard::PutNumber("Autonomous Save Status", RobotStatus::autonomousSaveStatus);
+		SmartDashboard::PutString("Game Data", RobotStatus::gameSpecificMessage);
 	}
 	void Disabled(){
 		SmartDashboard::PutNumber("Debug Mode", isDebugMode());
@@ -29,6 +30,7 @@ public:
 		SmartDashboard::PutNumber("Current Auto Time", AutonomousPrivate::autoTimer->Get());
 		SmartDashboard::PutNumber("Field Position", DriverStation::GetInstance().GetLocation());
 		SmartDashboard::PutNumber("Autonomous Save Status", RobotStatus::autonomousSaveStatus);
+		SmartDashboard::PutString("Game Data", RobotStatus::gameSpecificMessage);
 	}
 	void Autonomous(){
 
@@ -38,6 +40,7 @@ public:
 		SmartDashboard::PutNumber("Current Auto Time", AutonomousPrivate::autoTimer->Get());
 		SmartDashboard::PutNumber("Field Position", DriverStation::GetInstance().GetLocation());
 		SmartDashboard::PutNumber("Autonomous Save Status", RobotStatus::autonomousSaveStatus);
+		SmartDashboard::PutString("Game Data", RobotStatus::gameSpecificMessage);
 	}
 };
 

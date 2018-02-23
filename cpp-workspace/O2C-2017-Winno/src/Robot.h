@@ -103,6 +103,10 @@ public:
 	 */
 	void Autonomous() {
 		RobotStatus::gameSpecificMessage = DriverStation::GetInstance().GetGameSpecificMessage(); // The switches are randomized, so this will determine whether the right or left is ours
+		if(RobotStatus::gameSpecificMessage == ""){
+			RobotStatus::gameSpecificMessage = "---";
+		}
+		AutonomousPrivate::loaded = false;
 		for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)
 			Module* module = RobotPrivate::modules[a]; // Creates temporary variable `module` and sets it to the current module
 			module->ModeChange(); // Runs the module's ModeChange code. This notifies the module that the robot has switched modes (ex. Autonomous to TeleOp or vice versa)
@@ -167,6 +171,10 @@ public:
 						break;
 					case 0b101: // This is for autonomous training mode. Also, if you know what you're doing these bitmasks are in human-readable form (read right to left)
 						if(!RobotPrivate::trainingMode){
+							RobotStatus::gameSpecificMessage = DriverStation::GetInstance().GetGameSpecificMessage(); // The switches are randomized, so this will determine whether the right or left is ours
+									if(RobotStatus::gameSpecificMessage == ""){
+										RobotStatus::gameSpecificMessage = "---";
+									}
 							std::cout << "Autonomous training mode activated.\n";
 							RobotPrivate::trainingMode = true;
 							for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)

@@ -23,7 +23,6 @@ namespace AutonomousPrivate{
 class AutonomousMain : public Module{
 public:
 	void ModuleInit(){
-		frc::SmartDashboard::SetDefaultNumber("Starting position (1, 2 or 3)", 0);
 		AutonomousPrivate::autoTimer->Reset();
 		AutonomousPrivate::autoTimer->Stop();
 	}
@@ -39,7 +38,7 @@ public:
 		RobotStatus::autonomousSaveStatus = false;
 		for(unsigned long l : AutonomousPrivate::autoModuleIds){
 					for(int x=0; x<=3; x++){
-						for(char c : "LR"){
+						for(char c : "LR-"){
 							AutonomousEntry* e = AutonomousPrivate::autoData[l][x][c];
 							e->save(e->getFileName());
 						}
@@ -55,9 +54,8 @@ public:
 		map<int, map<int, AutonomousEntry*>> mo;
 		for(int x=0; x<=3; x++){
 			map<int, AutonomousEntry*> e2;
-			for(char c : "LR"){
+			for(char c : "LR-"){
 				AutonomousEntry* e = new AutonomousEntry(tmid, x, c);
-				e->load(e->getFileName());
 				e2.emplace(c, e);
 			}
 			mo.emplace(x, e2);
@@ -77,9 +75,10 @@ public:
 		SmartDashboard::PutNumber("Next AutoInstruction Time", d);
 		if(d < AutonomousPrivate::autoTimer->Get() && d >= 0.0){
 			pair<vector<double>, double>* pr = AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->getNextValues();
-			if(pr != NULL)
+			if(pr != NULL){
 				AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->putTmpVal(pr->first);
 				return pr->first;
+			}
 		}
 		if(d >= 0.0)
 			return AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->getTmpVal();
@@ -89,6 +88,12 @@ public:
 		AutonomousPrivate::autoData[m->ModuleId()][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->putLastValues(d, AutonomousPrivate::autoTimer->Get());
 	}
 	void Autonomous(){
+		if(!AutonomousPrivate::loaded){
+			for(unsigned long id : AutonomousPrivate::autoModuleIds){
+				AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->load(AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->getFileName());
+				AutonomousPrivate::loaded = true;
+			}
+		}
 		if(!AutonomousPrivate::hasRunOnce){
 			AutonomousPrivate::hasRunOnce = true;
 			AutonomousPrivate::autoTimer->Start();
