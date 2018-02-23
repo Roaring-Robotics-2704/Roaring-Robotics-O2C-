@@ -55,6 +55,7 @@ bool isTrainingMode(){
 #include "Module.h" // Load the robot module template. See the module code in other files
 
 #include "unregisteredModules/libc.h"
+#include "unregisteredModules/RobotStatus.h"
 
 #include "modules/Autonomous.h"
 
@@ -160,13 +161,15 @@ public:
 						}
 						break;
 					case 0b101:
-						std::cout << "Autonomous training mode activated.\n";
 						if(!RobotPrivate::trainingMode){
+							std::cout << "Autonomous training mode activated.\n";
 							RobotPrivate::trainingMode = true;
 							for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)
 								Module* module = RobotPrivate::modules[a]; // Creates temporary variable `module` and sets it to the current module
 								module->ClearAuto(); // Runs the module's Autonomous code
 							}
+							AutonomousMain::save();
+							RobotStatus::autonomousSaveStatus = false;
 						} else{
 							std::cout << "Autonomous training mode is now disabled: " << RobotPrivate::debugKey << "\n";
 							RobotPrivate::trainingMode = false;

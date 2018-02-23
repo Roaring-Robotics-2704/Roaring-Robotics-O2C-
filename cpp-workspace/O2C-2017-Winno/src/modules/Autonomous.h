@@ -31,26 +31,29 @@ public:
 		AutonomousPrivate::autoTimer->Stop();
 		AutonomousPrivate::autoTimer->Reset();
 		AutonomousPrivate::hasRunOnce = false;
-		save();
 	}
 	void Disabled(){
 		AutonomousPrivate::hasRunOnce = false;
 	}
 	static void save(){
+		RobotStatus::autonomousSaveStatus = false;
 		for(unsigned long l : AutonomousPrivate::autoModuleIds){
 					for(int x=0; x<=3; x++){
 						AutonomousEntry* e = AutonomousPrivate::autoData[l][x];
 						e->save(e->getFileName());
 					}
 				}
+		RobotStatus::autonomousSaveStatus = true;
 	}
 	static void registerAutoModule(Module* m){
+		AutonomousPrivate::loaded = true;
 		unsigned long tmid = m->ModuleId();
 		AutonomousPrivate::autoModules.push_back(m);
 		AutonomousPrivate::autoModuleIds.push_back(tmid);
 		map<int, AutonomousEntry*> mo;
 		for(int x=0; x<=3; x++){
 			AutonomousEntry* e = new AutonomousEntry(tmid, x);
+			e->load(e->getFileName());
 			mo.emplace(x, e);
 		}
 		AutonomousPrivate::autoData.emplace(tmid, mo);
@@ -80,12 +83,6 @@ public:
 		AutonomousPrivate::autoData[m->ModuleId()][DriverStation::GetInstance().GetLocation()]->putLastValues(d, AutonomousPrivate::autoTimer->Get());
 	}
 	void Autonomous(){
-		if(!AutonomousPrivate::loaded){
-			for(unsigned long id : AutonomousPrivate::autoModuleIds){
-				AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->load(AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()]->getFileName());
-			}
-			AutonomousPrivate::loaded = true;
-		}
 		if(!AutonomousPrivate::hasRunOnce){
 			AutonomousPrivate::hasRunOnce = true;
 			AutonomousPrivate::autoTimer->Start();

@@ -10,7 +10,6 @@
 
 // Load module headers
 
-#include "modules/Autonomous.h"
 #include "modules/Cubelift.h"
 #include "modules/DriveTrain.h" // Load the DriveTrain module
 #include "modules/Calibration.h"
@@ -19,6 +18,7 @@
 #include "modules/ReflectorSensors.h"
 #include "modules/Grabber.h"
 #include "modules/Climber.h"
+#include "modules/Autonomous.h"
 #include "modules/StatusReportModule.h"
 
 /*

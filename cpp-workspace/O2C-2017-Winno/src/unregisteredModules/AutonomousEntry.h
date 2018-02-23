@@ -12,11 +12,11 @@ public:
 
 	AutonomousEntry(unsigned long a, unsigned long b){
 		stringstream s;
-		s << "/home/lvuser/";
+		s << "/U/";
 		s << a;
 		s << "_";
 		s << b;
-		s << "-frc-2704-robot-autonomous-save.txt";
+		s << "aut.txt";
 		name = s.str();
 	}
 
@@ -74,6 +74,9 @@ public:
 	void load(string filename){
 		ifstream ifs(filename);
 		clear();
+		if(!ifs.is_open()){
+			return;
+		}
 		size_t ts;
 		ifs >> ts;
 		for(size_t a=0; a<ts; a++){
