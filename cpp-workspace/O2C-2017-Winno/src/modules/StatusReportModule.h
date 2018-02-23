@@ -12,10 +12,10 @@
 class StatusReportModule : public Module{
 public:
 	void ModuleInit(){
-		RobotStatus::autonomousSaveStatus = false;
+		RobotStatus::autonomousSaveStatus = false; // Is the autonomous code saved to the RoboRIO?
 	}
 	void OperatorControl(){
-		SmartDashboard::PutNumber("Debug Mode", isDebugMode());
+		SmartDashboard::PutNumber("Debug Mode", isDebugMode()); // Output data to the DriverStation dashboard
 		SmartDashboard::PutNumber("Autonomous Training", isTrainingMode());
 		SmartDashboard::PutNumber("Current Debug Key", RobotPrivate::debugKey);
 		SmartDashboard::PutNumber("Current Auto Time", AutonomousPrivate::autoTimer->Get());

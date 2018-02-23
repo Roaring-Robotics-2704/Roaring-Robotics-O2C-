@@ -8,8 +8,8 @@
 
 class Grabber : public Module {
 	 void OperatorControl(){
-			bool grab = hw::stick->GetRawButton(1);			//Change these buttons later!!
-			bool eject  = hw::stick->GetRawButton(2);
+			bool grab = hw::stick->GetRawButton(1); // Trigger
+			bool eject  = hw::stick->GetRawButton(2); // Button on the side of the joystick (whatever it's called, the one you press with your thumb)
 
 			if(grab){
 				hw::lgrVic->Set(-.7);		//rotate motors to grab cube (left)

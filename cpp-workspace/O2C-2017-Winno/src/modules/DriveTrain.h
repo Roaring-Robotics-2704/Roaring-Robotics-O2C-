@@ -130,7 +130,6 @@ public:
 			hw::rd->DriveCartesian(0.0, 0.0, 0.0);
 	}
 	void ModuleInit(){
-		AutonomousMain::registerAutoModule(this);
 	}
 };
 

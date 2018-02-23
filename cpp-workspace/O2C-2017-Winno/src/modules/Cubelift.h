@@ -47,16 +47,16 @@ public:
 			} else{
 				hw::actualTalon->Set(ControlMode::PercentOutput, 0);		//No motion
 			}
-			if(hasBeenMoved && !(top || bot)){
-				if(!a){
-					encoderHeight = quadPos;
-					a = true;
+			if(hasBeenMoved && !(top || bot)){ // Test whether the correction code should kick in
+				if(!a){ // `a` becomes false when the lift is moved, but becomes true when the lift is released. This tells it not to change the saved `encoderHeight` when the lift isn't supposed to be moving
+					encoderHeight = quadPos; // Sets `encoderHeight` to the proper value to keep the lift at the right height
+					a = true; // Makes sure that `encoderHeight` isn't changed while it's correcting the height
 				}
-				if(fabs(quadPos - encoderHeight) < correct_accept_range){
+				if(fabs(quadPos - encoderHeight) < correct_accept_range){ // The lift is perfectly located
 					hw::actualTalon->Set(ControlMode::PercentOutput, 0);		//No motion
-				} else if(quadPos > encoderHeight){
+				} else if(quadPos > encoderHeight){ // Move the lift up; the lift is below the proper height
 					hw::actualTalon->Set(ControlMode::PercentOutput, correct_up_power);
-				} else if(quadPos < encoderHeight){
+				} else if(quadPos < encoderHeight){ // Move the lift down; the lift is above the proper height
 					hw::actualTalon->Set(ControlMode::PercentOutput, correct_down_power);
 				} else{
 				}
@@ -71,7 +71,7 @@ public:
 	}
 
 	void ModuleInit(){
-		AutonomousMain::registerAutoModule(this);
+
 	}
 };
 
