@@ -116,7 +116,7 @@ public:
 				Module* module = RobotPrivate::modules[a]; // Creates temporary variable `module` and sets it to the current module
 				module->Autonomous(); // Runs the module's Autonomous code
 			}
-			frc::Wait(0.005); // Wait for the motors to update
+			frc::Wait(0.002); // Wait for the motors to update
 		}
 	}
 
