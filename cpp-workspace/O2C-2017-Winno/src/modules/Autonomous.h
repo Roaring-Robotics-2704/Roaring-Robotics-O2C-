@@ -19,17 +19,21 @@ namespace AutonomousPrivate{
 	map<unsigned long, map<int, map<int, AutonomousEntry*>>> autoData;
 	bool hasRunOnce = false;
 	bool loaded = false;
+	int loc;
 }
 class AutonomousMain : public Module{
 public:
 	void ModuleInit(){
 		AutonomousPrivate::autoTimer->Reset();
 		AutonomousPrivate::autoTimer->Stop();
+		AutonomousPrivate::loc = SmartDashboard::GetNumber("Autonomous Mode", 0.0);
 	}
 	void ModeChange(){
 		AutonomousPrivate::autoTimer->Stop();
 		AutonomousPrivate::autoTimer->Reset();
 		AutonomousPrivate::hasRunOnce = false;
+
+		AutonomousPrivate::loc = SmartDashboard::GetNumber("Autonomous Mode", 0.0);
 	}
 	void Disabled(){
 		AutonomousPrivate::hasRunOnce = false;
@@ -64,42 +68,46 @@ public:
 	}
 	void ClearAuto(){
 		for(unsigned long id : AutonomousPrivate::autoModuleIds){
-			AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->ix = 0;
-			AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->clear();
+			AutonomousPrivate::autoData[id][AutonomousPrivate::loc][RobotStatus::gameSpecificMessage[0]]->ix = 0;
+			AutonomousPrivate::autoData[id][AutonomousPrivate::loc][RobotStatus::gameSpecificMessage[0]]->clear();
 
 		}
 	}
 	static vector<double> getAutonomousData(Module* m){ // Returns empty vector if there's no data to return or it's too early to retrurn data
 		unsigned long id = m->ModuleId();
-		double d = AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->peekAtNextValues();
+		double d = AutonomousPrivate::autoData[id][AutonomousPrivate::loc][RobotStatus::gameSpecificMessage[0]]->peekAtNextValues();
 		SmartDashboard::PutNumber("Next AutoInstruction Time", d);
 		if(d < AutonomousPrivate::autoTimer->Get() && d >= 0.0){
-			pair<vector<double>, double>* pr = AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->getNextValues();
+			pair<vector<double>, double>* pr = AutonomousPrivate::autoData[id][AutonomousPrivate::loc][RobotStatus::gameSpecificMessage[0]]->getNextValues();
 			if(pr != NULL){
-				AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->putTmpVal(pr->first);
+				AutonomousPrivate::autoData[id][AutonomousPrivate::loc][RobotStatus::gameSpecificMessage[0]]->putTmpVal(pr->first);
 				return pr->first;
 			}
 		}
 		if(d >= 0.0)
-			return AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->getTmpVal();
+			return AutonomousPrivate::autoData[id][AutonomousPrivate::loc][RobotStatus::gameSpecificMessage[0]]->getTmpVal();
 		return vector<double>();
 	}
 	static void putAutonomousData(Module* m, vector<double> d){
-		AutonomousPrivate::autoData[m->ModuleId()][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->putLastValues(d, AutonomousPrivate::autoTimer->Get());
+		AutonomousPrivate::autoData[m->ModuleId()][AutonomousPrivate::loc][RobotStatus::gameSpecificMessage[0]]->putLastValues(d, AutonomousPrivate::autoTimer->Get());
 	}
 	void Autonomous(){
 		if(!AutonomousPrivate::loaded){
 			for(unsigned long id : AutonomousPrivate::autoModuleIds){
-				AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->load(AutonomousPrivate::autoData[id][DriverStation::GetInstance().GetLocation()][RobotStatus::gameSpecificMessage[0]]->getFileName());
+				AutonomousPrivate::autoData[id][AutonomousPrivate::loc][RobotStatus::gameSpecificMessage[0]]->load(AutonomousPrivate::autoData[id][AutonomousPrivate::loc][RobotStatus::gameSpecificMessage[0]]->getFileName());
 				AutonomousPrivate::loaded = true;
 			}
 		}
 		if(!AutonomousPrivate::hasRunOnce){
 			AutonomousPrivate::hasRunOnce = true;
 			AutonomousPrivate::autoTimer->Start();
+
+			AutonomousPrivate::loc = SmartDashboard::GetNumber("Autonomous Mode", 0.0);
 		}
 	}
 	void OperatorControl(){
+
+		AutonomousPrivate::loc = SmartDashboard::GetNumber("Autonomous Mode", 0.0);
 		if(isTrainingMode()){
 			if(!AutonomousPrivate::hasRunOnce){
 				AutonomousPrivate::hasRunOnce = true;

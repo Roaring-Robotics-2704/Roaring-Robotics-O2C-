@@ -50,6 +50,7 @@ bool isTrainingMode(){
 #include <AnalogGyro.h>
 #include <math.h>
 #include <map>
+#include <sstream>
 
 #include "Hardware.h" // Load the robot's hardware from Hardware.h
 #include "Module.h" // Load the robot module template. See the module code in other files
@@ -94,6 +95,7 @@ public:
 			module->ModuleInit(); // Runs the module's init code
 		}
 		std::cout << "Initialized robot modules.";
+		SmartDashboard::SetDefaultNumber("Autonomous Mode", 0.0);
 	}
 
 	virtual void RobotInit(); // This will be given something to do later, hence being `virtual`
@@ -104,7 +106,7 @@ public:
 	void Autonomous() {
 		RobotStatus::gameSpecificMessage = DriverStation::GetInstance().GetGameSpecificMessage(); // The switches are randomized, so this will determine whether the right or left is ours
 		if(RobotStatus::gameSpecificMessage == ""){
-			RobotStatus::gameSpecificMessage = "---";
+			RobotStatus::gameSpecificMessage = "-N/A-";
 		}
 		AutonomousPrivate::loaded = false;
 		for(int a=0; a<RobotPrivate::registeredModules; a++){ // Loops through the registered modules (see the module code)
