@@ -56,6 +56,9 @@ public:
 	void OperatorControl(){
 		double leftAxisX = hw::stick->GetX(); // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
 		double leftAxisY = hw::stick->GetY(); // Same thing, with its up<->down movement
+#ifdef PRAC_BOT
+		leftAxisY *= -1.0;
+#endif
 		double rightAxisZ = hw::stick->GetZ(); // Now get the right Joystick's left<->right movement
 		drive(leftAxisX, leftAxisY, rightAxisZ, false);
 	}
@@ -113,7 +116,16 @@ public:
 
 				 AutonomousMain::putAutonomousData(this, autoStates);
 			 }
-			 hw::rd->DriveCartesian(leftAxisX, leftAxisY, rightAxisZ);
+			 if(!isDebugMode())
+				 hw::rd->DriveCartesian(leftAxisX, leftAxisY, rightAxisZ);
+			 else{
+				 if(hw::stick->GetRawButton(8))
+					 hw::rd->DriveCartesian(0.0, 1.0, 0.0);
+				 else if(hw::stick->GetRawButton(7))
+					 hw::rd->DriveCartesian(0.0, -1.0, 0.0);
+				 else
+					 hw::rd->DriveCartesian(0.0, 0.0, 0.0);
+			 }
 		 } else{
 			 AutonomousMain::putAutonomousData(this, vector<double>{0.0, 0.0, 0.0});
 		 }

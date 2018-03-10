@@ -1,4 +1,8 @@
-12:27:52 **** Incremental Build of configuration Debug for project O2C-2017-Winno ****
+12:31:53 **** Incremental Build of configuration Debug for project O2C-2017-Winno ****
 Info: Internal Builder is used for build
 arm-frc-linux-gnueabi-g++ -std=c++1y "-IC:\\Users\\cryog/wpilib/cpp/current/include" "-IC:\\Users\\cryog\\OneDrive\\Documents\\GitHub\\Roaring-Robotics-O2C-\\cpp-workspace\\O2C-2017-Winno\\src" "-IC:\\Users\\cryog/wpilib/user/cpp/include" -O0 -Og -g3 -Wall -c -fmessage-length=0 -pthread -o "src\\Main.o" "..\\src\\Main.cpp" 
 arm-frc-linux-gnueabi-g++ "-LC:\\Users\\cryog/wpilib/user/cpp/lib" "-LC:\\Users\\cryog/wpilib/cpp/current/reflib/linux/athena/shared" "-LC:\\Users\\cryog/wpilib/common/current/lib/linux/athena/shared" -pthread -rdynamic -Wl,-rpath,/opt/GenICam_v3_0_NI/bin/Linux32_ARM,-rpath,/usr/local/frc/lib -o FRCUserProgram "src\\Main.o" -lCTRE_Phoenix -lCTRE_PhoenixCCI -lCTRE_Phoenix -lCTRE_PhoenixCCI -lwpi 
+12:32:09 **** Incremental Build of configuration Debug for project O2C-2017-Winno ****
+Info: Internal Builder is used for build
+arm-frc-linux-gnueabi-g++ "-LC:\\Users\\cryog/wpilib/user/cpp/lib" "-LC:\\Users\\cryog/wpilib/cpp/current/reflib/linux/athena/shared" "-LC:\\Users\\cryog/wpilib/common/current/lib/linux/athena/shared" -pthread -rdynamic -Wl,-rpath,/opt/GenICam_v3_0_NI/bin/Linux32_ARM,-rpath,/usr/local/frc/lib -o FRCUserProgram "src\\Main.o" -lCTRE_Phoenix -lCTRE_PhoenixCCI -lCTRE_Phoenix -lCTRE_PhoenixCCI -lwpi 
+Info: Nothing to build for O2C-2017-Winno

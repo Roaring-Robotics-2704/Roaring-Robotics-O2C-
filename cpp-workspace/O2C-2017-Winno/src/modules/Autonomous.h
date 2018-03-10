@@ -33,15 +33,20 @@ public:
 		AutonomousPrivate::autoTimer->Reset();
 		AutonomousPrivate::hasRunOnce = false;
 
-		AutonomousPrivate::loc = SmartDashboard::GetNumber("Autonomous Mode", 0.0);
+		int loc = SmartDashboard::GetNumber("Autonomous Mode", 0.0);
+		if(loc != AutonomousPrivate::loc){
+			AutonomousPrivate::loc = loc;
+			AutonomousPrivate::loaded = false;
+		}
 	}
+
 	void Disabled(){
 		AutonomousPrivate::hasRunOnce = false;
 	}
 	static void save(){
 		RobotStatus::autonomousSaveStatus = false;
 		for(unsigned long l : AutonomousPrivate::autoModuleIds){
-					for(int x=0; x<=3; x++){
+					for(int x=0; x<=12; x++){
 						for(char c : "LR-"){
 							AutonomousEntry* e = AutonomousPrivate::autoData[l][x][c];
 							e->save(e->getFileName());
@@ -56,7 +61,7 @@ public:
 		AutonomousPrivate::autoModules.push_back(m);
 		AutonomousPrivate::autoModuleIds.push_back(tmid);
 		map<int, map<int, AutonomousEntry*>> mo;
-		for(int x=0; x<=3; x++){
+		for(int x=0; x<=12; x++){
 			map<int, AutonomousEntry*> e2;
 			for(char c : "LR-"){
 				AutonomousEntry* e = new AutonomousEntry(tmid, x, c);
@@ -92,6 +97,11 @@ public:
 		AutonomousPrivate::autoData[m->ModuleId()][AutonomousPrivate::loc][RobotStatus::gameSpecificMessage[0]]->putLastValues(d, AutonomousPrivate::autoTimer->Get());
 	}
 	void Autonomous(){
+		int loc = SmartDashboard::GetNumber("Autonomous Mode", 0.0);
+		if(loc != AutonomousPrivate::loc){
+			AutonomousPrivate::loc = loc;
+			AutonomousPrivate::loaded = false;
+		}
 		if(!AutonomousPrivate::loaded){
 			for(unsigned long id : AutonomousPrivate::autoModuleIds){
 				AutonomousPrivate::autoData[id][AutonomousPrivate::loc][RobotStatus::gameSpecificMessage[0]]->load(AutonomousPrivate::autoData[id][AutonomousPrivate::loc][RobotStatus::gameSpecificMessage[0]]->getFileName());
@@ -101,13 +111,16 @@ public:
 		if(!AutonomousPrivate::hasRunOnce){
 			AutonomousPrivate::hasRunOnce = true;
 			AutonomousPrivate::autoTimer->Start();
-
-			AutonomousPrivate::loc = SmartDashboard::GetNumber("Autonomous Mode", 0.0);
 		}
 	}
 	void OperatorControl(){
 
-		AutonomousPrivate::loc = SmartDashboard::GetNumber("Autonomous Mode", 0.0);
+		int loc = SmartDashboard::GetNumber("Autonomous Mode", 0.0);
+		SmartDashboard::PutNumber("loc", loc);
+		if(loc != AutonomousPrivate::loc){
+			AutonomousPrivate::loc = loc;
+			AutonomousPrivate::loaded = false;
+		}
 		if(isTrainingMode()){
 			if(!AutonomousPrivate::hasRunOnce){
 				AutonomousPrivate::hasRunOnce = true;

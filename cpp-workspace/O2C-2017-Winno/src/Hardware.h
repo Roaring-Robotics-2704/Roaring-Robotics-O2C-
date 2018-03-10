@@ -12,16 +12,23 @@ namespace hw {
 
 	frc::Joystick* stick; // Declare that the robot has a Joystick. Don't actually bother defining it
 
-#ifndef OLD_BOT
-	WPI_VictorSPX* flVictor; // Same thing, just with a Victor
-	WPI_VictorSPX* frVictor; // etc.
-	WPI_VictorSPX* rlVictor; // This is getting boring...
-	WPI_VictorSPX* rrVictor; // You don't actually have to read this (or the 2 above it, for that matter)
-#else
+#ifdef OLD_BOT
 	Victor* flVictor;
 	Victor* frVictor;
 	Victor* rlVictor;
 	Victor* rrVictor;
+#else
+#ifdef PRAC_BOT
+	Talon* flVictor;
+	Talon* frVictor;
+	Talon* rlVictor;
+	Talon* rrVictor;
+#else
+	WPI_VictorSPX* flVictor; // Same thing, just with a Victor
+	WPI_VictorSPX* frVictor; // etc.
+	WPI_VictorSPX* rlVictor; // This is getting boring...
+	WPI_VictorSPX* rrVictor; // You don't actually have to read this (or the 2 above it, for that matter)
+#endif
 #endif
 
 	TalonSRX* actualTalon;
@@ -76,10 +83,17 @@ void registerComponents(){ // Oh, here we actually define the hardware
 	hw::flVictor->SetInverted(true);
 	hw::frVictor->SetInverted(true);
 #else
+#ifdef PRAC_BOT
+	hw::flVictor = new Talon(0); // Initializes the Victor at port 3 to be the Front Left
+	hw::frVictor = new Talon(1); // Initializes the Victor at port 4 to be the Front Right
+	hw::rlVictor = new Talon(2); // Initializes the Victor at port 5 to be the Rear Left
+	hw::rrVictor = new Talon(3); // Initializes the Victor at port 6 to be the Rear Right
+#else
 	hw::flVictor = new WPI_VictorSPX(3); // Initializes the Victor at port 3 to be the Front Left
 	hw::frVictor = new WPI_VictorSPX(4); // Initializes the Victor at port 4 to be the Front Right
 	hw::rlVictor = new WPI_VictorSPX(5); // Initializes the Victor at port 5 to be the Rear Left
 	hw::rrVictor = new WPI_VictorSPX(6); // Initializes the Victor at port 6 to be the Rear Right
+#endif
 #endif
 
 //	hw::bkTalon = new frc::Talon(9);		//Change these ports later!!
