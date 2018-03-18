@@ -56,6 +56,9 @@ public:
 	void OperatorControl(){
 		double leftAxisX = hw::stick->GetX(); // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
 		double leftAxisY = hw::stick->GetY(); // Same thing, with its up<->down movement
+
+		if(hw::stick->GetRawButton(5)) leftAxisX = 1.0;
+		if(hw::stick->GetRawButton(3)) leftAxisX = -1.0;
 #ifdef PRAC_BOT
 		leftAxisY *= -1.0;
 #endif
@@ -66,6 +69,7 @@ public:
 
 
 #ifdef CONTROLLER_ALT_1
+
 		double rotDeg = TYPE_1_CONTROLLER_ROT_DEGREES * rightAxisZ;
 		double magn = sqrt(leftAxisX * leftAxisX + leftAxisY * leftAxisY);
 		double angle = atan2(leftAxisX, leftAxisY);

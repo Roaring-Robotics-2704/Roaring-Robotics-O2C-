@@ -34,13 +34,13 @@ public:
 			// Buttons to control the upwards and downwards motion of the cube lift
 			if(up){
 				if (!top){
-					hw::actualTalon->Set(ControlMode::PercentOutput, .8);		//upwards motion of cube lift
+					hw::actualTalon->Set(ControlMode::PercentOutput, 1.0);		//upwards motion of cube lift
 					hasBeenMoved = true;
 					a = false;
 				}
 			} else if(down){
 				if (!bot){
-					hw::actualTalon->Set(ControlMode::PercentOutput, -.5); //downwards motion of cube lift
+					hw::actualTalon->Set(ControlMode::PercentOutput, -.7); //downwards motion of cube lift
 					hasBeenMoved = true;
 					a = false;
 				}
