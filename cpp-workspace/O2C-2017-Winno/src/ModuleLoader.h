@@ -20,12 +20,14 @@
 #include "modules/Climber.h"
 #include "modules/Autonomous.h" // Theoretically, this should have already been loaded so this line *should* be unnecessary
 #include "modules/StatusReportModule.h"
+#include "modules/Camera.h"
 
 /*
  * Put the module-loading code here.
  */
 void loadModules(){
 	robot->registerModule(new AutonomousMain()); // Autonomous needs to be registered before any modules that reference it, so it's safest to keep it first
+	robot->registerModule(new CameraModule());
 	robot->registerModule(new DriveTrain()); // Registers a new DriveTrain module with the Robot
 	robot->registerModule(new Cubelift());
 	//robot->registerModule(new Calibration());

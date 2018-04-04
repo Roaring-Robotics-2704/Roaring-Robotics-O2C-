@@ -24,6 +24,18 @@ class Grabber : public Module {
 	}
 
 	void Autonomous(){
+		if(DriveTrainPrivate::spit){
+			hw::lgrVic->Set(1.0);		//rotate motors to grab cube (left)
+			hw::rgrVic->Set(1.0);		//rotate motors to grab cube (right)
+		} else{
+			if(!DriveTrainPrivate::cubeGrabbed){
+				hw::lgrVic->Set(-.7);		//rotate motors to grab cube (left)
+				hw::rgrVic->Set(-.7);		//rotate motors to grab cube (right)
+			} else{
+				hw::lgrVic->Set(0.0);		//rotate motors to grab cube (left)
+				hw::rgrVic->Set(0.0);		//rotate motors to grab cube (right)
+			}
+		}
 	}
 };
 

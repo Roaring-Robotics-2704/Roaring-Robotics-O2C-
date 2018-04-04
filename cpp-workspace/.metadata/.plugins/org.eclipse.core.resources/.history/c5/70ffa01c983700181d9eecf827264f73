@@ -1,0 +1,57 @@
+/*
+ * Camera.h
+ *
+ *  Created on: Mar 21, 2018
+ *      Author: cryog
+ */
+
+#ifndef SRC_MODULES_CAMERA_H_
+#define SRC_MODULES_CAMERA_H_
+
+#define YELLOW_R_MIN 120
+#define YELLOW_G_MIN 120
+#define YELLOW_B_MAX 80
+
+#define BLUE_R_MAX 80;
+#define BLUE_G_MAX 80;
+#define BLUE_B_MIN 120;
+
+#define RED_R_MIM 120;
+#define RED_G_MAX 80;
+#define RED_B_MAX 80;
+
+#define VERT_SCAN 160
+#define VERT_SCAN_R 160
+#define VERT_SCAN_B 160
+
+class CameraModule : public Module{
+private:
+	//
+public:
+	static void VisionThread()
+    {
+        CameraServer::GetInstance()->SetSize(CameraServer::kSize320x240);
+        cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture();
+        cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
+        cs::CvSource outputStreamStd = CameraServer::GetInstance()->PutVideo("Tracking", 320, 240);
+        cs::CvSource outputStreamDrv = CameraServer::GetInstance()->PutVideo("Driver View", 320, 240);
+        cv::Mat source;
+        cv::Mat output;
+        while(true) {
+            if(cvSink.GrabFrame(source) == 0) continue;
+            SmartDashboard::PutNumber("Source Rows", source.rows);
+            SmartDashboard::PutNumber("Source Cols", source.cols);
+            outputStreamDrv.PutFrame(source);
+            vta(source);
+            outputStreamStd.PutFrame(source);
+        }
+    }
+    void ModuleInit()
+    {
+        std::thread visionThread(VisionThread);
+        visionThread.detach();
+    }
+};
+
+
+#endif /* SRC_MODULES_CAMERA_H_ */

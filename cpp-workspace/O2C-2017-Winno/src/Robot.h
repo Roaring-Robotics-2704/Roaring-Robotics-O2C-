@@ -58,7 +58,23 @@ bool isTrainingMode(){
 // Code modules not loaded in ModuleLoader.h go here:
 #include "unregisteredModules/libc.h" // Some library functions to use in the code if needed
 #include "unregisteredModules/RobotStatus.h" // The robot is a state machine, why not give it a global state
+#include "modules/PigeonIMU.h"
 
+namespace CameraData{
+	double offset = 0.0;
+	double lOffset = 0.0;
+	double rOffset = 0.0;
+	double bOffset = 0.0;
+	double lrOffset = 0.0;
+	double lbOffset = 0.0;
+	bool civ;
+	bool biv;
+	bool riv;
+}
+namespace DriveTrainPrivate{
+	bool up = false;
+	bool spit = false;
+}
 #include "modules/Autonomous.h" // Some modules need to be loaded before the rest of the modules; this file references Autonomous.h code, so we need to include it before the first reference
 
 // Done loading necessary files

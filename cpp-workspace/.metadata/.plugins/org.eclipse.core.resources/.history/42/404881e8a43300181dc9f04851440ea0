@@ -1,0 +1,103 @@
+/*
+ * Camera.h
+ *
+ *  Created on: Mar 21, 2018
+ *      Author: cryog
+ */
+
+#ifndef SRC_MODULES_CAMERA_H_
+#define SRC_MODULES_CAMERA_H_
+
+#define YELLOW_R_MIN 120
+#define YELLOW_G_MIN 120
+#define YELLOW_B_MAX 80
+
+#define VERT_SCAN 160
+
+class CameraModule : public Module{
+private:
+	//
+public:
+	static void VisionThread()
+    {
+        CameraServer::GetInstance()->SetSize(CameraServer::kSize320x240);
+        cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture();
+        cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
+        cs::CvSource outputStreamStd = CameraServer::GetInstance()->PutVideo("Tracking", 320, 240);
+        cv::Mat source;
+        cv::Mat output;
+        while(true) {
+            if(cvSink.GrabFrame(source) == 0) continue;
+            SmartDashboard::PutNumber("Source Rows", source.rows);
+            SmartDashboard::PutNumber("Source Cols", source.cols);
+            cv::Mat tmp1;
+            cv::Mat tmp2;
+
+            //cv::Mat tmpYellowL(320, 240, )
+            cv::Vec3b * currentRowS;
+            std::vector<int> lM;
+            std::vector<int> rM;
+            for (int j = VERT_SCAN; j < source.rows; ++j)
+                {
+            	int l = -1;
+            	int r = -1;
+            	bool p = true;
+            	bool q = false;
+                    currentRowS = source.ptr<cv::Vec3b>(j);
+                    for (int i = 0; i < source.cols; ++i)
+                    {
+                    	bool a = currentRowS[i][0] < YELLOW_B_MAX && currentRowS[i][0] < YELLOW_B_MAX && currentRowS[i][2] > YELLOW_R_MIN;
+                        if(a){
+                        	q = true;
+								if(l == -1){
+									l = i;
+								}
+								r = i;
+                        }
+                    	currentRowS[i][0] = a * 255;
+                        currentRowS[i][1] = a * 255;
+                        currentRowS[i][2] = a * 255;
+
+                    }
+                    if(p){
+                    	lM.push_back(l);
+                    	rM.push_back(r);
+                    }
+                }
+            int l = 0, r = 0;
+            for(int a : lM){
+            	l += a;
+            }
+            for(int a : rM){
+            	r += a;
+            }
+            if(lM.size() != 0 && rM.size() != 0){
+				l /= lM.size();
+				r /= lM.size();
+				int x = (l + r) / 2;
+				for (int j = 0; j < source.rows; ++j)
+								{
+									currentRowS = source.ptr<cv::Vec3b>(j);
+									currentRowS[x][2] = 255;
+								}
+				currentRowS = source.ptr<cv::Vec3b>(VERT_SCAN);
+				for(int i = 0; i < source.cols; i++){
+					currentRowS[i][1] = 255;
+				}
+				CameraData::offset = (x - source.cols / 2.0) / (source.cols / 2.0);
+				CameraData::lOffset = CameraData::offset;
+            } else{
+            	CameraData::offset = -CameraData::lOffset;
+            }
+            outputStreamStd.PutFrame(source);
+        }
+    }
+    void ModuleInit()
+    {
+        //std::thread visionThread(VisionThread);
+        //visionThread.detach();
+    }
+};
+
+
+#endif /* SRC_MODULES_CAMERA_H_ */

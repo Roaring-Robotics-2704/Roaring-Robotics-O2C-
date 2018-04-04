@@ -11,6 +11,9 @@
 
 #define MAX_SPEED_FACTOR .95
 
+#define CUBE_TURN_SPEED .65
+#define L_TURN_SPEED .5
+
 // Per-controller defines
 
 // Standard (Logitech Dual Action) Controllers
@@ -48,12 +51,16 @@ namespace DriveTrainPrivate{
 	double grlTi;
 	double grrTi;
 	double orientation = 0.0;
-
+	double dirMov;
+	bool cubeGrabbed;
+	Timer t;
 	size_t autoIx;
+	bool lAuto = false;
 }
 class DriveTrain : public Module { // The code that drives the robot
 public:
 	void OperatorControl(){
+		SmartDashboard::PutBoolean("DIO 0", hw::cs->Get());
 		double leftAxisX = hw::stick->GetX(); // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
 		double leftAxisY = hw::stick->GetY(); // Same thing, with its up<->down movement
 
@@ -63,6 +70,16 @@ public:
 		leftAxisY *= -1.0;
 #endif
 		double rightAxisZ = hw::stick->GetZ(); // Now get the right Joystick's left<->right movement
+
+		/*
+		double driveAngle = atan2(leftAxisX, leftAxisY);
+
+		driveAngle -= PigeonData::fusedHeading * PI / 360.0;
+
+		leftAxisX = sin(driveAngle);
+		leftAxisY = cos(driveAngle);
+		*/
+
 		drive(leftAxisX, leftAxisY, rightAxisZ, false);
 	}
 	void drive(double leftAxisX, double leftAxisY, double rightAxisZ, bool correctOverride){
@@ -136,14 +153,67 @@ public:
 	}
 	void ModeChange(){
 		DriveTrainPrivate::autoIx = 0;
+		DriveTrainPrivate::lAuto = false;
+		DriveTrainPrivate::up = false;
+		DriveTrainPrivate::spit = false;
 	}
 	void Autonomous(){
+		if(!DriveTrainPrivate::lAuto){
+			DriveTrainPrivate::t.Reset();
+			DriveTrainPrivate::t.Start();
+			DriveTrainPrivate::lAuto = true;
+		}
+		bool shouldGoAuto = false;
+		if(AutonomousPrivate::loc == 1){
+			if(RobotStatus::gameSpecificMessage[0] == 'L'){
+				shouldGoAuto = true;
+			}
+		} else if(AutonomousPrivate::loc == 3){
+			if(RobotStatus::gameSpecificMessage[0] == 'R'){
+				shouldGoAuto = true;
+			}
+		}
 		vector<double> autoData = AutonomousMain::getAutonomousData(this);
 		SmartDashboard::PutNumber("Autonomous Buffer Length", autoData.size());
-		if(autoData.size() == 3)
+
+		if(shouldGoAuto){
+			DriveTrainPrivate::cubeGrabbed = hw::cs->Get();
+			DriverStation::Alliance all = DriverStation::GetInstance().GetAlliance();
+			SmartDashboard::PutBoolean("CIV", CameraData::civ);
+			SmartDashboard::PutBoolean("RIV", CameraData::riv);
+			SmartDashboard::PutBoolean("BIV", CameraData::biv);
+
+			if(DriveTrainPrivate::t.Get() < 3.0){
+				hw::rd->DriveCartesian(0.0, 0.35, CUBE_TURN_SPEED * CameraData::offset);
+				DriveTrainPrivate::dirMov += CameraData::offset;
+			}
+			else{
+				if(DriveTrainPrivate::t.Get() < 4.0){
+					DriveTrainPrivate::up = true;
+					hw::rd->DriveCartesian(0.0, 0.0, 0.0);
+				} else
+				if(DriveTrainPrivate::t.Get() < 5.5){
+					if(all == DriverStation::Alliance::kBlue){
+						if(CameraData::biv)
+							hw::rd->DriveCartesian(0.0, 0.6, L_TURN_SPEED * CameraData::bOffset);
+						else
+						{
+							hw::rd->DriveCartesian(0.0, 0.0, L_TURN_SPEED * -DriveTrainPrivate::dirMov);
+						}
+					} else if(all == DriverStation::Alliance::kRed){
+						if(CameraData::riv)
+							hw::rd->DriveCartesian(0.0, 0.6, L_TURN_SPEED * CameraData::rOffset);
+						else
+						{
+							hw::rd->DriveCartesian(0.0, 0.0, L_TURN_SPEED * -DriveTrainPrivate::dirMov);
+						}
+					}
+				} else{
+					DriveTrainPrivate::spit = true;
+				}
+			}
+		} else if(autoData.size() == 3)
 			hw::rd->DriveCartesian(autoData[0], autoData[1], autoData[2]);
-		else
-			hw::rd->DriveCartesian(0.0, 0.0, 0.0);
 	}
 	void ModuleInit(){
 	}
