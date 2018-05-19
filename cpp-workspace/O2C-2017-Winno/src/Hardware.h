@@ -80,6 +80,18 @@ namespace hw {
 	PigeonIMU* pigeon;
 	Encoder* liE;
 	DigitalInput* cs;
+
+	frc::Victor* armVic1;
+	frc::Victor* armVic2;
+
+	frc::Victor* telescopeVic;
+
+	frc::Encoder* telescopeEnc;
+	frc::Encoder* armEnc;
+
+	frc::Compressor* compressor1;
+	frc::DoubleSolenoid* doubleSol1;
+	frc::DoubleSolenoid* doubleSol2;
 }
 
 
@@ -153,6 +165,19 @@ void registerComponents(){ // Oh, here we actually define the hardware
 	hw::cs = new DigitalInput(1);
 
 	//hw::pigeon = new PigeonIMU(0);
+
+	hw::armVic1 = new frc::Victor(1);	//CHANGE VIC ROBORIO PORT LATER!
+	hw::armVic2 = new frc::Victor(2);	//CHANGE VIC ROBORIO PORT LATER!
+
+	hw::telescopeVic = new frc::Victor(3); //CHANGE VIC ROBORIO PORT LATER!
+
+	hw::telescopeEnc = new frc::Encoder(8, 9, false, Encoder::EncodingType::k2X);	//CHANGE ENCODER PORTS
+	hw::armEnc = new frc::Encoder(10, 11, false, Encoder::EncodingType::k2X);
+
+	hw::compressor1 = new frc::Compressor(2);	//CHANGE PCM NODE ID!
+
+	hw::doubleSol1 = new frc::DoubleSolenoid {0,1};	//CHANGE PCM NODE ID!
+	hw::doubleSol2 = new frc::DoubleSolenoid {6,7};	//CHANGE PCM NODE ID!
 }
 
 #endif /* SRC_HARDWARE_H_ */

@@ -1,0 +1,42 @@
+/*
+ * Grabber.h
+ */
+
+
+#ifndef GRABBER_H_
+#define GRABBER_H_
+
+class Grabber : public Module {
+private:
+	bool isClaw1Open = false;
+
+public:
+
+	void ModuleInit(){
+		hw::compressor1->SetClosedLoopControl(true);
+	}
+
+	 void OperatorControl(){
+			bool clawToggle2 = hw::stick->GetRawButton(3);	//CHANGE BUTTON
+			bool grabToggle = hw::stick->GetRawButton(4);	//CHANGE BUTTON
+
+			if (clawToggle2){
+				if(isClaw1Open){
+					hw::doubleSol1->Set(frc::DoubleSolenoid::Value::kReverse);
+					hw::doubleSol1->Set(frc::DoubleSolenoid::Value::kOff);
+				}else{
+					hw::doubleSol1->Set(frc::DoubleSolenoid::Value::kForward);
+					hw::doubleSol1->Set(frc::DoubleSolenoid::Value::kOff);
+				}
+				isClaw1Open = !isClaw1Open;
+			}
+	}
+
+	void Autonomous(){
+	}
+};
+
+#endif /* GRABBER_H_ */
+
+
+

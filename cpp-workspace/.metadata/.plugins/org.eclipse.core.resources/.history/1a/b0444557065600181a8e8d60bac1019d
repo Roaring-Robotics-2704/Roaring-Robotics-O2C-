@@ -1,0 +1,21 @@
+/*
+ * Grabber.h
+ */
+
+
+#ifndef GRABBER_H_
+#define GRABBER_H_
+
+class Grabber : public Module {
+	 void OperatorControl(){
+			bool clawToggle = hw::stick->GetRawButton(3);
+	}
+
+	void Autonomous(){
+	}
+};
+
+#endif /* GRABBER_H_ */
+
+
+

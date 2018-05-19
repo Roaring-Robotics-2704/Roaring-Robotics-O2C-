@@ -1,0 +1,50 @@
+/*
+ * Arm.h
+ */
+
+
+#ifndef ARM_H_
+#define ARM_H_
+
+class Cubelift : public Module {
+private:
+	bool isClawOpen = false;
+public:
+
+	void ModuleInit(){
+		hw::compressor1->SetClosedLoopControl(true);
+	}
+
+	void OperatorControl(){
+		bool liftButton = hw::stick->GetRawButton(1);
+		bool lowerButton = hw::stick->GetRawButton(2);
+		bool clawToggle = hw::stick->GetRawButton(3);
+
+		if(liftButton){
+			hw::armVic1->Set(-.7);		//rotate motors to grab cube (left)
+			hw::armVic2->Set(-.7);		//rotate motors to grab cube (right)
+
+		} else if(lowerButton){
+			hw::armVic1->Set(.7); //rotate motors opposite direction to eject cube (left)
+			hw::armVic2->Set(.7); //rotate motors opposite direction to eject cube (right)
+		} else{
+			hw::armVic1->Set(0);		//No motion (left)
+			hw::armVic2->Set(0);		//No motion (right)
+		}
+		if (clawToggle){
+			if(isClawOpen){
+				hw::doublesol1->Set(frc::DoubleSolenoid::Value::kReverse);
+				hw::doublesol1->Set(frc::DoubleSolenoid::Value::kOff);
+			}else{
+				hw::doublesol1->Set(frc::DoubleSolenoid::Value::kForward);
+				hw::doublesol1->Set(frc::DoubleSolenoid::Value::kOff);
+			}
+			isClawOpen = !isClawOpen;
+		}
+	}
+};
+
+#endif /* ARM_H_ */
+
+
+

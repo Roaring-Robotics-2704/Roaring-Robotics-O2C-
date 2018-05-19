@@ -1,0 +1,60 @@
+/*
+ * Arm.h
+ */
+
+
+#ifndef ARM_H_
+#define ARM_H_
+
+class Arm : public Module {
+private:
+	double frontBound;
+	double bottomBound;
+	double armLength;
+	double robotHeight;
+	bool wasPressed = false;
+	Timer t;
+public:
+
+	void ModuleInit(){
+		hw::compressor1->SetClosedLoopControl(true);	//Turn the compressor off and on based on pressure switch configuration
+	}
+
+	void OperatorControl(){				//Get joystick button input
+		bool liftButton = hw::stick->GetRawButton(7);
+		bool lowerButton = hw::stick->GetRawButton(8);
+		bool clawToggle1 = hw::stick->GetRawButton(2);
+
+		if(liftButton){
+			hw::armVic1->Set(-.7);		//Raise the arm
+			hw::armVic2->Set(-.7);
+
+		} else if(lowerButton){
+			hw::armVic1->Set(.7);		//Lower the arm
+			hw::armVic2->Set(.7);
+		} else{
+			hw::armVic1->Set(0);		//No motion
+			hw::armVic2->Set(0);		//No motion
+		}
+		if (clawToggle1 && !wasPressed){				//Depending on the state of the claw, open or close pneumatic claw
+				hw::doubleSol1->Set(frc::DoubleSolenoid::Value::kForward);
+				t.Reset();
+				t.Start();
+		}
+		if(t.Get() >= 5){
+			hw::doubleSol1->Set(frc::DoubleSolenoid::Value::kOff);
+			t.Stop();
+			t.Reset();
+			hw::doubleSol1->Set(frc::DoubleSolenoid::Value::kReverse);
+		}
+		wasPressed = clawToggle1;
+	}
+
+	void Autonomous(){
+	}
+};
+
+#endif /* ARM_H_ */
+
+
+

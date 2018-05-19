@@ -10,7 +10,7 @@
 
 // Load module headers
 
-#include "modules/Cubelift.h"
+#include "modules/Arm.h"
 #include "modules/DriveTrain.h" // Load the DriveTrain module
 #include "modules/Calibration.h"
 #include "modules/Uber.h"
@@ -29,7 +29,7 @@ void loadModules(){
 	robot->registerModule(new AutonomousMain()); // Autonomous needs to be registered before any modules that reference it, so it's safest to keep it first
 	robot->registerModule(new CameraModule());
 	robot->registerModule(new DriveTrain()); // Registers a new DriveTrain module with the Robot
-	robot->registerModule(new Cubelift());
+	robot->registerModule(new Arm());
 	//robot->registerModule(new Calibration());
 	//robot->registerModule(new Uber());
 	//robot->registerModule(new Balls());
