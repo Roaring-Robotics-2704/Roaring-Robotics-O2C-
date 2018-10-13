@@ -1,0 +1,28 @@
+1. Consider the following program:
+
+
+int main() {
+	int a = ?;
+	int b = ?;
+	int c = ?;
+
+	print(a is b+1);
+	print(c is a+1);
+	print(c is true);
+	print(a is false);
+}
+
+Find values for a, b, and c that make this program print out four trues.
+
+
+2. Mark if the following statements will always be true or not.
+
+Example: "a is not b" is not always true because if a were true and b were false then the statement would be false.
+
+If you need to, draw a table like the ones we did in 
+
+a. "a is a"
+b. "a and (b is b)"
+c. "not (a is b)"
+d. "((not a) or (not b)) is not (a and b)" 
+e. "not (a or b) is ((not a) and (not b))"
