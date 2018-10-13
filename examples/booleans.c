@@ -11,4 +11,6 @@ int main() {
 	debug(true+false is true);
 	debug(true or false);
 	debug(true or true);
+	debug(5 is true);
+	debug((bool)5);
 }
