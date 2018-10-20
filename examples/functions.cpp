@@ -1,4 +1,4 @@
-#include "../include/easy.h"
+#include <easy.h>
 
 int addthree(int a, int b, int c) {
 	return a+b+c;

@@ -1,4 +1,4 @@
-#include "../include/easy.h"
+#include <easy.h>
 #define debug(x) print(#x);print(x)
 
 int main() {
