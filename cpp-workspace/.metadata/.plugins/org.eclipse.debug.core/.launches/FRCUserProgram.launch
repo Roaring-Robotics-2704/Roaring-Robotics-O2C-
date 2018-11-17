@@ -2,10 +2,10 @@
 <launchConfiguration type="org.eclipse.cdt.launch.applicationLaunchType">
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_START_MODE" value="run"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/FRCUserProgram"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="O2C-2017-Winno"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="Robot-6Wheel-Victor"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value="cdt.managedbuild.config.gnu.cross.exe.debug.1104744751"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/O2C-2017-Winno"/>
+<listEntry value="/Robot-6Wheel-Victor"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
