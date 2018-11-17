@@ -26,16 +26,16 @@
  * Put the module-loading code here.
  */
 void loadModules(){
-	robot->registerModule(new AutonomousMain()); // Autonomous needs to be registered before any modules that reference it, so it's safest to keep it first
+	//robot->registerModule(new AutonomousMain()); // Autonomous needs to be registered before any modules that reference it, so it's safest to keep it first
 	robot->registerModule(new CameraModule());
 	robot->registerModule(new DriveTrain()); // Registers a new DriveTrain module with the Robot
-	robot->registerModule(new Arm());
+	//robot->registerModule(new Arm());
 	//robot->registerModule(new Calibration());
 	//robot->registerModule(new Uber());
 	//robot->registerModule(new Balls());
 	//robot->registerModule(new ReflectorSensors());
-	robot->registerModule(new Grabber());
-	robot->registerModule(new Climber());
+	//robot->registerModule(new Grabber());
+	//robot->registerModule(new Climber());
 	robot->registerModule(new StatusReportModule());
 
 }

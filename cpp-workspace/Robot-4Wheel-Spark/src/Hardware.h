@@ -116,10 +116,10 @@ void registerComponents(){ // Oh, here we actually define the hardware
 	hw::rlVictor = new Talon(1); // Initializes the Victor at port 5 to be the Rear Left
 	hw::rrVictor = new Talon(2); // Initializes the Victor at port 6 to be the Rear Right
 #else
-	hw::flVictor = new frc::Spark(3); // Initializes the Victor at port 3 to be the Front Left
-	hw::frVictor = new frc::Spark(4); // Initializes the Victor at port 4 to be the Front Right
-	hw::rlVictor = new frc::Spark(5); // Initializes the Victor at port 5 to be the Rear Left
-	hw::rrVictor = new frc::Spark(6); // Initializes the Victor at port 6 to be the Rear Right
+	hw::flVictor = new frc::Spark(0); // Initializes the Victor at port 3 to be the Front Left
+	hw::frVictor = new frc::Spark(1); // Initializes the Victor at port 4 to be the Front Right
+	hw::rlVictor = new frc::Spark(2); // Initializes the Victor at port 5 to be the Rear Left
+	hw::rrVictor = new frc::Spark(3); // Initializes the Victor at port 6 to be the Rear Right
 #endif
 #endif
 
@@ -158,6 +158,10 @@ void registerComponents(){ // Oh, here we actually define the hardware
 	hw::pneurelay = new frc::Relay(0);
 
 	hw::grabServ = new frc::Servo(8);
+	hw::flVictor->SetInverted(false);
+	hw::frVictor->SetInverted(true);
+	hw::rlVictor->SetInverted(false);
+	hw::rrVictor->SetInverted(true);
 	hw::rd = new MecanumDrive(*hw::flVictor, *hw::rlVictor, *hw::frVictor, *hw::rrVictor);
 
 
