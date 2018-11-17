@@ -27,10 +27,10 @@ namespace hw {
 	WPI_TalonSRX* actualTalon;
 	WPI_TalonSRX* actualTalon2;
 #else
-	WPI_VictorSPX* flVictor; // Same thing, just with a Victor
-	WPI_VictorSPX* frVictor; // etc.
-	WPI_VictorSPX* rlVictor; // This is getting boring...
-	WPI_VictorSPX* rrVictor; // You don't actually have to read this (or the 2 above it, for that matter)
+	frc::VictorSP* flVictor; // Same thing, just with a Victor
+	frc::VictorSP* frVictor; // etc.
+	frc::VictorSP* rlVictor; // This is getting boring...
+	frc::VictorSP* rrVictor; // You don't actually have to read this (or the 2 above it, for that matter)
 
 	WPI_TalonSRX* actualTalon;
 	WPI_TalonSRX* actualTalon2;
@@ -116,10 +116,10 @@ void registerComponents(){ // Oh, here we actually define the hardware
 	hw::rlVictor = new Talon(1); // Initializes the Victor at port 5 to be the Rear Left
 	hw::rrVictor = new Talon(2); // Initializes the Victor at port 6 to be the Rear Right
 #else
-	hw::flVictor = new WPI_VictorSPX(3); // Initializes the Victor at port 3 to be the Front Left
-	hw::frVictor = new WPI_VictorSPX(4); // Initializes the Victor at port 4 to be the Front Right
-	hw::rlVictor = new WPI_VictorSPX(5); // Initializes the Victor at port 5 to be the Rear Left
-	hw::rrVictor = new WPI_VictorSPX(6); // Initializes the Victor at port 6 to be the Rear Right
+	hw::flVictor = new frc::VictorSP(3); // Initializes the Victor at port 3 to be the Front Left
+	hw::frVictor = new frc::VictorSP(4); // Initializes the Victor at port 4 to be the Front Right
+	hw::rlVictor = new frc::VictorSP(5); // Initializes the Victor at port 5 to be the Rear Left
+	hw::rrVictor = new frc::VictorSP(6); // Initializes the Victor at port 6 to be the Rear Right
 #endif
 #endif
 

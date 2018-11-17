@@ -61,7 +61,7 @@ class DriveTrain : public Module { // The code that drives the robot
 public:
 	void OperatorControl(){
 		SmartDashboard::PutBoolean("DIO 0", hw::cs->Get());
-		double leftAxisX = hw::stick->GetX(); // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
+		double leftAxisX = /*hw::stick->GetX()*/ 0.0; // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
 		double leftAxisY = hw::stick->GetY(); // Same thing, with its up<->down movement
 
 		if(hw::stick->GetRawButton(5)) leftAxisX = 1.0;
