@@ -10,6 +10,7 @@
 
 // Load module headers
 
+#include <modules/SpinnyThing.h>
 #include "modules/Arm.h"
 #include "modules/DriveTrain.h" // Load the DriveTrain module
 #include "modules/Calibration.h"
@@ -21,6 +22,8 @@
 #include "modules/Autonomous.h" // Theoretically, this should have already been loaded so this line *should* be unnecessary
 #include "modules/StatusReportModule.h"
 #include "modules/Camera.h"
+#include "modules/Servo.h"
+#include "modules/SpinnyThing.h"
 
 /*
  * Put the module-loading code here.
@@ -36,6 +39,8 @@ void loadModules(){
 	//robot->registerModule(new ReflectorSensors());
 	//robot->registerModule(new Grabber());
 	//robot->registerModule(new Climber());
+	robot->registerModule(new SpinnyModule());
+	robot->registerModule(new ServoModule());
 	robot->registerModule(new StatusReportModule());
 
 }

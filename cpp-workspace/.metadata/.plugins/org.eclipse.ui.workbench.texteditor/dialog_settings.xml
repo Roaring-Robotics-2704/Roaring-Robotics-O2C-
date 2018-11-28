@@ -2,12 +2,17 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="DefaultNumber" key="selection"/>
+		<item value="rlVictor" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="rlVictor"/>
+			<item value="calib"/>
+			<item value="rrVictor"/>
+			<item value="rrVictor-&gt;"/>
+			<item value="rrVictor."/>
 			<item value="DefaultNumber"/>
 			<item value="setDefaultNumber"/>
 			<item value="&lt;=3"/>
@@ -18,13 +23,9 @@
 			<item value="GetLocation()"/>
 			<item value="&quot;LR&quot;"/>
 			<item value="winch"/>
-			<item value="void Disabled"/>
-			<item value="[DriverStation.getInstance().getGameSpecificMessage()[0]]"/>
-			<item value="std::abs("/>
-			<item value="abs("/>
-			<item value="bucket"/>
 		</list>
 		<list key="replacehistory">
+			<item value=""/>
 			<item value="[AutonomousPrivate::loc]"/>
 			<item value="[DriverStation::getInstance().getGameSpecificMessage()[0]]"/>
 			<item value="// std::cout "/>
@@ -34,7 +35,7 @@
 		<item value="284" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="391" key="DIALOG_HEIGHT"/>
-		<item value="221" key="DIALOG_X_ORIGIN"/>
-		<item value="252" key="DIALOG_Y_ORIGIN"/>
+		<item value="8" key="DIALOG_X_ORIGIN"/>
+		<item value="262" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

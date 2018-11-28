@@ -64,8 +64,8 @@ public:
 		double leftAxisX = /*hw::stick->GetX()*/ 0.0; // Gets the left joystick's left<->right movement (from 0.0 to 1.0)
 		double leftAxisY = hw::stick->GetY(); // Same thing, with its up<->down movement
 
-		if(hw::stick->GetRawButton(6)) leftAxisX = 1.0;
-		if(hw::stick->GetRawButton(5)) leftAxisX = -1.0;
+		//if(hw::stick->GetRawButton(6)) leftAxisX = 1.0;
+		//if(hw::stick->GetRawButton(4)) leftAxisX = -1.0;
 		if(hw::stick->GetRawButton(12)) leftAxisY = 1.0;
 		if(hw::stick->GetRawButton(11)) leftAxisY = -1.0;
 #ifdef PRAC_BOT

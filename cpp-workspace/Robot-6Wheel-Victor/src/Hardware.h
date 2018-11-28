@@ -92,6 +92,10 @@ namespace hw {
 	frc::Compressor* compressor1;
 	frc::DoubleSolenoid* doubleSol1;
 	frc::DoubleSolenoid* doubleSol2;
+
+	// Winno 2018
+	frc::VictorSP* liftMotor;
+	frc::Servo* servo;
 }
 
 
@@ -116,10 +120,10 @@ void registerComponents(){ // Oh, here we actually define the hardware
 	hw::rlVictor = new Talon(1); // Initializes the Victor at port 5 to be the Rear Left
 	hw::rrVictor = new Talon(2); // Initializes the Victor at port 6 to be the Rear Right
 #else
-	hw::flVictor = new frc::VictorSP(3); // Initializes the Victor at port 3 to be the Front Left
-	hw::frVictor = new frc::VictorSP(4); // Initializes the Victor at port 4 to be the Front Right
-	hw::rlVictor = new frc::VictorSP(5); // Initializes the Victor at port 5 to be the Rear Left
-	hw::rrVictor = new frc::VictorSP(6); // Initializes the Victor at port 6 to be the Rear Right
+	hw::flVictor = new frc::VictorSP(1); // Initializes the Victor at port 3 to be the Front Left
+	hw::frVictor = new frc::VictorSP(2); // Initializes the Victor at port 4 to be the Front Right
+	hw::rlVictor = new frc::VictorSP(4); // Initializes the Victor at port 5 to be the Rear Left
+	hw::rrVictor = new frc::VictorSP(3); // Initializes the Victor at port 6 to be the Rear Right
 #endif
 #endif
 
@@ -178,6 +182,10 @@ void registerComponents(){ // Oh, here we actually define the hardware
 
 	hw::doubleSol1 = new frc::DoubleSolenoid {0,1};	//CHANGE PCM NODE ID!
 	hw::doubleSol2 = new frc::DoubleSolenoid {6,7};	//CHANGE PCM NODE ID!
+
+	// Winno 2018
+	hw::liftMotor = new frc::VictorSP(5); // CHANGE PORT BEFORE RUNNING CODE
+	hw::servo = new frc::Servo(6);      // CHANGE PORT BEFORE RUNNING CODE
 }
 
 #endif /* SRC_HARDWARE_H_ */

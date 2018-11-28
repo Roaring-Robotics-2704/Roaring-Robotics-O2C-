@@ -92,6 +92,10 @@ namespace hw {
 	frc::Compressor* compressor1;
 	frc::DoubleSolenoid* doubleSol1;
 	frc::DoubleSolenoid* doubleSol2;
+
+	// Winno 2018
+	frc::Victor* spinnyMotor;
+	frc::Servo* servo;
 }
 
 
@@ -182,6 +186,10 @@ void registerComponents(){ // Oh, here we actually define the hardware
 
 	hw::doubleSol1 = new frc::DoubleSolenoid {0,1};	//CHANGE PCM NODE ID!
 	hw::doubleSol2 = new frc::DoubleSolenoid {6,7};	//CHANGE PCM NODE ID!
+
+	// Winno 2018
+	hw::spinnyMotor = new frc::Victor(0); // CHANGE PORT BEFORE RUNNING CODE
+	hw::servo = new frc::Servo(0);      // CHANGE PORT BEFORE RUNNING CODE
 }
 
 #endif /* SRC_HARDWARE_H_ */
