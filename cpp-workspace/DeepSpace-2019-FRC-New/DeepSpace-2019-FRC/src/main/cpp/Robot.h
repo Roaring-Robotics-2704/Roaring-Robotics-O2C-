@@ -28,7 +28,8 @@ bool isTrainingMode(){
 
 // Load necessary files
 
-#include <WPILib.h>
+#include <frc/WPILib.h>
+using namespace frc;
 #include <iostream> // Allows us to output debugging information to the DriverStation console
 #include <memory> // Allows for dynamic memory allocation. This is used for maintaining a list of robot modules
 #include <string> // "Hello, world" or something like that
@@ -38,16 +39,16 @@ bool isTrainingMode(){
 
 #include <ctre/Phoenix.h>
 
-#include <Joystick.h> // he
-#include <SampleRobot.h> // The base of the robot code (as far as defined by WPILib)
-#include <SmartDashboard/SendableChooser.h>
-#include <SmartDashboard/SmartDashboard.h>
-#include <DriverStation.h>
+#include <frc/Joystick.h> // he
+#include <frc/SampleRobot.h> // The base of the robot code (as far as defined by WPILib)
+#include <frc/smartdashboard/SendableChooser.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/DriverStation.h>
 //#include <RobotDrive.h> // We don't actually use this, I don't know why it's still here
-#include <Timer.h> // Allows for creating waits in the code
-#include <Victor.h> // Controls Victor motor controllers
-#include <Encoder.h>
-#include <AnalogGyro.h>
+#include <frc/Timer.h> // Allows for creating waits in the code
+#include <frc/Victor.h> // Controls Victor motor controllers
+#include <frc/Encoder.h>
+#include <frc/AnalogGyro.h>
 #include <math.h>
 #include <map>
 #include <sstream>
@@ -59,6 +60,7 @@ bool isTrainingMode(){
 #include "unregisteredModules/libc.h" // Some library functions to use in the code if needed
 #include "unregisteredModules/RobotStatus.h" // The robot is a state machine, why not give it a global state
 #include "modules/PigeonIMU.h"
+
 
 namespace CameraData{
 	double offset = 0.0;
