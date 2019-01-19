@@ -9,7 +9,6 @@
 #define ORIENT_FIELD 1
 
 
-using namespace std;
 
 #include "CodeParameters.h"
 #include "Robot.h" // Load the rest of the code

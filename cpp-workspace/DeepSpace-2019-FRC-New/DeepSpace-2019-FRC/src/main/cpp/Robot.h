@@ -28,12 +28,15 @@ bool isTrainingMode(){
 
 // Load necessary files
 
-#include <frc/WPILib.h>
-using namespace frc;
 #include <iostream> // Allows us to output debugging information to the DriverStation console
 #include <memory> // Allows for dynamic memory allocation. This is used for maintaining a list of robot modules
 #include <string> // "Hello, world" or something like that
 #include <vector>
+
+using namespace std;
+
+#include <frc/WPILib.h>
+using namespace frc;
 
 #include <fstream>
 
