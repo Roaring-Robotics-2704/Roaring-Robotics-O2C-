@@ -24,16 +24,16 @@ namespace hw {
 	Talon* rlVictor;
 	Talon* rrVictor;
 
-	WPI_TalonSRX* actualTalon;
-	WPI_TalonSRX* actualTalon2;
+	//WPI_TalonSRX* actualTalon;
+	//WPI_TalonSRX* actualTalon2;
 #else
 	frc::Spark* flVictor; // Same thing, just with a Victor
 	frc::Spark* frVictor; // etc.
 	frc::Spark* rlVictor; // This is getting boring...
 	frc::Spark* rrVictor; // You don't actually have to read this (or the 2 above it, for that matter)
 
-	WPI_TalonSRX* actualTalon;
-	WPI_TalonSRX* actualTalon2;
+	//WPI_TalonSRX* actualTalon;
+	//WPI_TalonSRX* actualTalon2;
 #endif
 #endif
 
@@ -50,8 +50,8 @@ namespace hw {
 #endif
 
 
-	WPI_VictorSPX* winchVictor1;
-	WPI_VictorSPX* winchVictor2;
+	frc::Victor* winchVictor1;
+	frc::Victor* winchVictor2;
 
 	frc::DigitalInput* topBkInput;
 	frc::DigitalInput* botBkInput;
@@ -77,7 +77,7 @@ namespace hw {
 	frc::Servo* grabServ;
 	frc::MecanumDrive* rd;
 
-	PigeonIMU* pigeon;
+	//PigeonIMU* pigeon;
 	Encoder* liE;
 	DigitalInput* cs;
 
@@ -103,8 +103,8 @@ void registerComponents(){ // Oh, here we actually define the hardware
 
 	hw::stick = new frc::Joystick(0); // Initialize the joystick (see "Hardware.h")
 
-	hw::actualTalon = new WPI_TalonSRX(2);
-	hw::actualTalon2 = new WPI_TalonSRX(3);
+	//hw::actualTalon = new WPI_TalonSRX(2);
+	//hw::actualTalon2 = new WPI_TalonSRX(3);
 
 #ifdef OLD_BOT
 	hw::flVictor = new Victor(0);
@@ -141,8 +141,8 @@ void registerComponents(){ // Oh, here we actually define the hardware
 
 	hw::liftTalon = new frc::Talon(6);			//Change ports later!!
 
-	hw::winchVictor1 = new WPI_VictorSPX(1);		//Change ports later!!
-	hw::winchVictor2 = new WPI_VictorSPX(2);
+	//hw::winchVictor1 = new WPI_VictorSPX(1);		//Change ports later!!
+	//hw::winchVictor2 = new WPI_VictorSPX(2);
 
 	hw::flE = new frc::Encoder(6, 7, false, Encoder::EncodingType::k2X);
 	hw::frE = new frc::Encoder(3, 2, false, Encoder::EncodingType::k2X);

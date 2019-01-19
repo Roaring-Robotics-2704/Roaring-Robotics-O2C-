@@ -8,7 +8,7 @@
 #ifndef AUTONOMOUSMAIN_H_
 #define AUTONOMOUSMAIN_H_
 
-#include "unregisteredModules/AutonomousEntry.h"
+#include "../unregisteredModules/AutonomousEntry.h"
 
 
 namespace AutonomousPrivate{

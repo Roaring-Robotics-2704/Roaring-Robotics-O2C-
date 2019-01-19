@@ -37,7 +37,7 @@ using namespace frc;
 
 #include <fstream>
 
-#include <ctre/Phoenix.h>
+//#include <ctre/Phoenix.h>
 
 #include <frc/Joystick.h> // he
 #include <frc/SampleRobot.h> // The base of the robot code (as far as defined by WPILib)
@@ -59,7 +59,7 @@ using namespace frc;
 // Code modules not loaded in ModuleLoader.h go here:
 #include "unregisteredModules/libc.h" // Some library functions to use in the code if needed
 #include "unregisteredModules/RobotStatus.h" // The robot is a state machine, why not give it a global state
-#include "modules/PigeonIMU.h"
+//#include "modules/PigeonIMU.h"
 
 
 namespace CameraData{
