@@ -163,9 +163,9 @@ void registerComponents(){ // Oh, here we actually define the hardware
 
 	hw::grabServ = new frc::Servo(8);
 	hw::flVictor->SetInverted(false);
-	hw::frVictor->SetInverted(true);
+	hw::frVictor->SetInverted(false);
 	hw::rlVictor->SetInverted(false);
-	hw::rrVictor->SetInverted(true);
+	hw::rrVictor->SetInverted(false);
 	hw::rd = new MecanumDrive(*hw::flVictor, *hw::rlVictor, *hw::frVictor, *hw::rrVictor);
 
 
