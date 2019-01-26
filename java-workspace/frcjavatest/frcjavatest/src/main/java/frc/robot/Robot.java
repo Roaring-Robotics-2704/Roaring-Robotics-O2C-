@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.Joystick;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -27,6 +27,7 @@ public class Robot extends IterativeRobot {
   private PWMTalonSRX left;
   private PWMTalonSRX right;
   private DifferentialDrive drive;
+  private Joystick js;
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -40,7 +41,7 @@ public class Robot extends IterativeRobot {
     this.right = new PWMTalonSRX(2);
     this.drive = new DifferentialDrive(left,right);
     this.drive.tankDrive(1,1);
-
+    this.js = new Joystick(0);
   }
 
   /**
@@ -53,6 +54,7 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void robotPeriodic() {
+    System.out.println(this.js.getY() + ":" + this.js.getX());
   }
 
   /**
