@@ -54,7 +54,6 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void robotPeriodic() {
-    System.out.println(this.js.getY() + ":" + this.js.getX());
   }
 
   /**
@@ -97,6 +96,7 @@ public class Robot extends IterativeRobot {
    */
   @Override
   public void teleopPeriodic() {
+    System.out.println(this.js.getY() + ":" + this.js.getX());
   }
 
   /**
