@@ -5,6 +5,7 @@
  *      Author: cryog
  */
 
+
 #ifndef SRC_HARDWARE_H_
 #define SRC_HARDWARE_H_
 
@@ -27,10 +28,10 @@ namespace hw {
 	//WPI_TalonSRX* actualTalon;
 	//WPI_TalonSRX* actualTalon2;
 #else
-	frc::Spark* flVictor; // Same thing, just with a Victor
-	frc::Spark* frVictor; // etc.
-	frc::Spark* rlVictor; // This is getting boring...
-	frc::Spark* rrVictor; // You don't actually have to read this (or the 2 above it, for that matter)
+	WPI_VictorSPX* flMotor; // Same thing, just with a Victor
+	WPI_VictorSPX* frMotor; // etc.
+	WPI_VictorSPX* rlMotor; // This is getting boring...
+	WPI_VictorSPX* rrMotor; // You don't actually have to read this (or the 2 above it, for that matter)
 
 	//WPI_TalonSRX* actualTalon;
 	//WPI_TalonSRX* actualTalon2;
@@ -120,17 +121,17 @@ void registerComponents(){ // Oh, here we actually define the hardware
 	hw::rlVictor = new Talon(1); // Initializes the Victor at port 5 to be the Rear Left
 	hw::rrVictor = new Talon(2); // Initializes the Victor at port 6 to be the Rear Right
 #else
-	hw::flVictor = new frc::Talon(0); // Initializes the Victor at port 3 to be the Front Left
-	hw::frVictor = new frc::Talon(3); // Initializes the Victor at port 4 to be the Front Right
-	hw::rlVictor = new frc::Talon(1); // Initializes the Victor at port 5 to be the Rear Left
-	hw::rrVictor = new frc::Talon(2); // Initializes the Victor at port 6 to be the Rear Right
+	hw::flMotor = new WPI_VictorSPX(3); // Initializes the Victor at port 3 to be the Front Left
+	hw::frVictor = new WPI_VictorSPX(4); // Initializes the Victor at port 4 to be the Front Right
+	hw::rlVictor = new WPI_VictorSPX(5); // Initializes the Victor at port 5 to be the Rear Left
+	hw::rrVictor = new WPI_VictorSPX(6); // Initializes the Victor at port 6 to be the Rear Right
 #endif
 #endif
 
 //	hw::bkTalon = new frc::Talon(9);		//Change these ports later!!
 #ifdef PRAC_BOT
 	hw::lgrVic = new frc::Spark(5);
-	hw::rgrVic = new frc::Spark(6);
+	hw::rgrVic = new frc::WPI_VictorSPX(6);
 #else
 	hw::lgrVic = new frc::VictorSP(2);
 	hw::rgrVic = new frc::VictorSP(1);
@@ -166,7 +167,7 @@ void registerComponents(){ // Oh, here we actually define the hardware
 	hw::frVictor->SetInverted(true);
 	hw::rlVictor->SetInverted(false);
 	hw::rrVictor->SetInverted(true);
-	hw::rd = new MecanumDrive(*hw::flVictor, *hw::rlVictor, *hw::frVictor, *hw::rrVictor);
+	hw::rd = new MecanumDrive(*hw::flMotor, *hw::rlMotor, *hw::frMotor, *hw::rrMotor);
 
 
 	hw::liE = new frc::Encoder(2, 3, false, Encoder::EncodingType::k2X);

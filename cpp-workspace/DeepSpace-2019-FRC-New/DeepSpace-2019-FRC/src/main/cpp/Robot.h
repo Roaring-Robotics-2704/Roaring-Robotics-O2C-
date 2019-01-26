@@ -40,7 +40,7 @@ using namespace frc;
 
 #include <fstream>
 
-//#include <ctre/Phoenix.h>
+#include <ctre/Phoenix.h>
 
 #include <frc/Joystick.h> // he
 #include <frc/SampleRobot.h> // The base of the robot code (as far as defined by WPILib)
