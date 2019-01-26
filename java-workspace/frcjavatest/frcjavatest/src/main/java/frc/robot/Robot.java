@@ -40,7 +40,6 @@ public class Robot extends IterativeRobot {
     this.left = new PWMTalonSRX(1);
     this.right = new PWMTalonSRX(2);
     this.drive = new DifferentialDrive(left,right);
-    this.drive.tankDrive(1,1);
     this.js = new Joystick(0);
   }
 
@@ -97,6 +96,7 @@ public class Robot extends IterativeRobot {
   @Override
   public void teleopPeriodic() {
     System.out.println(this.js.getY() + ":" + this.js.getX());
+    this.drive.tankDrive(this.js.getX(), this.js.getY());
   }
 
   /**
