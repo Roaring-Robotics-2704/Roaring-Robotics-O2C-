@@ -92,15 +92,6 @@ public class Robot extends IterativeRobot {
   }
 
   /**
-   * This function is called periodically during operator control.
-   */
-  @Override
-  public void teleopPeriodic() {
-    System.out.println(this.js.getY() + ":" + this.js.getX());
-    this.drive.tankDrive(this.js.getX(), this.js.getY());
-  }
-
-  /**
    * This function is called periodically during test mode.
    */
   @Override
