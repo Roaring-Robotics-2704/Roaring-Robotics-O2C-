@@ -7,11 +7,15 @@
 
 package frc.robot;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -24,70 +28,67 @@ public class Robot extends IterativeRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  private PWMTalonSRX left;
-  private PWMTalonSRX right;
-  private DifferentialDrive drive;
-  private Joystick js;
+  
+  public DifferentialDrive drive; // tank drive interface
+
+  public SpeedControllerGroup left; // needed for PID
+  public SpeedControllerGroup right;
+
+  public Joystick js; // represents client joystick
+
+  /*
+    Defines what the robot should be doing in each mode.
+  */
+  private CommandGroup autonomousCommands;
+  private CommandGroup driverCommands;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-    this.left = new PWMTalonSRX(1);
-    this.right = new PWMTalonSRX(2);
+    // initialize hardwares
+    this.left = new SpeedControllerGroup(new PWMTalonSRX(1),new PWMTalonSRX(0)); // left motors 
+    this.right = new SpeedControllerGroup(new PWMTalonSRX(2),new PWMTalonSRX(3)); // right motors 
     this.drive = new DifferentialDrive(left,right);
     this.js = new Joystick(0);
+    // initialize command groups
+    autonomousCommands = new CommandGroup("autonomousCommands");
+    driverCommands = new CommandGroup("driverCommands");
+
+    // initialize tank drive controls
+    CommandTankDrive td = new CommandTankDrive();
+    td.setRobot(this);
+    driverCommands.addSequential(td);
+    
+  }
+
+  public void stopLogic() {
+    if (autonomousCommands.isRunning()) {
+      autonomousCommands.cancel();
+    }
+    if (driverCommands.isRunning()) {
+      driverCommands.cancel();
+    }
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
-   */
-  @Override
-  public void robotPeriodic() {
-  }
-
-  /**
-   * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable
-   * chooser code works with the Java SmartDashboard. If you prefer the
-   * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-   * getString line to get the auto name from the text box below the Gyro
-   *
-   * <p>You can add additional auto modes by adding additional comparisons to
-   * the switch structure below with additional strings. If using the
-   * SendableChooser make sure to add them to the chooser code above as well.
+   * Run on every autonomous begin.
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // autoSelected = SmartDashboard.getString("Auto Selector",
-    // defaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    stopLogic();
+    autonomousCommands.start();
   }
 
   /**
-   * This function is called periodically during autonomous.
+   * Run on every teleoperator begin.
    */
   @Override
-  public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+  public void teleopInit() {
+    stopLogic();
+    driverCommands.start();
   }
 
   /**
