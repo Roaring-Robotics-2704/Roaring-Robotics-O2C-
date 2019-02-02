@@ -23,4 +23,25 @@ public class RobotMap {
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
+  public DifferentialDrive drive; // tank drive interface
+
+  public SpeedControllerGroup left; // needed for PID
+  public SpeedControllerGroup right;
+
+  
+  public static void init(){
+     // initialize hardwares
+    this.left = new SpeedControllerGroup(new PWMTalonSRX(1),new PWMTalonSRX(0)); // left motors 
+    this.right = new SpeedControllerGroup(new PWMTalonSRX(2),new PWMTalonSRX(3)); // right motors 
+    this.drive = new DifferentialDrive(left,right);
+    this.js = new Joystick(0);
+    // initialize command groups
+    autonomousCommands = new CommandGroup("autonomousCommands");
+    driverCommands = new CommandGroup("driverCommands");
+
+    // initialize tank drive controls
+    CommandTankDrive td = new CommandTankDrive();
+    td.setRobot(this);
+    driverCommands.addSequential(td);
+  }
 }
